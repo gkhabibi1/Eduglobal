@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@theme {
+  --font-inter: var(--font-inter), sans-serif;
+  --font-poppins: var(--font-poppins), sans-serif;
+
+  --color-sky: #12AAF0;
+  --color-sky-light: #3FC6FF;
+  --color-sky-pale: #EAF8FF;
+
+  --color-navy: #0B1050;
+  --color-navy-2: #151A6B;
+
+  --color-green: #20C972;
+
+  --color-ink: #0B1050;
+  --color-muted: #5B6399;
+}
