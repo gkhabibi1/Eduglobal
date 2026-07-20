@@ -1,48 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import Navbar from '@/components/Navbar';
 
 export default function Home() {
   return (
-    <main>
+    <main className="id-home" id="home">
+      <Navbar />
+
       {/* ================= HERO ================= */}
-      <section className="relative pt-[70px] bg-gradient-to-br from-[#0A6FD8] via-[#12AAF0] to-[#7fd8ff] overflow-hidden">
-        {/* Background Image & Overlay */}
-        <div className="absolute inset-0 z-0">
-          <Image 
-            src="https://picsum.photos/seed/eduglobal-city/1600/900" 
-            alt="City skyline at night" 
-            fill 
-            className="object-cover opacity-30 mix-blend-luminosity" 
-            priority 
-          />
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0a6fd8e0] via-[#12aaf0cc] to-[#7fd8ffb8]"></div>
-        </div>
-
-        {/* Abstract Rings */}
-        <div className="absolute border-[1.5px] border-white/20 rounded-full w-[620px] h-[620px] -top-[220px] -right-[160px] z-10"></div>
-        <div className="absolute border-[1.5px] border-white/20 rounded-full w-[420px] h-[420px] -top-[60px] -right-[40px] z-10"></div>
-        <div className="absolute border-[1.5px] border-white/10 rounded-full w-[360px] h-[360px] -bottom-[160px] -left-[100px] z-10"></div>
-        <div className="absolute border-[1.5px] border-white/10 rounded-full w-[230px] h-[230px] -bottom-[80px] left-[20px] z-10"></div>
-
-        {/* Header */}
-        <header className="relative z-20 max-w-[1180px] mx-auto px-8 pt-[26px]">
-          <nav className="flex items-center justify-between">
-            <div className="flex items-center gap-2.5 font-poppins font-extrabold text-[20px] text-white">
-              <span className="w-[34px] h-[34px] rounded-[10px] bg-gradient-to-br from-white to-[#BFEBFF] flex items-center justify-center text-sky font-black">E</span>
-              EduGlobal <span className="font-medium opacity-85">Experience</span>
-            </div>
-            <div className="hidden md:flex gap-[34px] items-center text-white/90 font-semibold text-[15px]">
-              <Link href="#home" className="hover:text-white hover:underline">Home</Link>
-              <Link href="#summit" className="hover:text-white hover:underline">Experience 2026</Link>
-              <Link href="#programs" className="hover:text-white hover:underline">Online Coaching</Link>
-              <Link href="#partnership" className="hover:text-white hover:underline">Partnership</Link>
-              <Link href="#about" className="hover:text-white hover:underline">About Us</Link>
-            </div>
-            <Link href="/checkout" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full font-bold text-[15px] font-poppins bg-white text-navy transition-transform hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(0,0,0,0.15)] whitespace-nowrap">
-              Apply Now
-            </Link>
-          </nav>
-        </header>
+      <section className="relative pt-[120px] bg-gradient-to-br from-[#0A6FD8] via-[#12AAF0] to-[#7fd8ff] overflow-hidden">
 
         {/* Hero Content */}
         <div className="relative z-10 max-w-[820px] mx-auto text-center px-8 pt-[60px] pb-[40px]">

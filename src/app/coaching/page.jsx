@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
 
 export default function OnlineCoachingPage() {
   useEffect(() => {
@@ -26,24 +27,7 @@ export default function OnlineCoachingPage() {
       />
 
       {/* NAVIGATION */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/98 backdrop-blur-md border-b border-slate-200 px-6 md:px-10 h-[72px] flex items-center justify-between">
-        <div className="flex items-center gap-10">
-          <Link href="/" className="flex items-center gap-2.5 font-extrabold text-lg text-[#0a1628]">
-            <div className="w-9 h-9 bg-[#3b82f6] rounded-lg flex items-center justify-center text-white font-black text-base">E</div>
-            EduGlobal <span className="text-[#3b82f6] font-normal">Experience</span>
-          </Link>
-          <ul className="hidden md:flex gap-8 list-none">
-            <li><Link href="/" className="text-sm font-medium text-slate-700 hover:text-[#3b82f6] transition-colors">Home</Link></li>
-            <li><Link href="/experience" className="text-sm font-medium text-slate-700 hover:text-[#3b82f6] transition-colors">Experience 2026</Link></li>
-            <li><Link href="/coaching" className="text-sm font-medium text-[#3b82f6] transition-colors">Online Coaching</Link></li>
-            <li><Link href="/partnership" className="text-sm font-medium text-slate-700 hover:text-[#3b82f6] transition-colors">Partnership</Link></li>
-            <li><Link href="/about" className="text-sm font-medium text-slate-700 hover:text-[#3b82f6] transition-colors">About Us</Link></li>
-          </ul>
-        </div>
-        <Link href="/checkout" className="bg-[#0a1628] text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-[#3b82f6] transition-all hover:-translate-y-0.5 shadow-sm">
-          Apply Now
-        </Link>
-      </nav>
+      <Navbar />
 
       {/* HERO SECTION */}
       <section className="relative min-h-screen bg-gradient-to-br from-[#0a1628] via-[#1e3a5f] to-[#1a6dd4] flex items-center pt-36 pb-20 px-6 md:px-10 overflow-hidden">
