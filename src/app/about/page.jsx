@@ -30,9 +30,9 @@ export default function AboutPage() {
       <Navbar />
 
       {/* HERO SECTION */}
-      <section className="relative pt-40 pb-20 px-6 md:px-10 bg-gradient-to-br from-slate-50 to-white overflow-hidden">
-        {/* Decorative Blob */}
-        <div className="absolute -top-24 -right-24 w-[600px] h-[600px] bg-gradient-to-br from-[#3b82f6]/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+      <section className="relative pt-40 pb-20 px-6 md:px-10 bg-gradient-to-br from-slate-100 to-white overflow-hidden">
+        {/* Background Blob Decorative */}
+        <div className="absolute -top-20 -right-20 w-[600px] h-[600px] bg-gradient-to-br from-[#3b82f6]/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center relative z-10">
           <div className="lg:col-span-7 fade-in-element opacity-0 translate-y-8 transition-all duration-700">
@@ -59,7 +59,7 @@ export default function AboutPage() {
               />
             </div>
             {/* Floating Badge */}
-            <div className="absolute -bottom-6 -left-6 bg-white p-5 rounded-2xl shadow-xl z-20 flex items-center gap-4 animate-bounce hover:animation-none">
+            <div className="absolute -bottom-6 -left-6 bg-white p-5 rounded-2xl shadow-xl z-20 flex items-center gap-4 border border-slate-100">
               <div className="text-3xl text-[#1a6dd4]">
                 <i className="fas fa-globe-asia"></i>
               </div>
@@ -76,7 +76,7 @@ export default function AboutPage() {
       <section className="py-24 px-6 md:px-10 bg-white">
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           <div className="lg:col-span-5 relative fade-in-element opacity-0 translate-y-8 transition-all duration-700">
-            <div className="absolute -top-5 -left-5 w-28 h-28 bg-[#1a6dd4] rounded-2xl -z-0"></div>
+            <div className="absolute -top-5 -right-5 w-28 h-28 bg-[#1a6dd4] rounded-2xl -z-0"></div>
             <img 
               src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=800&h=600&fit=crop" 
               alt="Team meeting and planning" 
@@ -152,6 +152,9 @@ export default function AboutPage() {
 
       {/* CTA SECTION */}
       <section className="py-24 px-6 md:px-10 bg-[#0a1628] text-white text-center relative overflow-hidden">
+        {/* Radial Background Accent */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,_rgba(26,109,212,0.25)_0%,_transparent_50%),radial-gradient(circle_at_70%_50%,_rgba(0,200,83,0.15)_0%,_transparent_50%)] pointer-events-none"></div>
+
         <div className="max-w-[800px] mx-auto relative z-10 fade-in-element opacity-0 translate-y-8 transition-all duration-700">
           <h2 className="text-3xl md:text-5xl font-black mb-5 leading-tight">Ready to Begin Your Global Journey?</h2>
           <p className="text-base md:text-lg text-white/70 leading-relaxed mb-10">
