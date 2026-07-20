@@ -2,11 +2,17 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
 export default function AdminDashboard() {
+  const router = useRouter();
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const handleLogout = () => {
+    router.push("/admin/login");
+  };
 
   // Mengambil data dari Supabase saat halaman pertama kali dimuat
   useEffect(() => {
@@ -39,6 +45,12 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-[#F5F8FC] font-poppins pb-20">
+      {/* CDN FontAwesome */}
+      <link 
+        rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+      />
+
       {/* Header Admin */}
       <header className="bg-navy py-6 px-8 mb-10 shadow-md">
         <div className="max-w-[1280px] mx-auto flex items-center justify-between">
@@ -46,9 +58,17 @@ export default function AdminDashboard() {
             <span className="w-[34px] h-[34px] rounded-[10px] bg-sky flex items-center justify-center text-white font-black text-sm">A</span>
             Admin Dashboard
           </div>
-          <Link href="/" className="text-white/80 hover:text-white text-sm font-medium transition-colors">
-            View Live Site ↗
-          </Link>
+          <div className="flex items-center gap-5">
+            <Link href="/" className="text-white/80 hover:text-white text-sm font-medium transition-colors">
+              View Live Site ↗
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="bg-red-500/20 hover:bg-red-500/30 text-red-300 hover:text-white border border-red-500/30 px-4 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-2"
+            >
+              <i className="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
         </div>
       </header>
 
