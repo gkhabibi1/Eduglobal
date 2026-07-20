@@ -11,6 +11,10 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
 
   const handleLogout = () => {
+    // Hapus cookie admin_token
+    document.cookie = "admin_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    
+    // Redirect kembali ke login
     router.push("/admin/login");
   };
 

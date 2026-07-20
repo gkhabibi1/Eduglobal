@@ -19,12 +19,13 @@ export default function AdminLoginPage() {
     setIsLoading(true);
     setErrorMessage("");
 
-    // SIMULASI PROSES LOGIN ADMIN
     setTimeout(() => {
-      // Contoh kredensial dummy untuk pengujian lokal
       if (email === "admin@eduglobal.com" && password === "admin123") {
+        // 1. Simpan cookie status login (Berlaku 1 hari / 86400 detik)
+        document.cookie = "admin_token=authenticated; path=/; max-age=86400; SameSite=Lax";
+
         setIsLoading(false);
-        // Redirect ke halaman dashboard admin (/admin)
+        // 2. Redirect ke dashboard admin
         router.push("/admin");
       } else {
         setIsLoading(false);

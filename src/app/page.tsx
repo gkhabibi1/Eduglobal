@@ -46,10 +46,35 @@ export default function Home() {
       <section className="bg-navy py-12 text-center" id="about">
         <div className="max-w-[1180px] mx-auto px-8">
           <h3 className="text-white text-[15px] tracking-widest uppercase opacity-60 font-bold mb-6">Global Partner Countries</h3>
-          <div className="flex flex-wrap gap-3.5 justify-center max-w-[760px] mx-auto mb-6">
-            {['BD', 'CA', 'CN', 'FR', 'HK', 'JP', 'MY', 'TW', 'AU', 'PK', 'QA', 'KR', 'PH', 'UK', 'US', 'ES'].map((code, idx) => (
-              <div key={idx} className="bg-white/5 border border-white/10 rounded-full px-4 py-2 flex items-center gap-2 text-white text-lg">
-                <span className="font-inter text-xs font-bold tracking-wider text-white/75">{code}</span>
+          <div className="flex flex-wrap gap-3 justify-center max-w-[920px] mx-auto mb-6">
+            {[
+              { code: 'bd', name: 'Bangladesh' },
+              { code: 'ca', name: 'Canada' },
+              { code: 'cn', name: 'China' },
+              { code: 'fr', name: 'France' },
+              { code: 'hk', name: 'Hong Kong' },
+              { code: 'jp', name: 'Japan' },
+              { code: 'my', name: 'Malaysia' },
+              { code: 'tw', name: 'Taiwan' },
+              { code: 'au', name: 'Australia' },
+              { code: 'pk', name: 'Pakistan' },
+              { code: 'qa', name: 'Qatar' },
+              { code: 'kr', name: 'South Korea' },
+              { code: 'ph', name: 'Philippines' },
+              { code: 'gb', name: 'United Kingdom' },
+              { code: 'us', name: 'United States' },
+              { code: 'es', name: 'Spain' },
+            ].map((country, idx) => (
+              <div 
+                key={idx} 
+                className="bg-white/10 hover:bg-white/20 border border-white/15 rounded-full px-4 py-2 flex items-center gap-2.5 text-white transition-all shadow-sm"
+              >
+                <img
+                  src={`https://flagcdn.com/w40/${country.code}.png`}
+                  alt={country.name}
+                  className="w-5 h-3.5 object-cover rounded-[2px] shadow-xs"
+                />
+                <span className="font-inter text-xs font-semibold tracking-wide text-white/90">{country.name}</span>
               </div>
             ))}
           </div>
