@@ -12,6 +12,14 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: 'EduGlobal Experience',
   description: 'Step Into a Global Academic Experience',
+  icons: {
+    icon: [
+      { url: '/favicon.png?v=2', type: 'image/png' },
+      { url: '/favicon.ico?v=2' },
+    ],
+    shortcut: '/favicon.png?v=2',
+    apple: '/favicon.png?v=2',
+  },
 };
 
 export default function RootLayout({
