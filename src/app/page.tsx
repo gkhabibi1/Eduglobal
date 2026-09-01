@@ -8,45 +8,61 @@ export default function Home() {
       <Navbar />
 
       {/* ================= HERO ================= */}
-      <section className="relative pt-[120px] bg-gradient-to-br from-[#0A6FD8] via-[#12AAF0] to-[#7fd8ff] overflow-hidden">
+      <section className="relative min-h-[640px] pt-[130px] pb-[80px] overflow-hidden flex flex-col justify-center items-center">
+        {/* Full Header Background Image */}
+        <Image
+          src="/hero_bg.jpg"
+          alt="EduGlobal Summit Experience"
+          fill
+          priority
+          className="object-cover object-center z-0 scale-105"
+        />
+
+        {/* Gradation Overlays for Optimal Text Contrast */}
+        {/* 1. Deep linear dark overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/92 via-[#0A1628]/78 to-[#0A1628]/95 z-[1]" />
+        {/* 2. Soft radial blue glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(18,170,240,0.22),transparent_75%)] z-[1]" />
 
         {/* Hero Content */}
-        <div className="relative z-10 max-w-[820px] mx-auto text-center px-8 pt-[60px] pb-[40px]">
-          <span className="inline-block bg-white/20 border border-white/50 text-white font-bold text-sm px-6 py-2 rounded-full mb-6 backdrop-blur-sm">
+        <div className="relative z-10 max-w-[880px] mx-auto text-center px-6 pt-[40px] pb-[30px]">
+          <span className="inline-flex items-center gap-2 bg-white/15 border border-white/30 text-white font-bold text-xs sm:text-sm px-6 py-2.5 rounded-full mb-6 backdrop-blur-md shadow-lg tracking-wide uppercase">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#12AAF0] animate-pulse"></span>
             #EduGlobalSummitExperience2026
           </span>
-          <h1 className="text-white text-4xl md:text-6xl font-poppins font-extrabold leading-tight mb-5 tracking-tight">
-            Step Into a Global Academic Experience
+          <h1 className="text-white text-4xl sm:text-5xl md:text-6xl font-poppins font-extrabold leading-[1.15] mb-6 tracking-tight drop-shadow-md">
+            Step Into a Global <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7fd8ff] via-white to-[#12AAF0]">Academic Experience</span>
           </h1>
-          <p className="text-white/90 text-lg max-w-[520px] mx-auto mb-[34px] font-medium">
-            Experience global conferences, build confidence, and prepare your future.
+          <p className="text-white/90 text-base sm:text-lg md:text-xl max-w-[620px] mx-auto mb-[38px] font-medium leading-relaxed drop-shadow-sm">
+            Experience global conferences, build confidence, and prepare your future on world-class academic stages.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <Link href="/checkout" className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-[15px] font-poppins bg-navy text-white transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(11,16,80,0.35)]">
-              Apply Now
+            <Link 
+              href="/checkout" 
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-[15px] font-poppins bg-[#12AAF0] hover:bg-[#0A6FD8] text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(18,170,240,0.45)]"
+            >
+              Apply Now →
             </Link>
-            <Link href="#programs" className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-[15px] font-poppins border-2 border-white/70 text-white transition-all hover:bg-white/10 hover:-translate-y-0.5">
-              Explore Program
+            <Link 
+              href="#programs" 
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-[15px] font-poppins border-2 border-white/70 text-white transition-all duration-300 backdrop-blur-xs hover:bg-white/15 hover:border-white hover:-translate-y-1"
+            >
+              Explore Programs
             </Link>
           </div>
-        </div>
-
-        {/* Wave and City Graphic */}
-        <div className="relative z-10 h-[210px] mt-[56px] hidden md:block">
-           {/* Graphic skipped for brevity in code representation, you can copy the raw SVG if needed */}
         </div>
       </section>
 
       {/* Floating Contact */}
-      <Link href="https://wa.me/66946326025" className="fixed right-6 bottom-6 z-50 flex items-center gap-2.5 bg-green text-white px-6 py-3.5 rounded-full font-poppins font-bold text-sm shadow-[0_12px_28px_rgba(32,201,114,0.45)] transition-transform hover:-translate-y-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-white"></span> Contact Us · +66 94 632 6025
+      <Link href="https://wa.me/66946326025" className="fixed right-6 bottom-6 z-50 flex items-center gap-2.5 bg-green text-white px-6 py-3.5 rounded-full font-poppins font-bold text-sm shadow-[0_12px_28px_rgba(32,201,114,0.45)] transition-all hover:scale-105 hover:-translate-y-1">
+        <span className="w-2.5 h-2.5 rounded-full bg-white animate-ping"></span> Contact Us · +66 94 632 6025
       </Link>
 
       {/* ================= PARTNER BAND ================= */}
-      <section className="bg-navy py-12 text-center" id="about">
+      <section className="bg-[#0A1628] py-14 text-center border-t border-b border-white/10" id="about">
         <div className="max-w-[1180px] mx-auto px-8">
-          <h3 className="text-white text-[15px] tracking-widest uppercase opacity-60 font-bold mb-6">Global Partner Countries</h3>
-          <div className="flex flex-wrap gap-3 justify-center max-w-[920px] mx-auto mb-6">
+          <h3 className="text-sky-light text-[13px] tracking-[0.2em] uppercase font-extrabold mb-6">Global Partner Countries</h3>
+          <div className="flex flex-wrap gap-3 justify-center max-w-[960px] mx-auto mb-7">
             {[
               { code: 'bd', name: 'Bangladesh' },
               { code: 'ca', name: 'Canada' },
@@ -67,7 +83,7 @@ export default function Home() {
             ].map((country, idx) => (
               <div 
                 key={idx} 
-                className="bg-white/10 hover:bg-white/20 border border-white/15 rounded-full px-4 py-2 flex items-center gap-2.5 text-white transition-all shadow-sm"
+                className="bg-white/10 hover:bg-white/20 border border-white/15 hover:border-white/40 rounded-full px-4 py-2 flex items-center gap-2.5 text-white transition-all duration-200 shadow-sm hover:scale-105 cursor-default"
               >
                 <img
                   src={`https://flagcdn.com/w40/${country.code}.png`}
@@ -78,8 +94,8 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <p className="text-white/75 text-[15px] max-w-[480px] mx-auto">
-            EduGlobal partners with organizers across <b className="text-white">16 countries</b> to deliver educational trips and Model United Nations conferences worldwide.
+          <p className="text-white/80 text-[15px] max-w-[520px] mx-auto leading-relaxed">
+            EduGlobal partners with organizers across <b className="text-white font-bold">16 countries</b> to deliver educational trips and Model United Nations conferences worldwide.
           </p>
         </div>
       </section>
@@ -90,18 +106,18 @@ export default function Home() {
           <span className="inline-block text-sky font-bold text-[13px] tracking-widest uppercase mb-3.5">Who we are</span>
           <h2 className="text-3xl md:text-[38px] text-navy font-poppins font-extrabold">About EduGlobal</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Card 1 */}
-          <div className="bg-sky-pale rounded-[32px] p-8 md:p-10 flex flex-col gap-5">
-            <div className="w-full h-[180px] rounded-2xl overflow-hidden relative mb-2">
+          <div className="bg-sky-pale border border-[#e2edf8] rounded-[32px] p-8 md:p-10 flex flex-col gap-5 transition-all duration-300 hover:shadow-[0_16px_36px_rgba(11,16,80,0.08)] hover:-translate-y-1">
+            <div className="w-full h-[200px] rounded-2xl overflow-hidden relative mb-2 shadow-sm">
               <Image 
                 src="https://picsum.photos/seed/eduglobal-team/600/400" 
                 alt="Students" 
                 fill 
-                className="object-cover" 
+                className="object-cover transition-transform duration-500 hover:scale-105" 
               />
             </div>
-            <div className="w-[52px] h-[52px] rounded-2xl bg-navy text-white flex items-center justify-center text-2xl">🌐</div>
+            <div className="w-[52px] h-[52px] rounded-2xl bg-navy text-white flex items-center justify-center text-2xl shadow-md">🌐</div>
             <h3 className="text-[22px] font-poppins font-bold text-navy">About EduGlobal</h3>
             <p className="text-muted text-[15px] leading-relaxed">
               EduGlobal Experience is an international education platform connecting students with global academic opportunities through educational trips and international Model United Nations conferences.
@@ -111,16 +127,16 @@ export default function Home() {
             </Link>
           </div>
           {/* Card 2 */}
-          <div className="bg-navy rounded-[32px] p-8 md:p-10 flex flex-col gap-5">
-            <div className="w-full h-[180px] rounded-2xl overflow-hidden relative mb-2">
+          <div className="bg-navy rounded-[32px] p-8 md:p-10 flex flex-col gap-5 transition-all duration-300 hover:shadow-[0_16px_36px_rgba(11,16,80,0.25)] hover:-translate-y-1">
+            <div className="w-full h-[200px] rounded-2xl overflow-hidden relative mb-2 shadow-sm">
               <Image 
                 src="https://picsum.photos/seed/eduglobal-programs/600/400" 
                 alt="Graduation" 
                 fill 
-                className="object-cover" 
+                className="object-cover transition-transform duration-500 hover:scale-105" 
               />
             </div>
-            <div className="w-[52px] h-[52px] rounded-2xl bg-sky-light text-navy flex items-center justify-center text-2xl">🎓</div>
+            <div className="w-[52px] h-[52px] rounded-2xl bg-sky-light text-navy flex items-center justify-center text-2xl shadow-md">🎓</div>
             <h3 className="text-[22px] font-poppins font-bold text-white">Other Global Programs</h3>
             <p className="text-white/70 text-[15px] leading-relaxed">
               Explore a range of international academic experiences tailored to broaden perspectives and enhance academic profiles.
