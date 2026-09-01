@@ -397,9 +397,8 @@ export default function Home() {
         <div className="max-w-[1180px] mx-auto px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] gap-10 mb-14">
             <div>
-              <div className="flex items-center gap-2.5 font-poppins font-extrabold text-[19px] text-white mb-4">
-                <span className="w-[34px] h-[34px] rounded-[10px] bg-sky flex items-center justify-center text-white font-black text-sm">E</span>
-                EduGlobal Experience
+              <div className="flex items-center gap-2.5 mb-4">
+                <img src="/logo.png" alt="EduGlobal Experience" className="h-10 w-auto object-contain brightness-0 invert" />
               </div>
               <p className="max-w-[280px] text-sm leading-relaxed">
                 Connecting students with global academic opportunities through educational trips and international Model United Nations conferences.

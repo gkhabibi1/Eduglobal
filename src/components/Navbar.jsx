@@ -25,9 +25,8 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/98 backdrop-blur-md border-b border-slate-200 px-6 md:px-10 h-[72px] flex items-center justify-between shadow-sm">
       <div className="flex items-center gap-10">
-        <Link href="/" className="flex items-center gap-2.5 font-extrabold text-lg text-[#0a1628]">
-          <div className="w-9 h-9 bg-[#3b82f6] rounded-lg flex items-center justify-center text-white font-black text-base">E</div>
-          EduGlobal <span className="text-[#3b82f6] font-normal">Experience</span>
+        <Link href="/" className="flex items-center gap-2.5">
+          <img src="/logo.png" alt="EduGlobal Experience" className="h-10 w-auto object-contain" />
         </Link>
         <ul className="hidden md:flex gap-8 list-none items-center">
           {navLinks.map((link) => {

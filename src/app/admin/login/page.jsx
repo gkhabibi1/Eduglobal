@@ -48,11 +48,8 @@ export default function AdminLoginPage() {
 
       {/* Header Sederhana */}
       <header className="p-6 md:p-8 relative z-10 flex justify-between items-center max-w-7xl mx-auto w-full">
-        <Link href="/" className="flex items-center gap-2.5 font-extrabold text-lg text-white group">
-          <div className="w-9 h-9 bg-[#1a6dd4] rounded-lg flex items-center justify-center text-white font-black text-base transition-transform group-hover:scale-105">
-            E
-          </div>
-          EduGlobal <span className="text-[#3b82f6] font-normal">Admin Portal</span>
+        <Link href="/" className="flex items-center gap-2.5">
+          <img src="/logo.png" alt="EduGlobal Experience" className="h-10 w-auto object-contain brightness-0 invert" />
         </Link>
 
         <Link 

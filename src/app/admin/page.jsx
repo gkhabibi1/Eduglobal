@@ -58,9 +58,9 @@ export default function AdminDashboard() {
       {/* Header Admin */}
       <header className="bg-navy py-6 px-8 mb-10 shadow-md">
         <div className="max-w-[1280px] mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2.5 font-extrabold text-[19px] text-white">
-            <span className="w-[34px] h-[34px] rounded-[10px] bg-sky flex items-center justify-center text-white font-black text-sm">A</span>
-            Admin Dashboard
+          <div className="flex items-center gap-3">
+            <img src="/logo.png" alt="EduGlobal Experience" className="h-9 w-auto object-contain brightness-0 invert" />
+            <span className="text-white/60 font-normal text-sm">| Admin Dashboard</span>
           </div>
           <div className="flex items-center gap-5">
             <Link href="/" className="text-white/80 hover:text-white text-sm font-medium transition-colors">
