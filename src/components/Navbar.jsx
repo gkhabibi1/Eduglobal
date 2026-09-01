@@ -24,32 +24,34 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/98 backdrop-blur-md border-b border-slate-200 px-6 md:px-10 h-[72px] flex items-center justify-between shadow-sm">
-      <div className="flex items-center gap-10">
-        <Link href="/" className="flex items-center gap-2.5">
-          <img src="/logo.png" alt="EduGlobal Experience" className="h-10 w-auto object-contain" />
-        </Link>
-        <ul className="hidden md:flex gap-8 list-none items-center">
-          {navLinks.map((link) => {
-            const active = isActive(link.href);
-            return (
-              <li key={link.name}>
-                <Link
-                  href={link.href}
-                  className={`text-sm font-semibold transition-colors ${
-                    active
-                      ? "text-[#3b82f6] font-bold"
-                      : "text-slate-700 hover:text-[#3b82f6]"
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      {/* Left: Logo */}
+      <Link href="/" className="flex items-center gap-2.5 shrink-0 z-10">
+        <img src="/logo.png" alt="EduGlobal Experience" className="h-10 w-auto object-contain" />
+      </Link>
 
-      <div className="hidden md:flex items-center gap-4">
+      {/* Center: Navigation Links */}
+      <ul className="hidden md:flex gap-8 list-none items-center justify-center absolute left-1/2 -translate-x-1/2 z-10">
+        {navLinks.map((link) => {
+          const active = isActive(link.href);
+          return (
+            <li key={link.name}>
+              <Link
+                href={link.href}
+                className={`text-sm font-semibold transition-colors ${
+                  active
+                    ? "text-[#3b82f6] font-bold"
+                    : "text-slate-700 hover:text-[#3b82f6]"
+                }`}
+              >
+                {link.name}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+
+      {/* Right: Apply Now CTA */}
+      <div className="hidden md:flex items-center gap-4 shrink-0 z-10">
         <Link
           href="/checkout"
           className="bg-[#0a1628] text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-[#3b82f6] transition-all hover:-translate-y-0.5 shadow-sm"

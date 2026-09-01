@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 
 const EVENT_MAP = {
   "hmun-boston-2027": {
@@ -33,6 +33,7 @@ const EVENT_MAP = {
 };
 
 function CheckoutContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const eventParam = searchParams.get("event") || "hmun-boston-2027";
   const eventInfo = EVENT_MAP[eventParam] || EVENT_MAP["hmun-boston-2027"];
@@ -46,7 +47,6 @@ function CheckoutContent() {
   });
   const [selectedPackage, setSelectedPackage] = useState("standard");
   const [errors, setErrors] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   // --- Slider Images ---
@@ -114,7 +114,9 @@ function CheckoutContent() {
         const result = await response.json();
         
         if (response.ok && result.success) {
-          setIsSubmitted(true);
+          router.push(
+            `/thank-you?event=${encodeURIComponent(eventParam)}&name=${encodeURIComponent(formData.fullName)}&email=${encodeURIComponent(formData.email)}`
+          );
         } else {
           alert("Gagal mengirim pendaftaran: " + (result.message || "Unknown error"));
         }
@@ -126,28 +128,6 @@ function CheckoutContent() {
       }
     }
   };
-
-  if (isSubmitted) {
-    return (
-      <div className="min-h-screen bg-[#F5F8FC] font-poppins flex items-center justify-center p-8">
-        <div className="bg-white rounded-3xl p-10 md:p-14 max-w-[600px] w-full text-center shadow-xl border border-[#E7EEF7]">
-          <div className="w-24 h-24 bg-green/10 text-green rounded-full flex items-center justify-center text-5xl mx-auto mb-6">
-            ✓
-          </div>
-          <h2 className="text-3xl font-extrabold text-navy mb-4">Application Received!</h2>
-          <p className="text-muted leading-relaxed mb-8">
-            Thank you, <strong>{formData.fullName}</strong>. Your application for <strong>{eventInfo.name}</strong> has been successfully submitted. We have sent a confirmation email to <strong>{formData.email}</strong> with next steps and tentative schedule details.
-          </p>
-          <Link 
-            href="/experience-2027" 
-            className="inline-block bg-navy hover:bg-[#1a1f4b] text-white font-bold py-4 px-10 rounded-full transition-all hover:shadow-lg hover:-translate-y-0.5"
-          >
-            Explore More 2027 Events
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-[#F5F8FC] font-poppins pb-20">
