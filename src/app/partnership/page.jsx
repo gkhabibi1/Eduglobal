@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Navbar from "@/components/Navbar";
 
 export default function PartnershipPage() {
@@ -30,30 +31,39 @@ export default function PartnershipPage() {
       <Navbar />
 
       {/* HERO SECTION */}
-      <section className="relative min-h-[90vh] bg-gradient-to-br from-[#0a1628] via-[#1e3a5f] to-[#1a6dd4] flex items-center justify-center pt-36 pb-24 px-6 md:px-10 overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center opacity-15"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=1920&h=1080&fit=crop')" }}
-        ></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/90 to-[#0a1628]/85"></div>
+      <section className="relative min-h-[90vh] flex items-center justify-center pt-36 pb-24 px-6 md:px-10 overflow-hidden">
+        {/* Full Header Background Image */}
+        <Image
+          src="/partnership_hero.jpg"
+          alt="EduGlobal Partnership"
+          fill
+          priority
+          className="object-cover object-center z-0 scale-105"
+        />
+
+        {/* Gradation Overlays for Optimal Text Contrast */}
+        {/* 1. Deep linear dark overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/92 via-[#0a1628]/78 to-[#0a1628]/95 z-[1]" />
+        {/* 2. Soft radial blue glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(26,109,212,0.25),transparent_75%)] z-[1]" />
 
         <div className="relative z-10 text-center max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md border border-white/20 px-6 py-2.5 rounded-full text-xs font-semibold text-white mb-8">
+          <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md border border-white/20 px-6 py-2.5 rounded-full text-xs font-semibold text-white mb-8 shadow-lg">
             <i className="fas fa-handshake text-[#00c853]"></i>
             Partnership Program 2026
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-6 tracking-tight">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-6 tracking-tight drop-shadow-md">
             Forge Global Connections.<br />
-            <span className="text-[#60a5fa]">Grow Together</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#60a5fa] via-white to-[#3b82f6]">Grow Together</span>
           </h1>
-          <p className="text-base sm:text-lg text-white/85 leading-relaxed mb-12 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-white/90 leading-relaxed mb-12 max-w-2xl mx-auto drop-shadow-sm font-medium">
             We collaborate with forward-thinking partners who share our core vision: empowering students to access transformative, world-class academic experiences across the globe. Let's build the future of international education together.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <a href="#opportunities" className="bg-[#00c853] hover:bg-[#00a844] text-white px-9 py-4 rounded-full text-sm font-bold transition-all hover:-translate-y-1 shadow-lg shadow-[#00c853]/30 inline-flex items-center gap-2.5">
               <i className="fas fa-rocket"></i> Partner With Us
             </a>
-            <a href="#why-partner" className="bg-white hover:bg-slate-100 text-[#0a1628] px-9 py-4 rounded-full text-sm font-bold transition-all hover:-translate-y-1 shadow-lg inline-flex items-center gap-2.5">
+            <a href="#why-partner" className="bg-white/90 hover:bg-white text-[#0a1628] px-9 py-4 rounded-full text-sm font-bold transition-all hover:-translate-y-1 shadow-lg backdrop-blur-xs inline-flex items-center gap-2.5">
               <i className="fas fa-info-circle"></i> Learn More
             </a>
           </div>
