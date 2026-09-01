@@ -1,10 +1,42 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
-export default function CheckoutPage() {
+const EVENT_MAP = {
+  "hmun-boston-2027": {
+    name: "EduGlobal Summit 2027 - Harvard MUN Boston",
+    subtitle: "Harvard Model United Nations Boston",
+    dates: "January 26 – February 2, 2027",
+    location: "Boston, USA",
+    flag: "🇺🇸",
+    image: "/boston_hmun.jpg",
+  },
+  "thai-mun-2027": {
+    name: "EduGlobal Summit 2027 - Thai National MUN",
+    subtitle: "Thai National Model United Nations",
+    dates: "January 13–19, 2027",
+    location: "Bangkok, Thailand",
+    flag: "🇹🇭",
+    image: "/thailand_mun.jpg",
+  },
+  "hmun-china-2027": {
+    name: "EduGlobal Summit 2027 - Harvard MUN China",
+    subtitle: "Harvard Model United Nations China",
+    dates: "August 12–18, 2027",
+    location: "Shenzhen, China",
+    flag: "🇨🇳",
+    image: "/china_hmun.jpg",
+  },
+};
+
+function CheckoutContent() {
+  const searchParams = useSearchParams();
+  const eventParam = searchParams.get("event") || "hmun-boston-2027";
+  const eventInfo = EVENT_MAP[eventParam] || EVENT_MAP["hmun-boston-2027"];
+
   // --- Form, Package & Validation State ---
   const [formData, setFormData] = useState({
     fullName: "",
@@ -17,13 +49,13 @@ export default function CheckoutPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  // --- Slider State & Logic ---
-  const [currentSlide, setCurrentSlide] = useState(0);
+  // --- Slider Images ---
   const sliderImages = [
-    "https://picsum.photos/seed/summit1/800/400",
-    "https://picsum.photos/seed/summit2/800/400",
-    "https://picsum.photos/seed/summit3/800/400",
+    eventInfo.image,
+    "/hero_bg.jpg",
+    "/partnership_hero.jpg",
   ];
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -39,7 +71,6 @@ export default function CheckoutPage() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Hapus pesan error saat user mulai mengetik ulang
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -47,7 +78,7 @@ export default function CheckoutPage() {
 
   const validateForm = () => {
     const newErrors = {};
-    const phoneRegex = /^[0-9+\-\s()]+$/; // Hanya angka dan simbol telepon
+    const phoneRegex = /^[0-9+\-\s()]+$/;
 
     if (!formData.fullName.trim()) newErrors.fullName = "Full name is required.";
     if (!formData.email.trim()) newErrors.email = "Email is required.";
@@ -76,7 +107,7 @@ export default function CheckoutPage() {
             email: formData.email,
             phone: formData.phone,
             school: formData.school,
-            package: selectedPackage,
+            package: `${eventInfo.name} (${selectedPackage})`,
           }),
         });
 
@@ -96,7 +127,6 @@ export default function CheckoutPage() {
     }
   };
 
-  // --- Jika Form Berhasil Disubmit (Tampilkan Success State) ---
   if (isSubmitted) {
     return (
       <div className="min-h-screen bg-[#F5F8FC] font-poppins flex items-center justify-center p-8">
@@ -106,13 +136,13 @@ export default function CheckoutPage() {
           </div>
           <h2 className="text-3xl font-extrabold text-navy mb-4">Application Received!</h2>
           <p className="text-muted leading-relaxed mb-8">
-            Thank you, <strong>{formData.fullName}</strong>. Your application for the EduGlobal Summit 2026 has been successfully submitted. We have sent a confirmation email to <strong>{formData.email}</strong> with the next steps for your payment.
+            Thank you, <strong>{formData.fullName}</strong>. Your application for <strong>{eventInfo.name}</strong> has been successfully submitted. We have sent a confirmation email to <strong>{formData.email}</strong> with next steps and tentative schedule details.
           </p>
           <Link 
-            href="/" 
+            href="/experience-2027" 
             className="inline-block bg-navy hover:bg-[#1a1f4b] text-white font-bold py-4 px-10 rounded-full transition-all hover:shadow-lg hover:-translate-y-0.5"
           >
-            Return to Homepage
+            Explore More 2027 Events
           </Link>
         </div>
       </div>
@@ -128,16 +158,19 @@ export default function CheckoutPage() {
             <span className="w-[34px] h-[34px] rounded-[10px] bg-sky flex items-center justify-center text-white font-black text-sm">E</span>
             EduGlobal Experience
           </Link>
-          <Link href="/" className="text-white/80 hover:text-white text-sm font-medium transition-colors">
-            Cancel & Return
+          <Link href="/experience-2027" className="text-white/80 hover:text-white text-sm font-medium transition-colors">
+            ← Cancel & Return
           </Link>
         </div>
       </header>
 
       <main className="max-w-[1180px] mx-auto px-8">
         <div className="mb-10">
-          <h1 className="text-3xl md:text-[40px] text-navy font-extrabold mb-3">Complete Your Application</h1>
-          <p className="text-muted text-[15px]">Fill out the details below to secure your spot for the EduGlobal Summit 2026.</p>
+          <div className="inline-flex items-center gap-2 bg-sky-pale text-navy text-xs font-bold px-4 py-2 rounded-full mb-3 border border-sky/20">
+            <span>{eventInfo.flag}</span> {eventInfo.name}
+          </div>
+          <h1 className="text-3xl md:text-[40px] text-navy font-extrabold mb-3">Complete Your Event Registration</h1>
+          <p className="text-muted text-[15px]">Fill out the participant details below to apply for {eventInfo.subtitle}.</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-8">
@@ -152,19 +185,20 @@ export default function CheckoutPage() {
                   key={idx}
                   className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${currentSlide === idx ? "opacity-100 z-10" : "opacity-0 z-0"}`}
                 >
-                  <Image src={src} alt={`EduGlobal Slide ${idx + 1}`} fill className="object-cover" priority={idx === 0} />
+                  <Image src={src} alt={`${eventInfo.name} Slide ${idx + 1}`} fill className="object-cover" priority={idx === 0} />
                 </div>
               ))}
-              <div className="absolute inset-0 bg-gradient-to-t from-navy/60 to-transparent z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-navy/80 to-transparent z-10"></div>
               <div className="absolute bottom-6 left-6 z-20 text-white">
-                <h3 className="font-bold text-xl mb-1">Harvard MUN China</h3>
-                <p className="text-sm text-white/80">Experience world-class diplomacy</p>
+                <div className="text-xs text-sky-light font-bold">📅 {eventInfo.dates}</div>
+                <h3 className="font-bold text-xl mb-1">{eventInfo.subtitle}</h3>
+                <p className="text-xs text-white/80">{eventInfo.location}</p>
               </div>
-              <button onClick={prevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/20 hover:bg-white text-white hover:text-navy flex items-center justify-center backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all">&#8592;</button>
-              <button onClick={nextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/20 hover:bg-white text-white hover:text-navy flex items-center justify-center backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all">&#8594;</button>
+              <button onClick={prevSlide} type="button" className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/20 hover:bg-white text-white hover:text-navy flex items-center justify-center backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all">&#8592;</button>
+              <button onClick={nextSlide} type="button" className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/20 hover:bg-white text-white hover:text-navy flex items-center justify-center backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all">&#8594;</button>
               <div className="absolute bottom-4 right-6 z-20 flex gap-2">
                 {sliderImages.map((_, idx) => (
-                  <button key={idx} onClick={() => setCurrentSlide(idx)} className={`w-2.5 h-2.5 rounded-full transition-all ${currentSlide === idx ? "bg-white w-6" : "bg-white/50 hover:bg-white/80"}`}></button>
+                  <button key={idx} type="button" onClick={() => setCurrentSlide(idx)} className={`w-2.5 h-2.5 rounded-full transition-all ${currentSlide === idx ? "bg-white w-6" : "bg-white/50 hover:bg-white/80"}`}></button>
                 ))}
               </div>
             </div>
@@ -215,22 +249,22 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              <h3 className="text-xl text-navy font-bold mb-6 border-b border-gray-100 pb-4 pt-4">Select Package</h3>
+              <h3 className="text-xl text-navy font-bold mb-6 border-b border-gray-100 pb-4 pt-4">Select Package Option</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div onClick={() => setSelectedPackage("standard")} className={`cursor-pointer p-5 rounded-xl border-2 transition-all ${selectedPackage === "standard" ? "border-sky bg-sky/5" : "border-gray-200 hover:border-sky/50"}`}>
                   <div className="flex justify-between items-center mb-2">
-                    <h4 className="font-bold text-navy">Standard Pass</h4>
+                    <h4 className="font-bold text-navy">Standard Delegate Pass</h4>
                     {selectedPackage === "standard" && <span className="w-5 h-5 rounded-full bg-sky text-white flex items-center justify-center text-xs">✓</span>}
                   </div>
-                  <p className="text-xs text-muted leading-relaxed">Includes MUN participation, standard accommodation, and campus tours.</p>
+                  <p className="text-xs text-muted leading-relaxed">Includes MUN conference entry, delegation materials, and campus tours.</p>
                 </div>
 
                 <div onClick={() => setSelectedPackage("premium")} className={`cursor-pointer p-5 rounded-xl border-2 transition-all ${selectedPackage === "premium" ? "border-sky bg-sky/5" : "border-gray-200 hover:border-sky/50"}`}>
                   <div className="flex justify-between items-center mb-2">
-                    <h4 className="font-bold text-navy">Premium Immersion</h4>
+                    <h4 className="font-bold text-navy">Premium Immersion Pass</h4>
                     {selectedPackage === "premium" && <span className="w-5 h-5 rounded-full bg-sky text-white flex items-center justify-center text-xs">✓</span>}
                   </div>
-                  <p className="text-xs text-muted leading-relaxed">Everything in Standard, plus exclusive industry visits and VIP networking dinners.</p>
+                  <p className="text-xs text-muted leading-relaxed">Includes delegate entry, hotel accommodation, industry visits & networking gala.</p>
                 </div>
               </div>
             </form>
@@ -239,24 +273,29 @@ export default function CheckoutPage() {
           {/* Kanan: Summary */}
           <div className="bg-navy rounded-2xl p-8 text-white h-fit sticky top-8 shadow-xl">
             <h3 className="text-xl font-bold mb-6 border-b border-white/20 pb-4">Application Summary</h3>
-            <div className="flex justify-between items-center mb-4 text-sm">
-              <span className="text-white/70">Program</span>
-              <span className="font-bold text-right">EduGlobal Summit 2026</span>
+            
+            <div className="flex justify-between items-start mb-4 text-sm gap-2">
+              <span className="text-white/70 shrink-0">Selected Event</span>
+              <span className="font-bold text-right text-sky-light">{eventInfo.subtitle}</span>
             </div>
             <div className="flex justify-between items-center mb-4 text-sm">
-              <span className="text-white/70">Selected Package</span>
+              <span className="text-white/70">Event Date</span>
+              <span className="font-bold text-right">{eventInfo.dates}</span>
+            </div>
+            <div className="flex justify-between items-center mb-4 text-sm">
+              <span className="text-white/70">Package Tier</span>
               <span className="font-bold capitalize">{selectedPackage}</span>
             </div>
             <div className="flex justify-between items-center mb-6 text-sm">
               <span className="text-white/70">Application Fee</span>
-              <span className="font-bold">$50.00</span>
+              <span className="font-extrabold text-sky bg-white/10 px-3 py-1 rounded-lg">Tentative</span>
             </div>
             <div className="border-t border-white/20 pt-6 mb-8">
               <div className="flex justify-between items-center">
-                <span className="font-bold text-lg">Total Due Today</span>
-                <span className="font-extrabold text-2xl text-sky">$50.00</span>
+                <span className="font-bold text-lg">Total Fee</span>
+                <span className="font-extrabold text-2xl text-sky">Tentative</span>
               </div>
-              <p className="text-xs text-white/50 mt-2 text-right">Remaining balance billed later.</p>
+              <p className="text-xs text-white/60 mt-2 text-right">Fee details will be sent upon schedule confirmation.</p>
             </div>
             <button 
               type="submit" 
@@ -267,12 +306,24 @@ export default function CheckoutPage() {
               {submitting ? "Submitting..." : "Submit Application"}
             </button>
             <p className="text-center text-xs text-white/50 mt-4 flex items-center justify-center gap-2">
-              🔒 Secure encrypted process
+              🔒 Secure encrypted registration
             </p>
           </div>
 
         </div>
       </main>
     </div>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#F5F8FC] flex items-center justify-center font-poppins text-navy font-bold">
+        Loading Event Registration...
+      </div>
+    }>
+      <CheckoutContent />
+    </Suspense>
   );
 }

@@ -10,7 +10,7 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Experience 2026", href: "/#summit" },
+    { name: "Experience 2027", href: "/experience-2027" },
     { name: "Online Coaching", href: "/coaching" },
     { name: "Partnership", href: "/partnership" },
     { name: "About Us", href: "/about" },

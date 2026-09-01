@@ -148,45 +148,109 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= SUMMIT FEATURE CARD ================= */}
+      {/* ================= SUMMIT FEATURE CARDS (2027 EVENTS) ================= */}
       <section className="max-w-[1180px] mx-auto px-8 pb-24" id="summit">
-        <div className="relative bg-gradient-to-br from-navy via-navy-2 to-navy rounded-[32px] p-8 md:p-14 overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-          <div className="absolute w-[340px] h-[340px] rounded-full bg-sky-light/35 blur-3xl -top-[120px] -right-[80px]"></div>
-          <div className="relative z-10 text-white">
-            <span className="inline-block bg-white/10 border border-white/30 px-4 py-2 rounded-full text-xs font-bold tracking-widest uppercase mb-4">EduGlobal Summit Experience 2026</span>
-            <h2 className="text-3xl md:text-[42px] font-poppins font-extrabold leading-tight mb-4">EduGlobal Summit Experience 2026</h2>
-            <p className="text-sky-light font-bold text-base mb-4">Includes participation in Harvard Model United Nations China</p>
-            <p className="text-white/80 text-[15px] leading-relaxed mb-6 max-w-[460px]">
-              Participate in one of the world's most prestigious academic conferences, designed to challenge and inspire the next generation of global leaders.
-            </p>
-            <div className="flex gap-3.5 flex-wrap">
-              <Link href="/checkout" className="px-8 py-3.5 rounded-full font-bold text-[15px] font-poppins bg-white text-navy transition-all hover:shadow-[0_10px_24px_rgba(0,0,0,0.15)] hover:-translate-y-0.5">Apply Now</Link>
-              <Link href="#contact" className="px-8 py-3.5 rounded-full font-bold text-[15px] font-poppins border-2 border-white/70 text-white transition-all hover:bg-white/10 hover:-translate-y-0.5">Contact Us</Link>
-            </div>
-          </div>
-          <div className="relative z-10 flex flex-col gap-5">
-            <div className="w-full h-[200px] rounded-2xl overflow-hidden relative border border-white/20 mb-2">
-              <Image 
-                src="https://picsum.photos/seed/eduglobal-mun/700/400" 
-                alt="MUN" 
-                fill 
-                className="object-cover opacity-90" 
-              />
-            </div>
-            {[
-              { title: "Educational Trips & MUN Conferences", desc: "Immersive diplomacy simulations alongside student delegates from around the world." },
-              { title: "University Visits & Innovation Exposure", desc: "Step onto leading global campuses and see innovation ecosystems firsthand." },
-              { title: "Cultural Exploration", desc: "Discover new cities, traditions, and perspectives beyond the classroom." }
-            ].map((item, i) => (
-              <div key={i} className="flex gap-3.5 items-start">
-                <div className="w-[34px] h-[34px] shrink-0 rounded-full border-2 border-sky-light flex items-center justify-center text-sky-light font-bold">✓</div>
-                <div>
-                  <h4 className="text-white font-poppins font-bold text-base mb-1">{item.title}</h4>
-                  <p className="text-white/70 text-[13.5px] leading-relaxed">{item.desc}</p>
+        <div className="text-center mb-12">
+          <span className="inline-block text-sky font-bold text-[13px] tracking-widest uppercase mb-3">Featured Program</span>
+          <h2 className="text-3xl md:text-[40px] text-navy font-poppins font-extrabold mb-3">EduGlobal Summit Experience 2027</h2>
+          <p className="text-muted max-w-[580px] mx-auto text-[15px] leading-relaxed">
+            Join international academic conferences across North America and Asia designed to build leadership, public speaking, and global diplomacy skills.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
+          {[
+            {
+              id: "hmun-boston-2027",
+              flag: "🇺🇸",
+              flagCode: "us",
+              title: "Harvard Model UN Boston",
+              dates: "Jan 26 – Feb 2, 2027",
+              location: "Boston, USA",
+              image: "/boston_hmun.jpg",
+              applyUrl: "/checkout?event=hmun-boston-2027",
+            },
+            {
+              id: "thai-mun-2027",
+              flag: "🇹🇭",
+              flagCode: "th",
+              title: "Thai National Model UN",
+              dates: "Jan 13 – 19, 2027",
+              location: "Bangkok, Thailand",
+              image: "/thailand_mun.jpg",
+              applyUrl: "/checkout?event=thai-mun-2027",
+            },
+            {
+              id: "hmun-china-2027",
+              flag: "🇨🇳",
+              flagCode: "cn",
+              title: "Harvard Model UN China",
+              dates: "Aug 12 – 18, 2027",
+              location: "Shenzhen, China",
+              image: "/china_hmun.jpg",
+              applyUrl: "/checkout?event=hmun-china-2027",
+            },
+          ].map((event, idx) => (
+            <div 
+              key={idx}
+              className="bg-white border border-[#E7EEF7] rounded-[28px] overflow-hidden shadow-[0_10px_30px_rgba(11,16,80,0.06)] hover:shadow-[0_18px_40px_rgba(11,16,80,0.12)] transition-all duration-300 flex flex-col group hover:-translate-y-1"
+            >
+              <div className="relative h-[210px] overflow-hidden">
+                <Image
+                  src={event.image}
+                  alt={event.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent"></div>
+                <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-md text-navy text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-2 shadow-sm">
+                  <img
+                    src={`https://flagcdn.com/w40/${event.flagCode}.png`}
+                    alt={event.location}
+                    className="w-4 h-3 object-cover rounded-[2px]"
+                  />
+                  {event.location}
+                </span>
+                <span className="absolute top-4 right-4 bg-navy text-white text-[11px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-wider">
+                  Tentative
+                </span>
+                <div className="absolute bottom-4 left-4 right-4 text-white">
+                  <div className="text-[12px] text-sky-light font-bold">📅 {event.dates}</div>
+                  <h3 className="text-lg font-bold font-poppins">{event.title}</h3>
                 </div>
               </div>
-            ))}
-          </div>
+
+              <div className="p-6 flex flex-col flex-grow justify-between gap-4">
+                <div>
+                  <div className="text-xs text-sky font-bold uppercase tracking-wider mb-1">
+                    {event.flag} EduGlobal Summit 2027
+                  </div>
+                  <p className="text-muted text-[13.5px] leading-relaxed">
+                    Participating in {event.title}. Interactive diplomacy simulations & campus immersion.
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-gray-100 flex items-center justify-between gap-3">
+                  <span className="text-xs text-muted font-bold">Price: <span className="text-navy font-extrabold bg-sky-pale px-2.5 py-1 rounded-md">Tentative</span></span>
+                  <Link
+                    href={event.applyUrl}
+                    className="inline-flex items-center gap-1.5 bg-navy hover:bg-sky text-white px-5 py-2.5 rounded-full text-xs font-bold transition-all hover:-translate-y-0.5"
+                  >
+                    Apply Now →
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-10 text-center">
+          <Link 
+            href="/experience-2027" 
+            className="inline-flex items-center gap-2 bg-sky-pale hover:bg-sky/20 border border-sky/30 text-navy font-bold px-8 py-3.5 rounded-full text-sm font-poppins transition-all hover:-translate-y-0.5"
+          >
+            Explore All 2027 Summit Events →
+          </Link>
         </div>
       </section>
 
