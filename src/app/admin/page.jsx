@@ -10,7 +10,7 @@ export default function AdminDashboard() {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedApp, setSelectedApp] = useState(null);
-  const [activeTab, setActiveTab] = useState("all"); // "all", "student", "parent", "teacher"
+  const [activeTab, setActiveTab] = useState("all");
   const [eventFilter, setEventFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [copiedStatus, setCopiedStatus] = useState(false);
@@ -48,10 +48,8 @@ export default function AdminDashboard() {
     return new Date(dateString).toLocaleDateString('en-US', options);
   };
 
-  // Filtered Applications
   const filteredApps = useMemo(() => {
     return applications.filter((app) => {
-      // 1. Search Query
       const q = searchQuery.toLowerCase().trim();
       const matchesSearch =
         !q ||
@@ -61,14 +59,12 @@ export default function AdminDashboard() {
         app.school?.toLowerCase().includes(q) ||
         app.package_type?.toLowerCase().includes(q);
 
-      // 2. Category Tab Filter
       const cat = (app.category || "").toLowerCase();
       let matchesCategory = true;
       if (activeTab === "student") matchesCategory = cat.includes("student");
       else if (activeTab === "parent") matchesCategory = cat.includes("parent");
       else if (activeTab === "teacher") matchesCategory = cat.includes("teacher") || cat.includes("school");
 
-      // 3. Event Filter
       const pkg = (app.package_type || "").toLowerCase();
       let matchesEvent = true;
       if (eventFilter === "boston") matchesEvent = pkg.includes("boston");
@@ -79,7 +75,6 @@ export default function AdminDashboard() {
     });
   }, [applications, searchQuery, activeTab, eventFilter]);
 
-  // Counts
   const counts = useMemo(() => {
     let student = 0, parent = 0, teacher = 0;
     applications.forEach((app) => {
@@ -91,7 +86,6 @@ export default function AdminDashboard() {
     return { total: applications.length, student, parent, teacher };
   }, [applications]);
 
-  // Helper to format WhatsApp link
   const getWaLink = (phoneStr) => {
     if (!phoneStr) return "#";
     const cleaned = phoneStr.replace(/\D/g, "");
@@ -99,9 +93,21 @@ export default function AdminDashboard() {
     return `https://wa.me/${formatted}`;
   };
 
+  // Helper extraction for both form_details JSON and raw SQL columns
+  const getVal = (app, detailKey, sqlColumn, fallback = "-") => {
+    if (!app) return fallback;
+    const d = app.form_details || {};
+    const val = d[detailKey] !== undefined && d[detailKey] !== null && d[detailKey] !== "" 
+      ? d[detailKey] 
+      : app[sqlColumn];
+
+    if (val === undefined || val === null || val === "") return fallback;
+    if (Array.isArray(val)) return val.length > 0 ? val.join(", ") : fallback;
+    return String(val);
+  };
+
   const handleCopySummary = (app) => {
     if (!app) return;
-    const details = app.form_details || {};
     const text = `
 === EDUGLOBAL REGISTRATION SUMMARY ===
 ID: #${app.id}
@@ -113,15 +119,27 @@ Category: ${app.category || "Participant"}
 Name: ${app.full_name}
 Email: ${app.email}
 Phone/WA: ${app.phone}
-School: ${app.school || "-"}
-DOB / Gender: ${details.dob || "-"} / ${details.gender || "-"}
-Passport Status: ${details.passportStatus || details.chinaVisaStatus || details.visaStatus || "-"}
+School: ${app.school || getVal(app, "schoolName", "school_city_country")}
+DOB / Gender: ${getVal(app, "dob", "dob")} / ${getVal(app, "gender", "gender")}
+Nationality/Residence: ${getVal(app, "nationalityResidence", "nationality_and_residence")}
+Passport Status: ${getVal(app, "passportStatus", "passport_status")}
+
+--- SECTION 2: MUN & ACADEMIC ---
+MUN Level: ${getVal(app, "munExperience", "mun_experience")}
+1st Committee Pref: ${getVal(app, "committeePref1", "committee_pref_1")}
+2nd Committee Pref: ${getVal(app, "committeePref2", "committee_pref_2")}
+Skills: ${getVal(app, "skillsToDevelop", "skills_to_develop")}
+
+--- SECTION 3: PARENT INFO ---
+Parent Name: ${getVal(app, "parentFullName", "parent_full_name")}
+Parent Relationship: ${getVal(app, "parentRelationship", "parent_relationship")}
+Parent Email/WA: ${getVal(app, "parentEmail", "parent_email")} / ${getVal(app, "parentWhatsapp", "parent_whatsapp")}
 
 --- EMERGENCY & HEALTH ---
-Emergency Contact: ${details.emergencyContact || "-"}
-Dietary / Allergies: ${(details.dietaryReqs || []).join(", ")} | ${details.foodAllergies || "None"}
-Chicken Allergy: ${details.chickenProteinAllergy || "No"}
-Medical Conditions: ${details.medicalConditions || "None"}
+Emergency Contact: ${getVal(app, "emergencyContact", "emergency_contact")}
+Dietary / Allergies: ${getVal(app, "dietaryReqs", "dietary_requirements")} | ${getVal(app, "foodAllergies", "food_allergies")}
+Chicken Allergy: ${getVal(app, "chickenProteinAllergy", "chicken_protein_allergy")}
+Medical Conditions: ${getVal(app, "medicalConditions", "medical_conditions")}
 ======================================
     `.trim();
 
@@ -281,20 +299,21 @@ Medical Conditions: ${details.medicalConditions || "None"}
                     <td colSpan="6" className="p-12 text-center text-muted">
                       <div className="text-4xl mb-2">🔍</div>
                       <p className="text-sm font-bold text-navy">No matching registrations found.</p>
-                      <p className="text-xs text-muted mt-1">Try adjusting your search terms or filter buttons.</p>
+                      <p className="text-xs text-muted mt-1">Try submitting a new registration on the website to test dynamic full data extraction.</p>
                     </td>
                   </tr>
                 ) : (
                   filteredApps.map((app) => {
                     const details = app.form_details || {};
-                    const hasAllergy = details.chickenProteinAllergy === "Yes" || (details.foodAllergies && details.foodAllergies.toLowerCase() !== "none");
+                    const chickenAllergy = getVal(app, "chickenProteinAllergy", "chicken_protein_allergy");
+                    const foodAllergies = getVal(app, "foodAllergies", "food_allergies");
+                    const hasAllergy = chickenAllergy === "Yes" || (foodAllergies !== "-" && foodAllergies.toLowerCase() !== "none");
                     const isChina = (app.package_type || "").toLowerCase().includes("china");
                     const isThai = (app.package_type || "").toLowerCase().includes("thai");
 
                     return (
                       <tr key={app.id} className="border-b border-gray-100 hover:bg-sky-pale/20 transition-colors group">
                         
-                        {/* Applicant Name & Category */}
                         <td className="p-5">
                           <div className="font-extrabold text-navy text-sm flex items-center gap-2 mb-1">
                             {app.full_name}
@@ -313,7 +332,6 @@ Medical Conditions: ${details.medicalConditions || "None"}
                           </span>
                         </td>
 
-                        {/* Event Name */}
                         <td className="p-5">
                           <div className="text-xs font-bold text-navy flex items-center gap-1.5">
                             <span>{isChina ? "🇨🇳" : isThai ? "🇹🇭" : "🇺🇸"}</span>
@@ -321,16 +339,14 @@ Medical Conditions: ${details.medicalConditions || "None"}
                           </div>
                         </td>
 
-                        {/* School */}
                         <td className="p-5 text-xs font-medium text-navy">
-                          {app.school ? (
-                            <span className="flex items-center gap-1">🏫 {app.school}</span>
+                          {app.school || getVal(app, "schoolName", "school_city_country") !== "-" ? (
+                            <span className="flex items-center gap-1">🏫 {app.school || getVal(app, "schoolName", "school_city_country")}</span>
                           ) : (
                             <span className="text-gray-400 italic">Not provided</span>
                           )}
                         </td>
 
-                        {/* Contact & WhatsApp Direct Link */}
                         <td className="p-5">
                           <div className="text-xs font-semibold text-navy mb-1">{app.email || "-"}</div>
                           <div className="flex items-center gap-2">
@@ -348,12 +364,10 @@ Medical Conditions: ${details.medicalConditions || "None"}
                           </div>
                         </td>
 
-                        {/* Applied Date */}
                         <td className="p-5 text-xs text-muted whitespace-nowrap font-medium">
                           {formatDate(app.created_at)}
                         </td>
 
-                        {/* UX Action Buttons */}
                         <td className="p-5 text-center whitespace-nowrap">
                           <button
                             onClick={() => setSelectedApp(app)}
@@ -413,7 +427,7 @@ Medical Conditions: ${details.medicalConditions || "None"}
                       {selectedApp.category || "Participant Registration"}
                     </span>
                     <h2 className="text-2xl font-extrabold">{selectedApp.full_name}</h2>
-                    <p className="text-xs text-white/80 mt-1">🏫 {selectedApp.school || "School not specified"}</p>
+                    <p className="text-xs text-white/80 mt-1">🏫 {selectedApp.school || getVal(selectedApp, "schoolName", "school_city_country") || "School not specified"}</p>
                   </div>
 
                   <div className="flex flex-col items-end gap-2">
@@ -433,7 +447,7 @@ Medical Conditions: ${details.medicalConditions || "None"}
                   </div>
                 </div>
 
-                {/* Section 1: Core Contact Information */}
+                {/* Section 1: Core Contact & Personal Info */}
                 <div className="bg-[#F8FAFC] p-6 rounded-2xl border border-gray-200/80">
                   <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-navy mb-4 border-b pb-2">
                     <i className="fas fa-user text-sky"></i>
@@ -447,37 +461,37 @@ Medical Conditions: ${details.medicalConditions || "None"}
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Preferred Name</span>
-                      <strong className="text-navy">{selectedApp.form_details?.preferredName || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "preferredName", "preferred_name")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Email Address</span>
-                      <strong className="text-sky font-semibold">{selectedApp.email || "-"}</strong>
+                      <strong className="text-sky font-semibold">{selectedApp.email || getVal(selectedApp, "studentEmailWhatsapp", "email")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">WhatsApp / Phone</span>
-                      <strong className="text-navy">{selectedApp.phone || "-"}</strong>
+                      <strong className="text-navy">{selectedApp.phone || getVal(selectedApp, "studentEmailWhatsapp", "phone")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Date of Birth</span>
-                      <strong className="text-navy">{selectedApp.form_details?.dob || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "dob", "dob")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Gender</span>
-                      <strong className="text-navy">{selectedApp.form_details?.gender || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "gender", "gender")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Nationality & Residence</span>
-                      <strong className="text-navy">{selectedApp.form_details?.nationalityResidence || selectedApp.form_details?.nationality || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "nationalityResidence", "nationality_and_residence")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Passport Status</span>
                       <span className="inline-block bg-sky/15 text-sky font-bold px-2.5 py-0.5 rounded-full">
-                        {selectedApp.form_details?.passportStatus || selectedApp.form_details?.chinaVisaStatus || selectedApp.form_details?.visaStatus || "Standard"}
+                        {getVal(selectedApp, "passportStatus", "passport_status")}
                       </span>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Passport Expiry Date</span>
-                      <strong className="text-navy">{selectedApp.form_details?.passportExpiry || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "passportExpiry", "passport_expiry")}</strong>
                     </div>
                   </div>
                 </div>
@@ -492,32 +506,36 @@ Medical Conditions: ${details.medicalConditions || "None"}
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs mb-4">
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">School / Institution</span>
-                      <strong className="text-navy">{selectedApp.school || "-"}</strong>
+                      <strong className="text-navy">{selectedApp.school || getVal(selectedApp, "schoolName", "school_city_country")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Grade / Year Level</span>
-                      <strong className="text-navy">{selectedApp.form_details?.gradeYear || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "gradeYear", "grade_year")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">MUN Experience Level</span>
-                      <strong className="text-navy">{selectedApp.form_details?.munExperience || selectedApp.form_details?.groupMunExp || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "munExperience", "mun_experience")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">English Proficiency</span>
-                      <strong className="text-navy">{selectedApp.form_details?.englishProficiency || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "englishProficiency", "english_proficiency")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Registration Channel</span>
-                      <strong className="text-navy">{selectedApp.form_details?.regChannel || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "regChannel", "registration_channel")}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Why Joining Reason</span>
+                      <strong className="text-navy line-clamp-2">{getVal(selectedApp, "whyJoin", "why_join_reason")}</strong>
                     </div>
                   </div>
 
                   {/* Skills to Develop */}
-                  {selectedApp.form_details?.skillsToDevelop && selectedApp.form_details.skillsToDevelop.length > 0 && (
+                  {getVal(selectedApp, "skillsToDevelop", "skills_to_develop") !== "-" && (
                     <div className="mt-3 pt-3 border-t border-gray-200/60">
                       <span className="text-muted block text-xs font-bold mb-2">Skills Aiming to Develop:</span>
                       <div className="flex flex-wrap gap-1.5">
-                        {selectedApp.form_details.skillsToDevelop.map((skill, idx) => (
+                        {getVal(selectedApp, "skillsToDevelop", "skills_to_develop").split(", ").map((skill, idx) => (
                           <span key={idx} className="bg-sky/10 text-sky text-[11px] font-bold px-3 py-1 rounded-full">
                             ✓ {skill}
                           </span>
@@ -527,57 +545,55 @@ Medical Conditions: ${details.medicalConditions || "None"}
                   )}
 
                   {/* Committee Preferences */}
-                  {(selectedApp.form_details?.committeePref1 || selectedApp.form_details?.committeePref2) && (
-                    <div className="mt-4 pt-3 border-t border-gray-200/60 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                      <div className="bg-white p-3 rounded-xl border border-gray-200">
-                        <span className="text-muted block text-[10px] uppercase font-bold">1st Committee Pref</span>
-                        <strong className="text-navy">{selectedApp.form_details.committeePref1 || "-"}</strong>
-                      </div>
-                      <div className="bg-white p-3 rounded-xl border border-gray-200">
-                        <span className="text-muted block text-[10px] uppercase font-bold">2nd Committee Pref</span>
-                        <strong className="text-navy">{selectedApp.form_details.committeePref2 || "-"}</strong>
-                      </div>
-                      <div className="bg-white p-3 rounded-xl border border-gray-200">
-                        <span className="text-muted block text-[10px] uppercase font-bold">3rd Committee Pref</span>
-                        <strong className="text-navy">{selectedApp.form_details.committeePref3 || "-"}</strong>
-                      </div>
+                  <div className="mt-4 pt-3 border-t border-gray-200/60 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                    <div className="bg-white p-3 rounded-xl border border-gray-200">
+                      <span className="text-muted block text-[10px] uppercase font-bold">1st Committee Pref</span>
+                      <strong className="text-navy">{getVal(selectedApp, "committeePref1", "committee_pref_1")}</strong>
                     </div>
-                  )}
+                    <div className="bg-white p-3 rounded-xl border border-gray-200">
+                      <span className="text-muted block text-[10px] uppercase font-bold">2nd Committee Pref</span>
+                      <strong className="text-navy">{getVal(selectedApp, "committeePref2", "committee_pref_2")}</strong>
+                    </div>
+                    <div className="bg-white p-3 rounded-xl border border-gray-200">
+                      <span className="text-muted block text-[10px] uppercase font-bold">3rd Committee Pref</span>
+                      <strong className="text-navy">{getVal(selectedApp, "committeePref3", "committee_pref_3")}</strong>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Section 3: Parent / Guardian Info */}
                 <div className="bg-[#F8FAFC] p-6 rounded-2xl border border-gray-200/80">
                   <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-navy mb-4 border-b pb-2">
-                    <i className="fas fa-[#f43f5e] fa-users text-indigo-600"></i>
+                    <i className="fas fa-users text-indigo-600"></i>
                     <span>Section 3 — Parent / Guardian Information</span>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs">
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Parent / Guardian Name</span>
-                      <strong className="text-navy">{selectedApp.form_details?.parentFullName || selectedApp.form_details?.parentNameRelationship || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "parentFullName", "parent_full_name")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Relationship to Student</span>
-                      <strong className="text-navy">{selectedApp.form_details?.parentRelationship || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "parentRelationship", "parent_relationship")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Parent Email</span>
-                      <strong className="text-navy">{selectedApp.form_details?.parentEmail || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "parentEmail", "parent_email")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Parent WhatsApp / Phone</span>
-                      <strong className="text-navy">{selectedApp.form_details?.parentWhatsapp || selectedApp.form_details?.parentEmailWhatsapp || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "parentWhatsapp", "parent_whatsapp")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Parent Approval</span>
                       <span className="inline-block bg-green-100 text-green font-bold px-2.5 py-0.5 rounded-full">
-                        {selectedApp.form_details?.parentApproval || "Confirmed"}
+                        {getVal(selectedApp, "parentApproval", "parent_approval_status")}
                       </span>
                     </div>
                     <div className="sm:col-span-2">
                       <span className="text-muted block font-semibold mb-0.5">Residential Address</span>
-                      <strong className="text-navy">{selectedApp.form_details?.parentAddress || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "parentAddress", "parent_address")}</strong>
                     </div>
                   </div>
                 </div>
@@ -592,27 +608,27 @@ Medical Conditions: ${details.medicalConditions || "None"}
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs">
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Departure City</span>
-                      <strong className="text-navy">{selectedApp.form_details?.departureCity || selectedApp.form_details?.departureCityCountry || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "departureCity", "departure_city")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Flight Arrangement</span>
-                      <strong className="text-navy">{selectedApp.form_details?.flightArrangement || selectedApp.form_details?.travelRequirement || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "flightArrangement", "flight_arrangement")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Accommodation Pref</span>
-                      <strong className="text-navy">{selectedApp.form_details?.accommodationPref || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "accommodationPref", "accommodation_preference")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Visa Status</span>
-                      <strong className="text-navy">{selectedApp.form_details?.chinaVisaStatus || selectedApp.form_details?.visaStatus || selectedApp.form_details?.thaiImmigrationStatus || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "chinaVisaStatus", "china_visa_status")} / {getVal(selectedApp, "visaStatus", "visa_status")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Visa Support Letter</span>
-                      <strong className="text-navy">{selectedApp.form_details?.visaLetterRequired || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "visaLetterRequired", "visa_letter_required")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Extension / Package</span>
-                      <strong className="text-navy">{selectedApp.form_details?.educationalCulturalProg || selectedApp.form_details?.harvardExtension || selectedApp.form_details?.preferredPackage || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "educationalCulturalProg", "preferred_package")}</strong>
                     </div>
                   </div>
                 </div>
@@ -625,13 +641,13 @@ Medical Conditions: ${details.medicalConditions || "None"}
                   </div>
 
                   {/* Allergy Highlight Card */}
-                  {(selectedApp.form_details?.chickenProteinAllergy === "Yes" || (selectedApp.form_details?.foodAllergies && selectedApp.form_details.foodAllergies.toLowerCase() !== "none")) && (
+                  {(getVal(selectedApp, "chickenProteinAllergy", "chicken_protein_allergy") === "Yes" || (getVal(selectedApp, "foodAllergies", "food_allergies") !== "-" && getVal(selectedApp, "foodAllergies", "food_allergies").toLowerCase() !== "none")) && (
                     <div className="bg-red-50 border border-red-200 p-4 rounded-xl mb-4 text-xs text-red-900">
                       <div className="font-extrabold flex items-center gap-2 mb-1">
                         <span>⚠️ CRITICAL ALLERGY ALERT</span>
                       </div>
-                      <p><strong>Chicken / Protein Restriction:</strong> {selectedApp.form_details?.chickenProteinAllergy || "Not specified"}</p>
-                      <p><strong>Food Allergies:</strong> {selectedApp.form_details?.foodAllergies || "None"}</p>
+                      <p><strong>Chicken / Protein Restriction:</strong> {getVal(selectedApp, "chickenProteinAllergy", "chicken_protein_allergy")}</p>
+                      <p><strong>Food Allergies:</strong> {getVal(selectedApp, "foodAllergies", "food_allergies")}</p>
                     </div>
                   )}
 
@@ -639,24 +655,24 @@ Medical Conditions: ${details.medicalConditions || "None"}
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Dietary Requirements</span>
                       <strong className="text-navy">
-                        {Array.isArray(selectedApp.form_details?.dietaryReqs) ? selectedApp.form_details.dietaryReqs.join(", ") : "-"}
+                        {getVal(selectedApp, "dietaryReqs", "dietary_requirements")}
                       </strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Medical Conditions</span>
-                      <strong className="text-navy">{selectedApp.form_details?.medicalConditions || "None reported"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "medicalConditions", "medical_conditions")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Regular Medication</span>
-                      <strong className="text-navy">{selectedApp.form_details?.regularMedication || "None"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "regularMedication", "regular_medication")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Emergency Contact</span>
-                      <strong className="text-navy">{selectedApp.form_details?.emergencyContact || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "emergencyContact", "emergency_contact")}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Travel Insurance</span>
-                      <strong className="text-navy">{selectedApp.form_details?.travelInsurance || "-"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "travelInsurance", "travel_insurance")}</strong>
                     </div>
                   </div>
                 </div>
@@ -671,11 +687,11 @@ Medical Conditions: ${details.medicalConditions || "None"}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Form Completed By</span>
-                      <strong className="text-navy text-sm">{selectedApp.form_details?.completedBy || selectedApp.full_name}</strong>
+                      <strong className="text-navy text-sm">{getVal(selectedApp, "completedBy", "completed_by", selectedApp.full_name)}</strong>
                     </div>
                     <div>
                       <span className="text-muted block font-semibold mb-0.5">Additional Notes / Questions</span>
-                      <strong className="text-navy">{selectedApp.form_details?.additionalQuestions || "None"}</strong>
+                      <strong className="text-navy">{getVal(selectedApp, "additionalQuestions", "additional_questions")}</strong>
                     </div>
                   </div>
                 </div>
