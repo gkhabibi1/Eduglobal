@@ -115,27 +115,34 @@ Event: ${app.package_type}
 Date: ${formatDate(app.created_at)}
 Category: ${app.category || "Participant"}
 
---- PARTICIPANT INFO ---
+--- PRIMARY CONTACT ---
 Name: ${app.full_name}
 Email: ${app.email}
 Phone/WA: ${app.phone}
-School: ${app.school || getVal(app, "schoolName", "school_city_country")}
+School/Org: ${app.school || getVal(app, "schoolName", "school_city_country")}
+
+--- SECTION DETAILS ---
+${(app.category || "").includes("Parent") ? `
+Accompanying Student: ${getVal(app, "studentFullName", "student_full_name")}
+Relationship: ${getVal(app, "relationshipToStudent", "relationship_to_student")}
+Requested Role: ${getVal(app, "requestedRole", "requested_role")}
+Rooming Preference: ${getVal(app, "roomPreference", "room_preference")}
+Travel Arrangement: ${getVal(app, "travelArrangement", "travel_arrangement")}
+` : (app.category || "").includes("Teacher") || (app.category || "").includes("School") ? `
+School/Org Address: ${getVal(app, "schoolOrgAddress", "school_city_country")}
+Primary Contact Position: ${getVal(app, "primaryContactPosition", "primary_contact_position")}
+Estimated Delegates: ${getVal(app, "estDelegates", "estimated_delegates")}
+Estimated Teachers: ${getVal(app, "estTeachers", "estimated_teachers")}
+Payment Arrangement: ${getVal(app, "paymentArrangement", "payment_arrangement")}
+Required Documents: ${getVal(app, "requiredDocuments", "required_documents")}
+` : `
 DOB / Gender: ${getVal(app, "dob", "dob")} / ${getVal(app, "gender", "gender")}
-Nationality/Residence: ${getVal(app, "nationalityResidence", "nationality_and_residence")}
-Passport Status: ${getVal(app, "passportStatus", "passport_status")}
+MUN Experience: ${getVal(app, "munExperience", "mun_experience")}
+Committee Prefs: 1. ${getVal(app, "committeePref1", "committee_pref_1")} | 2. ${getVal(app, "committeePref2", "committee_pref_2")}
+Parent Name / Email: ${getVal(app, "parentFullName", "parent_full_name")} (${getVal(app, "parentEmail", "parent_email")})
+`}
 
---- SECTION 2: MUN & ACADEMIC ---
-MUN Level: ${getVal(app, "munExperience", "mun_experience")}
-1st Committee Pref: ${getVal(app, "committeePref1", "committee_pref_1")}
-2nd Committee Pref: ${getVal(app, "committeePref2", "committee_pref_2")}
-Skills: ${getVal(app, "skillsToDevelop", "skills_to_develop")}
-
---- SECTION 3: PARENT INFO ---
-Parent Name: ${getVal(app, "parentFullName", "parent_full_name")}
-Parent Relationship: ${getVal(app, "parentRelationship", "parent_relationship")}
-Parent Email/WA: ${getVal(app, "parentEmail", "parent_email")} / ${getVal(app, "parentWhatsapp", "parent_whatsapp")}
-
---- EMERGENCY & HEALTH ---
+--- HEALTH & EMERGENCY ---
 Emergency Contact: ${getVal(app, "emergencyContact", "emergency_contact")}
 Dietary / Allergies: ${getVal(app, "dietaryReqs", "dietary_requirements")} | ${getVal(app, "foodAllergies", "food_allergies")}
 Chicken Allergy: ${getVal(app, "chickenProteinAllergy", "chicken_protein_allergy")}
@@ -304,7 +311,6 @@ Medical Conditions: ${getVal(app, "medicalConditions", "medical_conditions")}
                   </tr>
                 ) : (
                   filteredApps.map((app) => {
-                    const details = app.form_details || {};
                     const chickenAllergy = getVal(app, "chickenProteinAllergy", "chicken_protein_allergy");
                     const foodAllergies = getVal(app, "foodAllergies", "food_allergies");
                     const hasAllergy = chickenAllergy === "Yes" || (foodAllergies !== "-" && foodAllergies.toLowerCase() !== "none");
@@ -427,7 +433,7 @@ Medical Conditions: ${getVal(app, "medicalConditions", "medical_conditions")}
                       {selectedApp.category || "Participant Registration"}
                     </span>
                     <h2 className="text-2xl font-extrabold">{selectedApp.full_name}</h2>
-                    <p className="text-xs text-white/80 mt-1">🏫 {selectedApp.school || getVal(selectedApp, "schoolName", "school_city_country") || "School not specified"}</p>
+                    <p className="text-xs text-white/80 mt-1">🏫 {selectedApp.school || getVal(selectedApp, "schoolName", "school_city_country") || "School / Institution not specified"}</p>
                   </div>
 
                   <div className="flex flex-col items-end gap-2">
@@ -496,107 +502,207 @@ Medical Conditions: ${getVal(app, "medicalConditions", "medical_conditions")}
                   </div>
                 </div>
 
-                {/* Section 2: MUN & Academic Background */}
-                <div className="bg-[#F8FAFC] p-6 rounded-2xl border border-gray-200/80">
-                  <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-navy mb-4 border-b pb-2">
-                    <i className="fas fa-graduation-cap text-sky"></i>
-                    <span>Section 2 — MUN Experience & Academic Profile</span>
-                  </div>
+                {/* Dynamic Section 2 based on Category */}
+                {(selectedApp.category || "").includes("Parent") ? (
+                  /* ================= SECTION 2B: ACCOMPANYING PARENT DETAILS ================= */
+                  <div className="bg-indigo-50/50 p-6 rounded-2xl border border-indigo-100">
+                    <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-indigo-900 mb-4 border-b border-indigo-200/80 pb-2">
+                      <i className="fas fa-user-shield text-indigo-600"></i>
+                      <span>Section 2B — Accompanying Parent or Guardian Details</span>
+                    </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs mb-4">
-                    <div>
-                      <span className="text-muted block font-semibold mb-0.5">School / Institution</span>
-                      <strong className="text-navy">{selectedApp.school || getVal(selectedApp, "schoolName", "school_city_country")}</strong>
-                    </div>
-                    <div>
-                      <span className="text-muted block font-semibold mb-0.5">Grade / Year Level</span>
-                      <strong className="text-navy">{getVal(selectedApp, "gradeYear", "grade_year")}</strong>
-                    </div>
-                    <div>
-                      <span className="text-muted block font-semibold mb-0.5">MUN Experience Level</span>
-                      <strong className="text-navy">{getVal(selectedApp, "munExperience", "mun_experience")}</strong>
-                    </div>
-                    <div>
-                      <span className="text-muted block font-semibold mb-0.5">English Proficiency</span>
-                      <strong className="text-navy">{getVal(selectedApp, "englishProficiency", "english_proficiency")}</strong>
-                    </div>
-                    <div>
-                      <span className="text-muted block font-semibold mb-0.5">Registration Channel</span>
-                      <strong className="text-navy">{getVal(selectedApp, "regChannel", "registration_channel")}</strong>
-                    </div>
-                    <div>
-                      <span className="text-muted block font-semibold mb-0.5">Why Joining Reason</span>
-                      <strong className="text-navy line-clamp-2">{getVal(selectedApp, "whyJoin", "why_join_reason")}</strong>
-                    </div>
-                  </div>
-
-                  {/* Skills to Develop */}
-                  {getVal(selectedApp, "skillsToDevelop", "skills_to_develop") !== "-" && (
-                    <div className="mt-3 pt-3 border-t border-gray-200/60">
-                      <span className="text-muted block text-xs font-bold mb-2">Skills Aiming to Develop:</span>
-                      <div className="flex flex-wrap gap-1.5">
-                        {getVal(selectedApp, "skillsToDevelop", "skills_to_develop").split(", ").map((skill, idx) => (
-                          <span key={idx} className="bg-sky/10 text-sky text-[11px] font-bold px-3 py-1 rounded-full">
-                            ✓ {skill}
-                          </span>
-                        ))}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs">
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Student's Full Name</span>
+                        <strong className="text-navy text-sm">{getVal(selectedApp, "studentFullName", "student_full_name")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Relationship to Student</span>
+                        <strong className="text-navy">{getVal(selectedApp, "relationshipToStudent", "relationship_to_student")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Requested Parent Role</span>
+                        <strong className="text-navy">{getVal(selectedApp, "requestedRole", "requested_role")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Rooming Preference</span>
+                        <strong className="text-navy">{getVal(selectedApp, "roomPreference", "room_preference")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Flight & Travel Arrangement</span>
+                        <strong className="text-navy">{getVal(selectedApp, "travelArrangement", "travel_arrangement")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Cultural & Academic Extension</span>
+                        <strong className="text-navy">{getVal(selectedApp, "culturalActivities", "educational_cultural_prog")}</strong>
                       </div>
                     </div>
-                  )}
+                  </div>
+                ) : (selectedApp.category || "").includes("Teacher") || (selectedApp.category || "").includes("School") ? (
+                  /* ================= SECTION 2C: TEACHER OR SCHOOL GROUP DETAILS ================= */
+                  <div className="bg-amber-50/50 p-6 rounded-2xl border border-amber-200/80">
+                    <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-amber-900 mb-4 border-b border-amber-200 pb-2">
+                      <i className="fas fa-school text-amber-600"></i>
+                      <span>Section 2C — Teacher / School Group Representative Details</span>
+                    </div>
 
-                  {/* Committee Preferences */}
-                  <div className="mt-4 pt-3 border-t border-gray-200/60 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                    <div className="bg-white p-3 rounded-xl border border-gray-200">
-                      <span className="text-muted block text-[10px] uppercase font-bold">1st Committee Pref</span>
-                      <strong className="text-navy">{getVal(selectedApp, "committeePref1", "committee_pref_1")}</strong>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs mb-4">
+                      <div className="sm:col-span-2">
+                        <span className="text-muted block font-semibold mb-0.5">School / Org Physical Address</span>
+                        <strong className="text-navy">{getVal(selectedApp, "schoolOrgAddress", "school_city_country")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Primary Contact & Position</span>
+                        <strong className="text-navy">{getVal(selectedApp, "primaryContactPosition", "primary_contact_position")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Official Email & WhatsApp</span>
+                        <strong className="text-sky font-semibold">{getVal(selectedApp, "officialEmailWhatsapp", "email")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Estimated Delegates</span>
+                        <strong className="text-navy font-bold">{getVal(selectedApp, "estDelegates", "estimated_delegates")} Students</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Estimated Chaperones/Teachers</span>
+                        <strong className="text-navy">{getVal(selectedApp, "estTeachers", "estimated_teachers")} Teachers</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Estimated Accompanying Parents</span>
+                        <strong className="text-navy">{getVal(selectedApp, "estParents", "estimated_parents")} Parents</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Student Age Ranges</span>
+                        <strong className="text-navy">{getVal(selectedApp, "studentAgeRange", "student_age_ranges")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Payment Arrangement</span>
+                        <strong className="text-navy">{getVal(selectedApp, "paymentArrangement", "payment_arrangement")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Pre-Conference Training</span>
+                        <strong className="text-navy">{getVal(selectedApp, "trainingRequired", "preconference_training")}</strong>
+                      </div>
                     </div>
-                    <div className="bg-white p-3 rounded-xl border border-gray-200">
-                      <span className="text-muted block text-[10px] uppercase font-bold">2nd Committee Pref</span>
-                      <strong className="text-navy">{getVal(selectedApp, "committeePref2", "committee_pref_2")}</strong>
+
+                    {getVal(selectedApp, "requiredDocuments", "required_documents") !== "-" && (
+                      <div className="pt-3 border-t border-amber-200/60">
+                        <span className="text-muted block text-xs font-bold mb-2">Required Administrative Documents:</span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {getVal(selectedApp, "requiredDocuments", "required_documents").split(", ").map((doc, idx) => (
+                            <span key={idx} className="bg-amber-100 text-amber-900 text-[11px] font-bold px-3 py-1 rounded-full">
+                              📄 {doc}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  /* ================= SECTION 2A: STUDENT DELEGATE DETAILS ================= */
+                  <div className="bg-[#F8FAFC] p-6 rounded-2xl border border-gray-200/80">
+                    <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-navy mb-4 border-b pb-2">
+                      <i className="fas fa-graduation-cap text-sky"></i>
+                      <span>Section 2A — Student Delegate MUN Profile & Preferences</span>
                     </div>
-                    <div className="bg-white p-3 rounded-xl border border-gray-200">
-                      <span className="text-muted block text-[10px] uppercase font-bold">3rd Committee Pref</span>
-                      <strong className="text-navy">{getVal(selectedApp, "committeePref3", "committee_pref_3")}</strong>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs mb-4">
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">School / Institution</span>
+                        <strong className="text-navy">{selectedApp.school || getVal(selectedApp, "schoolName", "school_city_country")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Grade / Year Level</span>
+                        <strong className="text-navy">{getVal(selectedApp, "gradeYear", "grade_year")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">MUN Experience Level</span>
+                        <strong className="text-navy">{getVal(selectedApp, "munExperience", "mun_experience")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">English Proficiency</span>
+                        <strong className="text-navy">{getVal(selectedApp, "englishProficiency", "english_proficiency")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Registration Channel</span>
+                        <strong className="text-navy">{getVal(selectedApp, "regChannel", "registration_channel")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Why Joining Reason</span>
+                        <strong className="text-navy line-clamp-2">{getVal(selectedApp, "whyJoin", "why_join_reason")}</strong>
+                      </div>
+                    </div>
+
+                    {/* Skills to Develop */}
+                    {getVal(selectedApp, "skillsToDevelop", "skills_to_develop") !== "-" && (
+                      <div className="mt-3 pt-3 border-t border-gray-200/60">
+                        <span className="text-muted block text-xs font-bold mb-2">Skills Aiming to Develop:</span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {getVal(selectedApp, "skillsToDevelop", "skills_to_develop").split(", ").map((skill, idx) => (
+                            <span key={idx} className="bg-sky/10 text-sky text-[11px] font-bold px-3 py-1 rounded-full">
+                              ✓ {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Committee Preferences */}
+                    <div className="mt-4 pt-3 border-t border-gray-200/60 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                      <div className="bg-white p-3 rounded-xl border border-gray-200">
+                        <span className="text-muted block text-[10px] uppercase font-bold">1st Committee Pref</span>
+                        <strong className="text-navy">{getVal(selectedApp, "committeePref1", "committee_pref_1")}</strong>
+                      </div>
+                      <div className="bg-white p-3 rounded-xl border border-gray-200">
+                        <span className="text-muted block text-[10px] uppercase font-bold">2nd Committee Pref</span>
+                        <strong className="text-navy">{getVal(selectedApp, "committeePref2", "committee_pref_2")}</strong>
+                      </div>
+                      <div className="bg-white p-3 rounded-xl border border-gray-200">
+                        <span className="text-muted block text-[10px] uppercase font-bold">3rd Committee Pref</span>
+                        <strong className="text-navy">{getVal(selectedApp, "committeePref3", "committee_pref_3")}</strong>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
 
-                {/* Section 3: Parent / Guardian Info */}
-                <div className="bg-[#F8FAFC] p-6 rounded-2xl border border-gray-200/80">
-                  <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-navy mb-4 border-b pb-2">
-                    <i className="fas fa-users text-indigo-600"></i>
-                    <span>Section 3 — Parent / Guardian Information</span>
-                  </div>
+                {/* Section 3: Parent / Guardian Info (For Student Delegates) */}
+                {!(selectedApp.category || "").includes("Parent") && !(selectedApp.category || "").includes("Teacher") && (
+                  <div className="bg-[#F8FAFC] p-6 rounded-2xl border border-gray-200/80">
+                    <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-navy mb-4 border-b pb-2">
+                      <i className="fas fa-users text-indigo-600"></i>
+                      <span>Section 3 — Parent / Guardian Information (Student Delegate)</span>
+                    </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs">
-                    <div>
-                      <span className="text-muted block font-semibold mb-0.5">Parent / Guardian Name</span>
-                      <strong className="text-navy">{getVal(selectedApp, "parentFullName", "parent_full_name")}</strong>
-                    </div>
-                    <div>
-                      <span className="text-muted block font-semibold mb-0.5">Relationship to Student</span>
-                      <strong className="text-navy">{getVal(selectedApp, "parentRelationship", "parent_relationship")}</strong>
-                    </div>
-                    <div>
-                      <span className="text-muted block font-semibold mb-0.5">Parent Email</span>
-                      <strong className="text-navy">{getVal(selectedApp, "parentEmail", "parent_email")}</strong>
-                    </div>
-                    <div>
-                      <span className="text-muted block font-semibold mb-0.5">Parent WhatsApp / Phone</span>
-                      <strong className="text-navy">{getVal(selectedApp, "parentWhatsapp", "parent_whatsapp")}</strong>
-                    </div>
-                    <div>
-                      <span className="text-muted block font-semibold mb-0.5">Parent Approval</span>
-                      <span className="inline-block bg-green-100 text-green font-bold px-2.5 py-0.5 rounded-full">
-                        {getVal(selectedApp, "parentApproval", "parent_approval_status")}
-                      </span>
-                    </div>
-                    <div className="sm:col-span-2">
-                      <span className="text-muted block font-semibold mb-0.5">Residential Address</span>
-                      <strong className="text-navy">{getVal(selectedApp, "parentAddress", "parent_address")}</strong>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs">
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Parent / Guardian Name</span>
+                        <strong className="text-navy">{getVal(selectedApp, "parentFullName", "parent_full_name")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Relationship to Student</span>
+                        <strong className="text-navy">{getVal(selectedApp, "parentRelationship", "parent_relationship")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Parent Email</span>
+                        <strong className="text-navy">{getVal(selectedApp, "parentEmail", "parent_email")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Parent WhatsApp / Phone</span>
+                        <strong className="text-navy">{getVal(selectedApp, "parentWhatsapp", "parent_whatsapp")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-muted block font-semibold mb-0.5">Parent Approval</span>
+                        <span className="inline-block bg-green-100 text-green font-bold px-2.5 py-0.5 rounded-full">
+                          {getVal(selectedApp, "parentApproval", "parent_approval_status")}
+                        </span>
+                      </div>
+                      <div className="sm:col-span-2">
+                        <span className="text-muted block font-semibold mb-0.5">Residential Address</span>
+                        <strong className="text-navy">{getVal(selectedApp, "parentAddress", "parent_address")}</strong>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
 
                 {/* Section 4: Travel, Visa & Accommodation */}
                 <div className="bg-[#F8FAFC] p-6 rounded-2xl border border-gray-200/80">
