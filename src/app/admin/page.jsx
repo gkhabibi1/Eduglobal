@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
@@ -9,16 +9,17 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedApp, setSelectedApp] = useState(null);
+  const [activeTab, setActiveTab] = useState("all"); // "all", "student", "parent", "teacher"
+  const [eventFilter, setEventFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [copiedStatus, setCopiedStatus] = useState(false);
 
   const handleLogout = () => {
-    // Hapus cookie admin_token
     document.cookie = "admin_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-    
-    // Redirect kembali ke login
     router.push("/admin/login");
   };
 
-  // Mengambil data dari Supabase saat halaman pertama kali dimuat
   useEffect(() => {
     fetchApplications();
   }, []);
@@ -29,7 +30,7 @@ export default function AdminDashboard() {
       const { data, error } = await supabase
         .from("applications")
         .select("*")
-        .order("created_at", { ascending: false }); // Mengurutkan dari yang terbaru
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       setApplications(data || []);
@@ -41,30 +42,111 @@ export default function AdminDashboard() {
     }
   };
 
-  // Fungsi untuk memformat tanggal
   const formatDate = (dateString) => {
+    if (!dateString) return "-";
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
     return new Date(dateString).toLocaleDateString('en-US', options);
   };
 
+  // Filtered Applications
+  const filteredApps = useMemo(() => {
+    return applications.filter((app) => {
+      // 1. Search Query
+      const q = searchQuery.toLowerCase().trim();
+      const matchesSearch =
+        !q ||
+        app.full_name?.toLowerCase().includes(q) ||
+        app.email?.toLowerCase().includes(q) ||
+        app.phone?.toLowerCase().includes(q) ||
+        app.school?.toLowerCase().includes(q) ||
+        app.package_type?.toLowerCase().includes(q);
+
+      // 2. Category Tab Filter
+      const cat = (app.category || "").toLowerCase();
+      let matchesCategory = true;
+      if (activeTab === "student") matchesCategory = cat.includes("student");
+      else if (activeTab === "parent") matchesCategory = cat.includes("parent");
+      else if (activeTab === "teacher") matchesCategory = cat.includes("teacher") || cat.includes("school");
+
+      // 3. Event Filter
+      const pkg = (app.package_type || "").toLowerCase();
+      let matchesEvent = true;
+      if (eventFilter === "boston") matchesEvent = pkg.includes("boston");
+      else if (eventFilter === "thai") matchesEvent = pkg.includes("thai");
+      else if (eventFilter === "china") matchesEvent = pkg.includes("china");
+
+      return matchesSearch && matchesCategory && matchesEvent;
+    });
+  }, [applications, searchQuery, activeTab, eventFilter]);
+
+  // Counts
+  const counts = useMemo(() => {
+    let student = 0, parent = 0, teacher = 0;
+    applications.forEach((app) => {
+      const cat = (app.category || "").toLowerCase();
+      if (cat.includes("student")) student++;
+      else if (cat.includes("parent")) parent++;
+      else if (cat.includes("teacher") || cat.includes("school")) teacher++;
+    });
+    return { total: applications.length, student, parent, teacher };
+  }, [applications]);
+
+  // Helper to format WhatsApp link
+  const getWaLink = (phoneStr) => {
+    if (!phoneStr) return "#";
+    const cleaned = phoneStr.replace(/\D/g, "");
+    const formatted = cleaned.startsWith("0") ? "62" + cleaned.slice(1) : cleaned;
+    return `https://wa.me/${formatted}`;
+  };
+
+  const handleCopySummary = (app) => {
+    if (!app) return;
+    const details = app.form_details || {};
+    const text = `
+=== EDUGLOBAL REGISTRATION SUMMARY ===
+ID: #${app.id}
+Event: ${app.package_type}
+Date: ${formatDate(app.created_at)}
+Category: ${app.category || "Participant"}
+
+--- PARTICIPANT INFO ---
+Name: ${app.full_name}
+Email: ${app.email}
+Phone/WA: ${app.phone}
+School: ${app.school || "-"}
+DOB / Gender: ${details.dob || "-"} / ${details.gender || "-"}
+Passport Status: ${details.passportStatus || details.chinaVisaStatus || details.visaStatus || "-"}
+
+--- EMERGENCY & HEALTH ---
+Emergency Contact: ${details.emergencyContact || "-"}
+Dietary / Allergies: ${(details.dietaryReqs || []).join(", ")} | ${details.foodAllergies || "None"}
+Chicken Allergy: ${details.chickenProteinAllergy || "No"}
+Medical Conditions: ${details.medicalConditions || "None"}
+======================================
+    `.trim();
+
+    navigator.clipboard.writeText(text);
+    setCopiedStatus(true);
+    setTimeout(() => setCopiedStatus(false), 2500);
+  };
+
   return (
-    <div className="min-h-screen bg-[#F5F8FC] font-poppins pb-20">
-      {/* CDN FontAwesome */}
+    <div className="min-h-screen bg-[#F4F7FC] font-poppins pb-24 text-navy">
       <link 
         rel="stylesheet" 
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
       />
 
       {/* Header Admin */}
-      <header className="bg-navy py-6 px-8 mb-10 shadow-md">
-        <div className="max-w-[1280px] mx-auto flex items-center justify-between">
+      <header className="bg-navy py-5 px-8 mb-8 shadow-md">
+        <div className="max-w-[1380px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img src="/logo.png" alt="EduGlobal Experience" className="h-9 w-auto object-contain brightness-0 invert" />
             <span className="text-white/60 font-normal text-sm">| Admin Dashboard</span>
           </div>
           <div className="flex items-center gap-5">
-            <Link href="/" className="text-white/80 hover:text-white text-sm font-medium transition-colors">
-              View Live Site ↗
+            <Link href="/" className="text-white/80 hover:text-white text-xs font-semibold transition-colors flex items-center gap-1.5">
+              <span>Live Website</span> ↗
             </Link>
             <button
               onClick={handleLogout}
@@ -76,76 +158,551 @@ export default function AdminDashboard() {
         </div>
       </header>
 
-      <main className="max-w-[1280px] mx-auto px-8">
-        <div className="flex flex-col md:flex-row justify-between items-end gap-4 mb-8">
+      <main className="max-w-[1380px] mx-auto px-6 md:px-8">
+        
+        {/* Page Title & Refresh */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl text-navy font-extrabold mb-2">Applications</h1>
-            <p className="text-muted text-[15px]">Manage and view all incoming registrations for the EduGlobal Summit.</p>
+            <h1 className="text-3xl text-navy font-extrabold tracking-tight">Participant Registrations</h1>
+            <p className="text-muted text-sm mt-1">Manage and view detailed submissions for HMUN Boston, Thai National MUN, and HMUN China 2027.</p>
           </div>
-          <div className="bg-white px-4 py-2 rounded-lg border border-[#E7EEF7] shadow-sm text-sm font-bold text-navy">
-            Total Applicants: <span className="text-sky text-lg ml-1">{applications.length}</span>
+          <button 
+            onClick={fetchApplications}
+            className="inline-flex items-center gap-2 bg-white hover:bg-sky-pale text-navy border border-gray-200 px-4 py-2.5 rounded-full text-xs font-bold shadow-sm transition-all"
+          >
+            <i className={`fas fa-sync-alt ${loading ? "fa-spin" : ""}`}></i> Refresh Data
+          </button>
+        </div>
+
+        {/* Quick Stat Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div 
+            onClick={() => setActiveTab("all")}
+            className={`p-5 rounded-2xl border transition-all cursor-pointer shadow-sm ${activeTab === "all" ? "bg-navy text-white border-navy" : "bg-white text-navy border-gray-200/80 hover:border-navy/40"}`}
+          >
+            <div className="text-xs uppercase tracking-wider opacity-75 font-bold mb-1">Total Registrations</div>
+            <div className="text-3xl font-extrabold">{counts.total}</div>
+          </div>
+
+          <div 
+            onClick={() => setActiveTab("student")}
+            className={`p-5 rounded-2xl border transition-all cursor-pointer shadow-sm ${activeTab === "student" ? "bg-sky text-white border-sky" : "bg-white text-navy border-gray-200/80 hover:border-sky/40"}`}
+          >
+            <div className="text-xs uppercase tracking-wider opacity-75 font-bold mb-1">Student Delegates</div>
+            <div className="text-3xl font-extrabold">{counts.student}</div>
+          </div>
+
+          <div 
+            onClick={() => setActiveTab("parent")}
+            className={`p-5 rounded-2xl border transition-all cursor-pointer shadow-sm ${activeTab === "parent" ? "bg-indigo-600 text-white border-indigo-600" : "bg-white text-navy border-gray-200/80 hover:border-indigo-400"}`}
+          >
+            <div className="text-xs uppercase tracking-wider opacity-75 font-bold mb-1">Parents / Guardians</div>
+            <div className="text-3xl font-extrabold">{counts.parent}</div>
+          </div>
+
+          <div 
+            onClick={() => setActiveTab("teacher")}
+            className={`p-5 rounded-2xl border transition-all cursor-pointer shadow-sm ${activeTab === "teacher" ? "bg-amber-600 text-white border-amber-600" : "bg-white text-navy border-gray-200/80 hover:border-amber-400"}`}
+          >
+            <div className="text-xs uppercase tracking-wider opacity-75 font-bold mb-1">Teachers & Schools</div>
+            <div className="text-3xl font-extrabold">{counts.teacher}</div>
           </div>
         </div>
 
-        {/* Tabel Data */}
-        <div className="bg-white rounded-2xl shadow-sm border border-[#E7EEF7] overflow-hidden">
+        {/* Filter Controls Bar */}
+        <div className="bg-white p-5 rounded-2xl shadow-sm border border-[#E7EEF7] mb-6 flex flex-col lg:flex-row gap-4 items-center justify-between">
+          
+          {/* Search Bar */}
+          <div className="relative w-full lg:w-96">
+            <i className="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+            <input
+              type="text"
+              placeholder="Search by name, email, school, phone..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-11 pr-4 py-2.5 bg-[#F8FAFC] border border-gray-200 rounded-full text-xs outline-none focus:border-sky font-medium text-navy"
+            />
+            {searchQuery && (
+              <button 
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 hover:text-navy"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
+          {/* Event Filter Buttons */}
+          <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
+            <span className="text-xs font-bold text-muted mr-1">Summit Event:</span>
+            {[
+              { id: "all", label: "All Summits" },
+              { id: "boston", label: "🇺🇸 Boston" },
+              { id: "thai", label: "🇹🇭 Thailand" },
+              { id: "china", label: "🇨🇳 China" },
+            ].map((ev) => (
+              <button
+                key={ev.id}
+                onClick={() => setEventFilter(ev.id)}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
+                  eventFilter === ev.id ? "bg-navy text-white shadow-sm" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                {ev.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Participant Table */}
+        <div className="bg-white rounded-3xl shadow-sm border border-[#E7EEF7] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-[#F5F8FC] border-b border-[#E7EEF7] text-navy text-sm font-bold">
-                  <th className="p-5 whitespace-nowrap">Date Applied</th>
-                  <th className="p-5 whitespace-nowrap">Participant Info</th>
-                  <th className="p-5 whitespace-nowrap">School/University</th>
-                  <th className="p-5 whitespace-nowrap">Package</th>
-                  <th className="p-5 whitespace-nowrap text-center">Status</th>
+                <tr className="bg-[#F8FAFC] border-b border-[#E7EEF7] text-navy text-xs font-extrabold uppercase tracking-wider">
+                  <th className="p-5 whitespace-nowrap">Applicant & Category</th>
+                  <th className="p-5 whitespace-nowrap">Summit Event</th>
+                  <th className="p-5 whitespace-nowrap">School / Institution</th>
+                  <th className="p-5 whitespace-nowrap">Contact & WA</th>
+                  <th className="p-5 whitespace-nowrap">Applied Date</th>
+                  <th className="p-5 whitespace-nowrap text-center">UX Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan="5" className="p-10 text-center text-muted font-medium">
-                      Loading data from database...
+                    <td colSpan="6" className="p-12 text-center text-muted font-medium">
+                      <div className="inline-block w-8 h-8 border-3 border-sky border-t-transparent rounded-full animate-spin mb-2"></div>
+                      <p className="text-xs font-bold">Loading registrations from Supabase...</p>
                     </td>
                   </tr>
-                ) : applications.length === 0 ? (
+                ) : filteredApps.length === 0 ? (
                   <tr>
-                    <td colSpan="5" className="p-10 text-center text-muted font-medium">
-                      No applications found yet.
+                    <td colSpan="6" className="p-12 text-center text-muted">
+                      <div className="text-4xl mb-2">🔍</div>
+                      <p className="text-sm font-bold text-navy">No matching registrations found.</p>
+                      <p className="text-xs text-muted mt-1">Try adjusting your search terms or filter buttons.</p>
                     </td>
                   </tr>
                 ) : (
-                  applications.map((app) => (
-                    <tr key={app.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                      <td className="p-5 text-[13.5px] text-muted whitespace-nowrap">
-                        {formatDate(app.created_at)}
-                      </td>
-                      <td className="p-5">
-                        <div className="font-bold text-navy text-[14.5px] mb-1">{app.full_name}</div>
-                        <div className="text-[13px] text-muted">{app.email}</div>
-                        <div className="text-[13px] text-muted">{app.phone}</div>
-                      </td>
-                      <td className="p-5 text-[14px] text-navy">
-                        {app.school || <span className="text-gray-400 italic">Not provided</span>}
-                      </td>
-                      <td className="p-5">
-                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold capitalize ${
-                          app.package_type === 'premium' ? 'bg-sky/10 text-sky' : 'bg-gray-100 text-gray-600'
-                        }`}>
-                          {app.package_type}
-                        </span>
-                      </td>
-                      <td className="p-5 text-center">
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green/10 text-green">
-                          Received
-                        </span>
-                      </td>
-                    </tr>
-                  ))
+                  filteredApps.map((app) => {
+                    const details = app.form_details || {};
+                    const hasAllergy = details.chickenProteinAllergy === "Yes" || (details.foodAllergies && details.foodAllergies.toLowerCase() !== "none");
+                    const isChina = (app.package_type || "").toLowerCase().includes("china");
+                    const isThai = (app.package_type || "").toLowerCase().includes("thai");
+
+                    return (
+                      <tr key={app.id} className="border-b border-gray-100 hover:bg-sky-pale/20 transition-colors group">
+                        
+                        {/* Applicant Name & Category */}
+                        <td className="p-5">
+                          <div className="font-extrabold text-navy text-sm flex items-center gap-2 mb-1">
+                            {app.full_name}
+                            {hasAllergy && (
+                              <span title="Allergy reported" className="bg-red-100 text-red-600 text-[10px] font-extrabold px-2 py-0.5 rounded-full">
+                                ⚠️ Allergy
+                              </span>
+                            )}
+                          </div>
+                          <span className={`inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold ${
+                            (app.category || "").includes("Student") ? "bg-sky/15 text-sky" :
+                            (app.category || "").includes("Parent") ? "bg-indigo-100 text-indigo-700" :
+                            "bg-amber-100 text-amber-800"
+                          }`}>
+                            {app.category || "Participant"}
+                          </span>
+                        </td>
+
+                        {/* Event Name */}
+                        <td className="p-5">
+                          <div className="text-xs font-bold text-navy flex items-center gap-1.5">
+                            <span>{isChina ? "🇨🇳" : isThai ? "🇹🇭" : "🇺🇸"}</span>
+                            <span>{app.package_type}</span>
+                          </div>
+                        </td>
+
+                        {/* School */}
+                        <td className="p-5 text-xs font-medium text-navy">
+                          {app.school ? (
+                            <span className="flex items-center gap-1">🏫 {app.school}</span>
+                          ) : (
+                            <span className="text-gray-400 italic">Not provided</span>
+                          )}
+                        </td>
+
+                        {/* Contact & WhatsApp Direct Link */}
+                        <td className="p-5">
+                          <div className="text-xs font-semibold text-navy mb-1">{app.email || "-"}</div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-muted">{app.phone || "-"}</span>
+                            {app.phone && (
+                              <a
+                                href={getWaLink(app.phone)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="bg-green-500 hover:bg-green-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full transition-all inline-flex items-center gap-1 shadow-sm"
+                              >
+                                <i className="fab fa-whatsapp"></i> Chat
+                              </a>
+                            )}
+                          </div>
+                        </td>
+
+                        {/* Applied Date */}
+                        <td className="p-5 text-xs text-muted whitespace-nowrap font-medium">
+                          {formatDate(app.created_at)}
+                        </td>
+
+                        {/* UX Action Buttons */}
+                        <td className="p-5 text-center whitespace-nowrap">
+                          <button
+                            onClick={() => setSelectedApp(app)}
+                            className="bg-navy hover:bg-sky text-white text-xs font-bold px-4 py-2 rounded-full transition-all duration-200 shadow-sm inline-flex items-center gap-1.5 hover:scale-105"
+                          >
+                            <i className="fas fa-id-card"></i> View Full Customer Detail
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
                 )}
               </tbody>
             </table>
           </div>
         </div>
+
+        {/* ================= RICH UX CUSTOMER DETAIL MODAL / DRAWER ================= */}
+        {selectedApp && (
+          <div className="fixed inset-0 z-50 bg-navy/70 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-fadeIn">
+            <div className="bg-white rounded-3xl max-w-[920px] w-full max-h-[92vh] overflow-y-auto shadow-2xl relative border border-[#E7EEF7] text-navy">
+              
+              {/* Sticky Top Bar */}
+              <div className="sticky top-0 bg-white/95 backdrop-blur-md px-8 py-5 border-b border-gray-100 flex items-center justify-between z-20">
+                <div className="flex items-center gap-3">
+                  <span className="bg-sky/15 text-sky font-extrabold text-xs px-3 py-1 rounded-full uppercase">
+                    Customer ID #{selectedApp.id}
+                  </span>
+                  <span className="text-xs text-muted font-medium">
+                    Applied: {formatDate(selectedApp.created_at)}
+                  </span>
+                </div>
+                
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => handleCopySummary(selectedApp)}
+                    className="bg-gray-100 hover:bg-sky-pale text-navy text-xs font-bold px-3.5 py-1.5 rounded-full transition-all border border-gray-200 flex items-center gap-1.5"
+                  >
+                    <i className="fas fa-copy"></i> {copiedStatus ? "Copied!" : "Copy Summary"}
+                  </button>
+                  <button 
+                    onClick={() => setSelectedApp(null)}
+                    className="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-navy font-bold flex items-center justify-center transition-all"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+
+              {/* Main Modal Body */}
+              <div className="p-8 space-y-8">
+                
+                {/* Header Banner */}
+                <div className="bg-gradient-to-r from-navy via-navy/95 to-sky-dark p-6 rounded-2xl text-white shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                  <div>
+                    <span className="text-xs font-bold text-sky-light uppercase tracking-wider mb-1 block">
+                      {selectedApp.category || "Participant Registration"}
+                    </span>
+                    <h2 className="text-2xl font-extrabold">{selectedApp.full_name}</h2>
+                    <p className="text-xs text-white/80 mt-1">🏫 {selectedApp.school || "School not specified"}</p>
+                  </div>
+
+                  <div className="flex flex-col items-end gap-2">
+                    <span className="bg-white/20 backdrop-blur-sm px-3.5 py-1 rounded-full text-xs font-bold text-white border border-white/20">
+                      {selectedApp.package_type}
+                    </span>
+                    {selectedApp.phone && (
+                      <a
+                        href={getWaLink(selectedApp.phone)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-extrabold px-4 py-2 rounded-full transition-all flex items-center gap-2 shadow-md hover:scale-105"
+                      >
+                        <i className="fab fa-whatsapp text-sm"></i> WhatsApp Delegate
+                      </a>
+                    )}
+                  </div>
+                </div>
+
+                {/* Section 1: Core Contact Information */}
+                <div className="bg-[#F8FAFC] p-6 rounded-2xl border border-gray-200/80">
+                  <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-navy mb-4 border-b pb-2">
+                    <i className="fas fa-user text-sky"></i>
+                    <span>Section 1 — Primary Contact & Personal Info</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs">
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Full Legal Name</span>
+                      <strong className="text-navy text-sm">{selectedApp.full_name}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Preferred Name</span>
+                      <strong className="text-navy">{selectedApp.form_details?.preferredName || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Email Address</span>
+                      <strong className="text-sky font-semibold">{selectedApp.email || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">WhatsApp / Phone</span>
+                      <strong className="text-navy">{selectedApp.phone || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Date of Birth</span>
+                      <strong className="text-navy">{selectedApp.form_details?.dob || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Gender</span>
+                      <strong className="text-navy">{selectedApp.form_details?.gender || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Nationality & Residence</span>
+                      <strong className="text-navy">{selectedApp.form_details?.nationalityResidence || selectedApp.form_details?.nationality || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Passport Status</span>
+                      <span className="inline-block bg-sky/15 text-sky font-bold px-2.5 py-0.5 rounded-full">
+                        {selectedApp.form_details?.passportStatus || selectedApp.form_details?.chinaVisaStatus || selectedApp.form_details?.visaStatus || "Standard"}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Passport Expiry Date</span>
+                      <strong className="text-navy">{selectedApp.form_details?.passportExpiry || "-"}</strong>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Section 2: MUN & Academic Background */}
+                <div className="bg-[#F8FAFC] p-6 rounded-2xl border border-gray-200/80">
+                  <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-navy mb-4 border-b pb-2">
+                    <i className="fas fa-graduation-cap text-sky"></i>
+                    <span>Section 2 — MUN Experience & Academic Profile</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs mb-4">
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">School / Institution</span>
+                      <strong className="text-navy">{selectedApp.school || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Grade / Year Level</span>
+                      <strong className="text-navy">{selectedApp.form_details?.gradeYear || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">MUN Experience Level</span>
+                      <strong className="text-navy">{selectedApp.form_details?.munExperience || selectedApp.form_details?.groupMunExp || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">English Proficiency</span>
+                      <strong className="text-navy">{selectedApp.form_details?.englishProficiency || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Registration Channel</span>
+                      <strong className="text-navy">{selectedApp.form_details?.regChannel || "-"}</strong>
+                    </div>
+                  </div>
+
+                  {/* Skills to Develop */}
+                  {selectedApp.form_details?.skillsToDevelop && selectedApp.form_details.skillsToDevelop.length > 0 && (
+                    <div className="mt-3 pt-3 border-t border-gray-200/60">
+                      <span className="text-muted block text-xs font-bold mb-2">Skills Aiming to Develop:</span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {selectedApp.form_details.skillsToDevelop.map((skill, idx) => (
+                          <span key={idx} className="bg-sky/10 text-sky text-[11px] font-bold px-3 py-1 rounded-full">
+                            ✓ {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Committee Preferences */}
+                  {(selectedApp.form_details?.committeePref1 || selectedApp.form_details?.committeePref2) && (
+                    <div className="mt-4 pt-3 border-t border-gray-200/60 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                      <div className="bg-white p-3 rounded-xl border border-gray-200">
+                        <span className="text-muted block text-[10px] uppercase font-bold">1st Committee Pref</span>
+                        <strong className="text-navy">{selectedApp.form_details.committeePref1 || "-"}</strong>
+                      </div>
+                      <div className="bg-white p-3 rounded-xl border border-gray-200">
+                        <span className="text-muted block text-[10px] uppercase font-bold">2nd Committee Pref</span>
+                        <strong className="text-navy">{selectedApp.form_details.committeePref2 || "-"}</strong>
+                      </div>
+                      <div className="bg-white p-3 rounded-xl border border-gray-200">
+                        <span className="text-muted block text-[10px] uppercase font-bold">3rd Committee Pref</span>
+                        <strong className="text-navy">{selectedApp.form_details.committeePref3 || "-"}</strong>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Section 3: Parent / Guardian Info */}
+                <div className="bg-[#F8FAFC] p-6 rounded-2xl border border-gray-200/80">
+                  <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-navy mb-4 border-b pb-2">
+                    <i className="fas fa-[#f43f5e] fa-users text-indigo-600"></i>
+                    <span>Section 3 — Parent / Guardian Information</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs">
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Parent / Guardian Name</span>
+                      <strong className="text-navy">{selectedApp.form_details?.parentFullName || selectedApp.form_details?.parentNameRelationship || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Relationship to Student</span>
+                      <strong className="text-navy">{selectedApp.form_details?.parentRelationship || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Parent Email</span>
+                      <strong className="text-navy">{selectedApp.form_details?.parentEmail || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Parent WhatsApp / Phone</span>
+                      <strong className="text-navy">{selectedApp.form_details?.parentWhatsapp || selectedApp.form_details?.parentEmailWhatsapp || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Parent Approval</span>
+                      <span className="inline-block bg-green-100 text-green font-bold px-2.5 py-0.5 rounded-full">
+                        {selectedApp.form_details?.parentApproval || "Confirmed"}
+                      </span>
+                    </div>
+                    <div className="sm:col-span-2">
+                      <span className="text-muted block font-semibold mb-0.5">Residential Address</span>
+                      <strong className="text-navy">{selectedApp.form_details?.parentAddress || "-"}</strong>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Section 4: Travel, Visa & Accommodation */}
+                <div className="bg-[#F8FAFC] p-6 rounded-2xl border border-gray-200/80">
+                  <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-navy mb-4 border-b pb-2">
+                    <i className="fas fa-plane text-sky"></i>
+                    <span>Section 4 — Travel, Visa & Accommodation</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs">
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Departure City</span>
+                      <strong className="text-navy">{selectedApp.form_details?.departureCity || selectedApp.form_details?.departureCityCountry || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Flight Arrangement</span>
+                      <strong className="text-navy">{selectedApp.form_details?.flightArrangement || selectedApp.form_details?.travelRequirement || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Accommodation Pref</span>
+                      <strong className="text-navy">{selectedApp.form_details?.accommodationPref || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Visa Status</span>
+                      <strong className="text-navy">{selectedApp.form_details?.chinaVisaStatus || selectedApp.form_details?.visaStatus || selectedApp.form_details?.thaiImmigrationStatus || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Visa Support Letter</span>
+                      <strong className="text-navy">{selectedApp.form_details?.visaLetterRequired || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Extension / Package</span>
+                      <strong className="text-navy">{selectedApp.form_details?.educationalCulturalProg || selectedApp.form_details?.harvardExtension || selectedApp.form_details?.preferredPackage || "-"}</strong>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Section 5: Health & Emergency Alerts */}
+                <div className="bg-[#F8FAFC] p-6 rounded-2xl border border-gray-200/80">
+                  <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-navy mb-4 border-b pb-2">
+                    <i className="fas fa-heartbeat text-red-500"></i>
+                    <span>Section 5 — Health, Dietary & Emergency Information</span>
+                  </div>
+
+                  {/* Allergy Highlight Card */}
+                  {(selectedApp.form_details?.chickenProteinAllergy === "Yes" || (selectedApp.form_details?.foodAllergies && selectedApp.form_details.foodAllergies.toLowerCase() !== "none")) && (
+                    <div className="bg-red-50 border border-red-200 p-4 rounded-xl mb-4 text-xs text-red-900">
+                      <div className="font-extrabold flex items-center gap-2 mb-1">
+                        <span>⚠️ CRITICAL ALLERGY ALERT</span>
+                      </div>
+                      <p><strong>Chicken / Protein Restriction:</strong> {selectedApp.form_details?.chickenProteinAllergy || "Not specified"}</p>
+                      <p><strong>Food Allergies:</strong> {selectedApp.form_details?.foodAllergies || "None"}</p>
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs">
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Dietary Requirements</span>
+                      <strong className="text-navy">
+                        {Array.isArray(selectedApp.form_details?.dietaryReqs) ? selectedApp.form_details.dietaryReqs.join(", ") : "-"}
+                      </strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Medical Conditions</span>
+                      <strong className="text-navy">{selectedApp.form_details?.medicalConditions || "None reported"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Regular Medication</span>
+                      <strong className="text-navy">{selectedApp.form_details?.regularMedication || "None"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Emergency Contact</span>
+                      <strong className="text-navy">{selectedApp.form_details?.emergencyContact || "-"}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Travel Insurance</span>
+                      <strong className="text-navy">{selectedApp.form_details?.travelInsurance || "-"}</strong>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Section 6 & 7: Declarations */}
+                <div className="bg-[#F8FAFC] p-6 rounded-2xl border border-gray-200/80">
+                  <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-navy mb-4 border-b pb-2">
+                    <i className="fas fa-file-signature text-navy"></i>
+                    <span>Declarations & Form Completion</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Form Completed By</span>
+                      <strong className="text-navy text-sm">{selectedApp.form_details?.completedBy || selectedApp.full_name}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted block font-semibold mb-0.5">Additional Notes / Questions</span>
+                      <strong className="text-navy">{selectedApp.form_details?.additionalQuestions || "None"}</strong>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Modal Footer */}
+              <div className="sticky bottom-0 bg-white/95 backdrop-blur-md px-8 py-5 border-t border-gray-100 flex items-center justify-between">
+                <button
+                  onClick={() => window.print()}
+                  className="bg-gray-100 hover:bg-gray-200 text-navy text-xs font-bold px-5 py-2.5 rounded-full transition-all border border-gray-200 flex items-center gap-2"
+                >
+                  <i className="fas fa-print"></i> Print Details
+                </button>
+
+                <button
+                  onClick={() => setSelectedApp(null)}
+                  className="bg-navy text-white text-xs font-extrabold px-8 py-2.5 rounded-full hover:bg-sky transition-all shadow-md"
+                >
+                  Close Customer Detail
+                </button>
+              </div>
+
+            </div>
+          </div>
+        )}
+
       </main>
     </div>
   );
