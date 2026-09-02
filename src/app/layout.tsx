@@ -10,7 +10,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'EduGlobal Experience',
+  title: 'EduGlobal Academy',
   description: 'Step Into a Global Academic Experience',
   icons: {
     icon: [

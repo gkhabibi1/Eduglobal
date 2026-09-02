@@ -590,7 +590,7 @@ function CheckoutContent() {
       <header className="bg-navy py-6 px-8 mb-10 shadow-md">
         <div className="max-w-[1200px] mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5">
-            <img src="/logo.png" alt="EduGlobal Experience" className="h-9 w-auto object-contain brightness-0 invert" />
+            <img src="/logo.png" alt="EduGlobal Academy" className="h-9 w-auto object-contain brightness-0 invert" />
           </Link>
           <Link href="/experience-2027" className="text-white/80 hover:text-white text-sm font-medium transition-colors">
             ← Cancel & Return

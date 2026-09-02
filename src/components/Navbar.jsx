@@ -26,7 +26,7 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/98 backdrop-blur-md border-b border-slate-200 px-6 md:px-10 h-[72px] flex items-center justify-between shadow-sm">
       {/* Left: Logo */}
       <Link href="/" className="flex items-center gap-2.5 shrink-0 z-10">
-        <img src="/logo.png" alt="EduGlobal Experience" className="h-10 w-auto object-contain" />
+        <img src="/logo.png" alt="EduGlobal Academy" className="h-10 w-auto object-contain" />
       </Link>
 
       {/* Center: Navigation Links */}

@@ -265,7 +265,7 @@ export default function OnlineCoachingPage() {
           <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
         </div>
         <div className="w-16 h-0.5 bg-white/10 mx-auto mb-6"></div>
-        <p className="text-xs text-white/40">© 2026 EduGlobal Experience. All rights reserved.</p>
+        <p className="text-xs text-white/40">© 2026 EduGlobal Academy. All rights reserved.</p>
       </footer>
     </div>
   );

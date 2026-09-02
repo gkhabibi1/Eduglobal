@@ -217,10 +217,10 @@ export default function PartnershipPage() {
               Join a trusted network of dedicated partners making a real difference in students' lives worldwide. Let's start a conversation about how we can achieve mutual growth.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="mailto:partnerships@eduglobalexperience.com" className="bg-[#00c853] hover:bg-[#00a844] text-white px-8 py-4 rounded-full text-sm font-bold transition-all shadow-lg inline-flex items-center gap-2.5">
+              <a href="mailto:partnerships@eduglobalacademy.com" className="bg-[#00c853] hover:bg-[#00a844] text-white px-8 py-4 rounded-full text-sm font-bold transition-all shadow-lg inline-flex items-center gap-2.5">
                 <i className="fas fa-paper-plane"></i> Become a Partner Today
               </a>
-              <a href="mailto:partnerships@eduglobalexperience.com" className="bg-white hover:bg-slate-100 text-[#0a1628] px-8 py-4 rounded-full text-sm font-bold transition-all shadow-lg inline-flex items-center gap-2.5">
+              <a href="mailto:partnerships@eduglobalacademy.com" className="bg-white hover:bg-slate-100 text-[#0a1628] px-8 py-4 rounded-full text-sm font-bold transition-all shadow-lg inline-flex items-center gap-2.5">
                 <i className="fas fa-envelope"></i> Contact Our Partnership Team
               </a>
             </div>
@@ -235,7 +235,7 @@ export default function PartnershipPage() {
               <p className="text-sm text-slate-500 mb-6">Have questions about partnership opportunities? We're here to help!</p>
               <div className="flex items-center justify-center gap-2.5 text-sm font-semibold text-slate-700 bg-slate-100 p-4 rounded-2xl">
                 <i className="fas fa-envelope text-[#1a6dd4]"></i>
-                partnerships@eduglobalexperience.com
+                partnerships@eduglobalacademy.com
               </div>
             </div>
           </div>
@@ -246,14 +246,14 @@ export default function PartnershipPage() {
       <footer className="bg-[#0a1628] py-12 px-6 md:px-10 text-center text-white/70">
         <h3 className="text-xl font-bold text-white mb-4">Have questions? We're here to help.</h3>
         <div className="flex justify-center gap-6 text-sm flex-wrap mb-6">
-          <a href="mailto:partnerships@eduglobalexperience.com" className="hover:text-white transition-colors"><i className="fas fa-envelope mr-2"></i>Contact Your Coach</a>
+          <a href="mailto:partnerships@eduglobalacademy.com" className="hover:text-white transition-colors"><i className="fas fa-envelope mr-2"></i>Contact Your Coach</a>
           <span className="text-white/20">|</span>
           <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
           <span className="text-white/20">|</span>
           <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
         </div>
         <div className="w-16 h-0.5 bg-white/10 mx-auto mb-6"></div>
-        <p className="text-xs text-white/40">© 2026 EduGlobal Experience. All rights reserved.</p>
+        <p className="text-xs text-white/40">© 2026 EduGlobal Academy. All rights reserved.</p>
       </footer>
     </div>
   );

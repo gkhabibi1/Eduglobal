@@ -120,7 +120,7 @@ export default function Home() {
             <div className="w-[52px] h-[52px] rounded-2xl bg-navy text-white flex items-center justify-center text-2xl shadow-md">🌐</div>
             <h3 className="text-[22px] font-poppins font-bold text-navy">About EduGlobal</h3>
             <p className="text-muted text-[15px] leading-relaxed">
-              EduGlobal Experience is an international education platform connecting students with global academic opportunities through educational trips and international Model United Nations conferences.
+              EduGlobal Academy is an international education platform connecting students with global academic opportunities through educational trips and international Model United Nations conferences.
             </p>
             <Link href="#about" className="inline-flex items-center justify-center px-8 py-3.5 rounded-full font-bold text-[15px] font-poppins border-2 border-navy text-navy transition-all hover:bg-navy hover:text-white mt-auto self-start">
               Learn More
@@ -295,7 +295,7 @@ export default function Home() {
             <span className="inline-block text-sky font-bold text-[13px] tracking-widest uppercase mb-3.5">Testimonials</span>
             <h2 className="text-3xl md:text-[36px] text-navy font-poppins font-extrabold mb-3">Real stories. Real growth. Real global exposure.</h2>
             <p className="text-muted max-w-[560px] mx-auto text-[15.5px] leading-relaxed">
-              Hear from the students who stepped out of their comfort zones and into the global arena. Discover how EduGlobal Experience has shaped their confidence, perspectives, and future ambitions.
+              Hear from the students who stepped out of their comfort zones and into the global arena. Discover how EduGlobal Academy has shaped their confidence, perspectives, and future ambitions.
             </p>
           </div>
           
@@ -398,7 +398,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] gap-10 mb-14">
             <div>
               <div className="flex items-center gap-2.5 mb-4">
-                <img src="/logo.png" alt="EduGlobal Experience" className="h-10 w-auto object-contain brightness-0 invert" />
+                <img src="/logo.png" alt="EduGlobal Academy" className="h-10 w-auto object-contain brightness-0 invert" />
               </div>
               <p className="max-w-[280px] text-sm leading-relaxed">
                 Connecting students with global academic opportunities through educational trips and international Model United Nations conferences.
@@ -422,12 +422,12 @@ export default function Home() {
             <div className="flex flex-col gap-3">
               <h5 className="text-white text-sm font-bold tracking-wide mb-1">Contact</h5>
               <p className="text-sm">Tel: +66 94 632 6025</p>
-              <p className="text-sm">Email: info@eduglobalexperience.com</p>
+              <p className="text-sm">Email: info@eduglobalacademy.com</p>
             </div>
           </div>
           
           <div className="flex flex-wrap justify-between items-center gap-4 pt-6 border-t border-white/10 text-[13px] text-white/50">
-            <span>© 2026 by Edu Global Experience</span>
+            <span>© 2026 by EduGlobal Academy</span>
             <div className="flex gap-3.5">
               <a href="#" className="w-[34px] h-[34px] rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">f</a>
               <a href="#" className="w-[34px] h-[34px] rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">x</a>

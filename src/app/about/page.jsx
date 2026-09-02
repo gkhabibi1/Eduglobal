@@ -43,7 +43,7 @@ export default function AboutPage() {
               Empowering the Next Generation of <span className="text-[#1a6dd4]">Global Leaders</span>
             </h1>
             <p className="text-base sm:text-lg text-slate-500 leading-relaxed mb-8 max-w-xl">
-              We are EduGlobal Experience International — a premier global education platform dedicated to bridging the gap between ambitious students and world-class academic, diplomatic, and cultural opportunities.
+              We are EduGlobal Academy International — a premier global education platform dedicated to bridging the gap between ambitious students and world-class academic, diplomatic, and cultural opportunities.
             </p>
             <Link href="/checkout" className="bg-[#00c853] hover:bg-[#00a844] text-white px-8 py-4 rounded-full text-sm font-bold transition-all hover:-translate-y-1 shadow-lg shadow-[#00c853]/25 inline-flex items-center gap-2.5">
               Register Now <i className="fas fa-arrow-right"></i>
@@ -90,7 +90,7 @@ export default function AboutPage() {
               A Catalyst for Transformation in Global Education
             </h2>
             <p className="text-base text-slate-500 leading-relaxed mb-5">
-              Headquartered in the vibrant heart of Bangkok, Thailand, EduGlobal Experience International is more than just an educational program provider.
+              Headquartered in the vibrant heart of Bangkok, Thailand, EduGlobal Academy International is more than just an educational program provider.
             </p>
             <p className="text-base text-slate-500 leading-relaxed mb-5">
               We collaborate closely with top-tier international institutions, Model United Nations (MUN) organizers, and global educational partners to craft immersive, life-changing learning journeys for students across Asia and beyond.
@@ -158,7 +158,7 @@ export default function AboutPage() {
         <div className="max-w-[800px] mx-auto relative z-10 fade-in-element opacity-0 translate-y-8 transition-all duration-700">
           <h2 className="text-3xl md:text-5xl font-black mb-5 leading-tight">Ready to Begin Your Global Journey?</h2>
           <p className="text-base md:text-lg text-white/70 leading-relaxed mb-10">
-            Join hundreds of students who have transformed their academic trajectory and broadened their horizons with EduGlobal Experience. Your future on the global stage starts here.
+            Join hundreds of students who have transformed their academic trajectory and broadened their horizons with EduGlobal Academy. Your future on the global stage starts here.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link href="/checkout" className="bg-[#00c853] hover:bg-[#00a844] text-white px-9 py-4 rounded-full text-sm font-bold transition-all hover:-translate-y-1 shadow-lg shadow-[#00c853]/25 inline-flex items-center gap-2.5">
@@ -173,7 +173,7 @@ export default function AboutPage() {
 
       {/* FOOTER */}
       <footer className="bg-[#0a1628] py-8 px-6 md:px-10 text-center text-white/40 border-t border-white/5">
-        <p className="text-xs">© 2026 EduGlobal Experience International. All rights reserved.</p>
+        <p className="text-xs">© 2026 EduGlobal Academy International. All rights reserved.</p>
       </footer>
     </div>
   );

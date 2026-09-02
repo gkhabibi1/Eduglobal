@@ -49,7 +49,7 @@ export default function AdminLoginPage() {
       {/* Header Sederhana */}
       <header className="p-6 md:p-8 relative z-10 flex justify-between items-center max-w-7xl mx-auto w-full">
         <Link href="/" className="flex items-center gap-2.5">
-          <img src="/logo.png" alt="EduGlobal Experience" className="h-10 w-auto object-contain brightness-0 invert" />
+          <img src="/logo.png" alt="EduGlobal Academy" className="h-10 w-auto object-contain brightness-0 invert" />
         </Link>
 
         <Link 
@@ -181,7 +181,7 @@ export default function AdminLoginPage() {
 
       {/* Footer Sederhana */}
       <footer className="p-6 text-center text-slate-500 text-xs relative z-10 border-t border-white/5">
-        <p>© 2026 EduGlobal Experience. System Security & Access Control.</p>
+        <p>© 2026 EduGlobal Academy. System Security & Access Control.</p>
       </footer>
     </div>
   );

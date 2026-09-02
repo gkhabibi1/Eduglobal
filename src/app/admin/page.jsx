@@ -141,7 +141,7 @@ Medical Conditions: ${details.medicalConditions || "None"}
       <header className="bg-navy py-5 px-8 mb-8 shadow-md">
         <div className="max-w-[1380px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="EduGlobal Experience" className="h-9 w-auto object-contain brightness-0 invert" />
+            <img src="/logo.png" alt="EduGlobal Academy" className="h-9 w-auto object-contain brightness-0 invert" />
             <span className="text-white/60 font-normal text-sm">| Admin Dashboard</span>
           </div>
           <div className="flex items-center gap-5">
