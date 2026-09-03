@@ -217,10 +217,10 @@ export default function PartnershipPage() {
               Join a trusted network of dedicated partners making a real difference in students' lives worldwide. Let's start a conversation about how we can achieve mutual growth.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="mailto:partnerships@eduglobalacademy.com" className="bg-[#00c853] hover:bg-[#00a844] text-white px-8 py-4 rounded-full text-sm font-bold transition-all shadow-lg inline-flex items-center gap-2.5">
+              <a href="mailto:info@eduglobalacademy.com" className="bg-[#00c853] hover:bg-[#00a844] text-white px-8 py-4 rounded-full text-sm font-bold transition-all shadow-lg inline-flex items-center gap-2.5">
                 <i className="fas fa-paper-plane"></i> Become a Partner Today
               </a>
-              <a href="mailto:partnerships@eduglobalacademy.com" className="bg-white hover:bg-slate-100 text-[#0a1628] px-8 py-4 rounded-full text-sm font-bold transition-all shadow-lg inline-flex items-center gap-2.5">
+              <a href="mailto:info@eduglobalacademy.com" className="bg-white hover:bg-slate-100 text-[#0a1628] px-8 py-4 rounded-full text-sm font-bold transition-all shadow-lg inline-flex items-center gap-2.5">
                 <i className="fas fa-envelope"></i> Contact Our Partnership Team
               </a>
             </div>
@@ -233,9 +233,15 @@ export default function PartnershipPage() {
               </div>
               <h3 className="text-2xl font-extrabold text-[#0a1628] mb-3">Let's Talk</h3>
               <p className="text-sm text-slate-500 mb-6">Have questions about partnership opportunities? We're here to help!</p>
-              <div className="flex items-center justify-center gap-2.5 text-sm font-semibold text-slate-700 bg-slate-100 p-4 rounded-2xl">
-                <i className="fas fa-envelope text-[#1a6dd4]"></i>
-                partnerships@eduglobalacademy.com
+              <div className="flex flex-col gap-3">
+                <a href="mailto:info@eduglobalacademy.com" className="flex items-center justify-center gap-2.5 text-sm font-semibold text-slate-700 bg-slate-100 p-4 rounded-2xl hover:bg-slate-200 transition-colors">
+                  <i className="fas fa-envelope text-[#1a6dd4]"></i>
+                  info@eduglobalacademy.com
+                </a>
+                <a href="https://wa.me/66992690860" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2.5 text-sm font-semibold text-slate-700 bg-emerald-50 p-4 rounded-2xl hover:bg-emerald-100 transition-colors">
+                  <i className="fab fa-whatsapp text-emerald-600 text-base"></i>
+                  WhatsApp: +66992690860
+                </a>
               </div>
             </div>
           </div>
@@ -245,12 +251,16 @@ export default function PartnershipPage() {
       {/* FOOTER */}
       <footer className="bg-[#0a1628] py-12 px-6 md:px-10 text-center text-white/70">
         <h3 className="text-xl font-bold text-white mb-4">Have questions? We're here to help.</h3>
-        <div className="flex justify-center gap-6 text-sm flex-wrap mb-6">
-          <a href="mailto:partnerships@eduglobalacademy.com" className="hover:text-white transition-colors"><i className="fas fa-envelope mr-2"></i>Contact Your Coach</a>
+        <div className="flex justify-center gap-6 text-sm flex-wrap mb-6 items-center">
+          <a href="https://wa.me/66992690860" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1.5"><i className="fab fa-whatsapp text-emerald-400"></i> WhatsApp +66992690860</a>
           <span className="text-white/20">|</span>
-          <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-          <span className="text-white/20">|</span>
-          <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+          <a href="mailto:info@eduglobalacademy.com" className="hover:text-white transition-colors flex items-center gap-1.5"><i className="fas fa-envelope text-sky-400"></i> info@eduglobalacademy.com</a>
+        </div>
+        <div className="flex justify-center gap-4 text-white/70 text-base mb-6">
+          <a href="https://www.tiktok.com/@eduglobalmun" target="_blank" rel="noopener noreferrer" title="TikTok" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 text-white transition-colors"><i className="fab fa-tiktok"></i></a>
+          <a href="https://www.facebook.com/eduglobalacademy" target="_blank" rel="noopener noreferrer" title="Facebook" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 text-white transition-colors"><i className="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/eduglobalmun" target="_blank" rel="noopener noreferrer" title="Instagram" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 text-white transition-colors"><i className="fab fa-instagram"></i></a>
+          <a href="https://wa.me/66992690860" target="_blank" rel="noopener noreferrer" title="WhatsApp" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 text-white transition-colors"><i className="fab fa-whatsapp"></i></a>
         </div>
         <div className="w-16 h-0.5 bg-white/10 mx-auto mb-6"></div>
         <p className="text-xs text-white/40">© 2026 EduGlobal Academy. All rights reserved.</p>

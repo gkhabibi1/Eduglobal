@@ -54,8 +54,8 @@ export default function Home() {
       </section>
 
       {/* Floating Contact */}
-      <Link href="https://wa.me/66946326025" className="fixed right-6 bottom-6 z-50 flex items-center gap-2.5 bg-green text-white px-6 py-3.5 rounded-full font-poppins font-bold text-sm shadow-[0_12px_28px_rgba(32,201,114,0.45)] transition-all hover:scale-105 hover:-translate-y-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-white animate-ping"></span> Contact Us · +66 94 632 6025
+      <Link href="https://wa.me/66992690860" target="_blank" rel="noopener noreferrer" className="fixed right-6 bottom-6 z-50 flex items-center gap-2.5 bg-green text-white px-6 py-3.5 rounded-full font-poppins font-bold text-sm shadow-[0_12px_28px_rgba(32,201,114,0.45)] transition-all hover:scale-105 hover:-translate-y-1">
+        <span className="w-2.5 h-2.5 rounded-full bg-white animate-ping"></span> Contact Us · +66992690860
       </Link>
 
       {/* ================= PARTNER BAND ================= */}
@@ -414,24 +414,43 @@ export default function Home() {
             
             <div className="flex flex-col gap-3">
               <h5 className="text-white text-sm font-bold tracking-wide mb-1">Connect</h5>
-              <a href="#" className="text-sm hover:text-white transition-colors">Facebook</a>
-              <a href="#" className="text-sm hover:text-white transition-colors">Twitter</a>
-              <a href="#" className="text-sm hover:text-white transition-colors">LinkedIn</a>
+              <a href="https://www.tiktok.com/@eduglobalmun" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-white transition-colors flex items-center gap-2">
+                <i className="fab fa-tiktok text-slate-300"></i> TikTok (@eduglobalmun)
+              </a>
+              <a href="https://www.facebook.com/eduglobalacademy" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-white transition-colors flex items-center gap-2">
+                <i className="fab fa-facebook text-slate-300"></i> FB (Eduglobal Academy)
+              </a>
+              <a href="https://www.instagram.com/eduglobalmun" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-white transition-colors flex items-center gap-2">
+                <i className="fab fa-instagram text-slate-300"></i> Instagram (@eduglobalmun)
+              </a>
             </div>
             
             <div className="flex flex-col gap-3">
               <h5 className="text-white text-sm font-bold tracking-wide mb-1">Contact</h5>
-              <p className="text-sm">Tel: +66 94 632 6025</p>
-              <p className="text-sm">Email: info@eduglobalacademy.com</p>
+              <a href="https://wa.me/66992690860" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-white transition-colors flex items-center gap-2">
+                <i className="fab fa-whatsapp text-emerald-400"></i> +66992690860
+              </a>
+              <a href="mailto:info@eduglobalacademy.com" className="text-sm hover:text-white transition-colors flex items-center gap-2">
+                <i className="fas fa-envelope text-sky"></i> info@eduglobalacademy.com
+              </a>
             </div>
           </div>
           
           <div className="flex flex-wrap justify-between items-center gap-4 pt-6 border-t border-white/10 text-[13px] text-white/50">
             <span>© 2026 by EduGlobal Academy</span>
             <div className="flex gap-3.5">
-              <a href="#" className="w-[34px] h-[34px] rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">f</a>
-              <a href="#" className="w-[34px] h-[34px] rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">x</a>
-              <a href="#" className="w-[34px] h-[34px] rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">in</a>
+              <a href="https://www.tiktok.com/@eduglobalmun" target="_blank" rel="noopener noreferrer" title="TikTok" className="w-[34px] h-[34px] rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+                <i className="fab fa-tiktok text-sm"></i>
+              </a>
+              <a href="https://www.facebook.com/eduglobalacademy" target="_blank" rel="noopener noreferrer" title="Facebook" className="w-[34px] h-[34px] rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+                <i className="fab fa-facebook-f text-sm"></i>
+              </a>
+              <a href="https://www.instagram.com/eduglobalmun" target="_blank" rel="noopener noreferrer" title="Instagram" className="w-[34px] h-[34px] rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+                <i className="fab fa-instagram text-sm"></i>
+              </a>
+              <a href="https://wa.me/66992690860" target="_blank" rel="noopener noreferrer" title="WhatsApp" className="w-[34px] h-[34px] rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+                <i className="fab fa-whatsapp text-sm"></i>
+              </a>
             </div>
             <span>Proudly designed by Edu Global</span>
           </div>
