@@ -65,14 +65,138 @@ export default function Home() {
       </a>
 
       {/* ================= DESIGNED FOR STUDENTS ACROSS ASIA ================= */}
-      <section className="bg-[#0A1628] py-16 md:py-20 text-center border-t border-b border-white/10" id="about">
-        <div className="max-w-[1180px] mx-auto px-8">
-          <h3 className="text-sky-light text-[12px] tracking-[0.2em] uppercase font-bold mb-3">
-            Designed for Students Across Asia
-          </h3>
-          <p className="text-white/90 text-base md:text-lg max-w-[700px] mx-auto font-normal leading-relaxed">
-            Based in Bangkok and serving students, families, and schools across Thailand, Indonesia, the Philippines, Cambodia, and beyond.
-          </p>
+      <section className="relative bg-[#0A1628] py-20 md:py-24 text-white overflow-hidden border-t border-b border-white/10" id="about">
+        {/* Subtle background ambient glow and grid */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(18,170,240,0.18),transparent_65%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
+
+        <div className="relative max-w-[1180px] mx-auto px-6 sm:px-8">
+          {/* Section Header */}
+          <div className="text-center max-w-[820px] mx-auto mb-14">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/15 backdrop-blur-md mb-4 shadow-inner">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#12AAF0] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#12AAF0]"></span>
+              </span>
+              <span className="text-white/80 text-[11px] font-semibold tracking-wider uppercase font-poppins">
+                Regional Hub & Delegate Network
+              </span>
+            </div>
+
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-poppins font-extrabold tracking-tight text-white mb-4">
+              Designed for Students Across Asia
+            </h2>
+            <p className="text-white/80 text-base md:text-lg font-normal leading-relaxed">
+              Based in Bangkok and serving students, families, and schools across Thailand, Indonesia, the Philippines, Cambodia, and beyond.
+            </p>
+          </div>
+
+          {/* Regional Network Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
+            {/* Card 1: Bangkok HQ */}
+            <div className="relative p-6 rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/15 hover:border-[#12AAF0]/50 transition-all duration-300 group hover:-translate-y-1 shadow-lg backdrop-blur-sm">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-10 h-10 rounded-xl bg-[#12AAF0]/20 flex items-center justify-center text-[#12AAF0] border border-[#12AAF0]/30 group-hover:bg-[#12AAF0] group-hover:text-white transition-colors duration-200">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                </div>
+                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-md bg-[#12AAF0]/20 text-[#7fd8ff] border border-[#12AAF0]/30">
+                  HQ Hub
+                </span>
+              </div>
+              <h3 className="text-base font-bold text-white mb-1 group-hover:text-[#7fd8ff] transition-colors">
+                Bangkok, Thailand
+              </h3>
+              <p className="text-xs text-[#12AAF0] font-medium mb-2.5">Regional Operations & Delegation Base</p>
+              <p className="text-xs text-white/70 leading-relaxed">
+                Central headquarters managing program logistics, in-person training workshops, and comprehensive pre-departure briefings.
+              </p>
+            </div>
+
+            {/* Card 2: Indonesia */}
+            <div className="relative p-6 rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/15 hover:border-[#12AAF0]/50 transition-all duration-300 group hover:-translate-y-1 shadow-lg backdrop-blur-sm">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white/90 border border-white/20 group-hover:bg-[#12AAF0] group-hover:text-white transition-colors duration-200">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                </div>
+                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-md bg-white/10 text-white/80 border border-white/15">
+                  Community
+                </span>
+              </div>
+              <h3 className="text-base font-bold text-white mb-1 group-hover:text-[#7fd8ff] transition-colors">
+                Indonesia
+              </h3>
+              <p className="text-xs text-[#12AAF0] font-medium mb-2.5">Delegation Network & School Alliances</p>
+              <p className="text-xs text-white/70 leading-relaxed">
+                Active student cohorts, academic mentoring, and school partnerships across Jakarta, Surabaya, Bali, and nationwide.
+              </p>
+            </div>
+
+            {/* Card 3: Philippines */}
+            <div className="relative p-6 rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/15 hover:border-[#12AAF0]/50 transition-all duration-300 group hover:-translate-y-1 shadow-lg backdrop-blur-sm">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white/90 border border-white/20 group-hover:bg-[#12AAF0] group-hover:text-white transition-colors duration-200">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                </div>
+                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-md bg-white/10 text-white/80 border border-white/15">
+                  Delegations
+                </span>
+              </div>
+              <h3 className="text-base font-bold text-white mb-1 group-hover:text-[#7fd8ff] transition-colors">
+                The Philippines
+              </h3>
+              <p className="text-xs text-[#12AAF0] font-medium mb-2.5">Diplomacy & Public Speaking Scholars</p>
+              <p className="text-xs text-white/70 leading-relaxed">
+                Preparing ambitious delegates from top institutions through structured speech coaching, resolution drafting, and MUN simulation.
+              </p>
+            </div>
+
+            {/* Card 4: Cambodia & Beyond */}
+            <div className="relative p-6 rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/15 hover:border-[#12AAF0]/50 transition-all duration-300 group hover:-translate-y-1 shadow-lg backdrop-blur-sm">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white/90 border border-white/20 group-hover:bg-[#12AAF0] group-hover:text-white transition-colors duration-200">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-md bg-white/10 text-white/80 border border-white/15">
+                  Regional Reach
+                </span>
+              </div>
+              <h3 className="text-base font-bold text-white mb-1 group-hover:text-[#7fd8ff] transition-colors">
+                Cambodia & Beyond
+              </h3>
+              <p className="text-xs text-[#12AAF0] font-medium mb-2.5">Southeast & East Asia Access</p>
+              <p className="text-xs text-white/70 leading-relaxed">
+                Empowering aspiring students across Southeast Asia with equal access to premier global conferences and leadership platforms.
+              </p>
+            </div>
+          </div>
+
+          {/* Value Strip / Trust Indicators */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-white/10 text-center">
+            <div className="p-3">
+              <p className="text-lg font-bold text-white font-poppins">Bangkok</p>
+              <p className="text-[12px] text-white/60">Central Regional HQ</p>
+            </div>
+            <div className="p-3">
+              <p className="text-lg font-bold text-[#7fd8ff] font-poppins">Multi-Country</p>
+              <p className="text-[12px] text-white/60">Collaborative Cohorts</p>
+            </div>
+            <div className="p-3">
+              <p className="text-lg font-bold text-white font-poppins">Comprehensive</p>
+              <p className="text-[12px] text-white/60">Pre-Departure Guidance</p>
+            </div>
+            <div className="p-3">
+              <p className="text-lg font-bold text-[#7fd8ff] font-poppins">Direct Care</p>
+              <p className="text-[12px] text-white/60">For Families & Schools</p>
+            </div>
+          </div>
         </div>
       </section>
 
