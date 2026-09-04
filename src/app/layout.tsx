@@ -11,7 +11,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: 'EduGlobal Academy',
-  description: 'Step Into a Global Academic Experience',
+  description: 'Education Beyond Borders — Where Young Leaders Meet the World',
   icons: {
     icon: [
       { url: '/favicon.png?v=2', type: 'image/png' },

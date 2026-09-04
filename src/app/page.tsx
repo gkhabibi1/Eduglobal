@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
@@ -8,202 +9,174 @@ export default function Home() {
       <Navbar />
 
       {/* ================= HERO ================= */}
-      <section className="relative min-h-[640px] pt-[130px] pb-[80px] overflow-hidden flex flex-col justify-center items-center">
+      <section className="relative min-h-[620px] pt-[140px] pb-[90px] overflow-hidden flex flex-col justify-center items-center">
         {/* Full Header Background Image */}
         <Image
-          src="/hero_bg.jpg"
-          alt="EduGlobal Summit Experience"
+          src="/china_hmun.jpg"
+          alt="EduGlobal HMUN China Delegation"
           fill
           priority
           className="object-cover object-center z-0 scale-105"
         />
 
         {/* Gradation Overlays for Optimal Text Contrast */}
-        {/* 1. Deep linear dark overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/92 via-[#0A1628]/78 to-[#0A1628]/95 z-[1]" />
-        {/* 2. Soft radial blue glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(18,170,240,0.22),transparent_75%)] z-[1]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/92 via-[#0A1628]/80 to-[#0A1628]/95 z-[1]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(18,170,240,0.18),transparent_75%)] z-[1]" />
 
         {/* Hero Content */}
-        <div className="relative z-10 max-w-[880px] mx-auto text-center px-6 pt-[40px] pb-[30px]">
-          <span className="inline-flex items-center gap-2 bg-white/15 border border-white/30 text-white font-bold text-xs sm:text-sm px-6 py-2.5 rounded-full mb-6 backdrop-blur-md shadow-lg tracking-wide uppercase">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#12AAF0] animate-pulse"></span>
-            #EduGlobalSummitExperience2026
+        <div className="relative z-10 max-w-[880px] mx-auto text-center px-6 pt-[30px] pb-[30px]">
+          <span className="inline-flex items-center gap-2 bg-white/12 border border-white/25 text-white font-semibold text-xs px-5 py-2 rounded-full mb-6 backdrop-blur-md tracking-widest uppercase">
+            <span className="w-2 h-2 rounded-full bg-[#12AAF0]"></span>
+            EDUCATION BEYOND BORDERS
           </span>
-          <h1 className="text-white text-4xl sm:text-5xl md:text-6xl font-poppins font-extrabold leading-[1.15] mb-6 tracking-tight drop-shadow-md">
-            Step Into a Global <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7fd8ff] via-white to-[#12AAF0]">Academic Experience</span>
+          <h1 className="text-white text-3xl sm:text-4xl md:text-5xl font-poppins font-extrabold leading-[1.2] mb-5 tracking-tight max-w-[780px] mx-auto drop-shadow-sm">
+            Where Young Leaders <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7fd8ff] via-white to-[#12AAF0]">Meet the World</span>
           </h1>
-          <p className="text-white/90 text-base sm:text-lg md:text-xl max-w-[620px] mx-auto mb-[38px] font-medium leading-relaxed drop-shadow-sm">
-            Experience global conferences, build confidence, and prepare your future on world-class academic stages.
+          <p className="text-white/85 text-base sm:text-lg max-w-[640px] mx-auto mb-9 font-normal leading-relaxed">
+            Global learning programs that turn curiosity into confidence, leadership, and meaningful international connections.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link 
-              href="/checkout" 
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-[15px] font-poppins bg-[#12AAF0] hover:bg-[#0A6FD8] text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(18,170,240,0.45)]"
+              href="/experience-2027" 
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full font-semibold text-[14px] font-poppins bg-[#12AAF0] hover:bg-[#0A6FD8] text-white transition-all duration-200 hover:-translate-y-0.5 shadow-sm"
             >
-              Apply Now →
+              Explore 2027 Programs →
             </Link>
             <Link 
-              href="#programs" 
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-[15px] font-poppins border-2 border-white/70 text-white transition-all duration-300 backdrop-blur-xs hover:bg-white/15 hover:border-white hover:-translate-y-1"
+              href="/partnership" 
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full font-semibold text-[14px] font-poppins border border-white/40 hover:border-white text-white hover:bg-white/10 transition-all duration-200 hover:-translate-y-0.5"
             >
-              Explore Programs
+              Partner With Us
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Floating Contact */}
-      <Link href="https://wa.me/66992690860" target="_blank" rel="noopener noreferrer" className="fixed right-6 bottom-6 z-50 flex items-center gap-2.5 bg-green text-white px-6 py-3.5 rounded-full font-poppins font-bold text-sm shadow-[0_12px_28px_rgba(32,201,114,0.45)] transition-all hover:scale-105 hover:-translate-y-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-white animate-ping"></span> Contact Us · +66992690860
-      </Link>
+      {/* Floating WhatsApp Button (Clean single button) */}
+      <a 
+        href="https://wa.me/66992690860" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        aria-label="Contact on WhatsApp"
+        className="fixed right-6 bottom-6 z-50 w-13 h-13 md:w-14 md:h-14 rounded-full bg-[#25D366] hover:bg-[#20ba5a] text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
+      >
+        <i className="fab fa-whatsapp text-2xl"></i>
+        <span className="sr-only">Contact on WhatsApp</span>
+      </a>
 
-      {/* ================= PARTNER BAND ================= */}
-      <section className="bg-[#0A1628] py-14 text-center border-t border-b border-white/10" id="about">
+      {/* ================= DESIGNED FOR STUDENTS ACROSS ASIA ================= */}
+      <section className="bg-[#0A1628] py-16 md:py-20 text-center border-t border-b border-white/10" id="about">
         <div className="max-w-[1180px] mx-auto px-8">
-          <h3 className="text-sky-light text-[13px] tracking-[0.2em] uppercase font-extrabold mb-6">Global Partner Countries</h3>
-          <div className="flex flex-wrap gap-3 justify-center max-w-[960px] mx-auto mb-7">
-            {[
-              { code: 'bd', name: 'Bangladesh' },
-              { code: 'ca', name: 'Canada' },
-              { code: 'cn', name: 'China' },
-              { code: 'fr', name: 'France' },
-              { code: 'hk', name: 'Hong Kong' },
-              { code: 'jp', name: 'Japan' },
-              { code: 'my', name: 'Malaysia' },
-              { code: 'tw', name: 'Taiwan' },
-              { code: 'au', name: 'Australia' },
-              { code: 'pk', name: 'Pakistan' },
-              { code: 'qa', name: 'Qatar' },
-              { code: 'kr', name: 'South Korea' },
-              { code: 'ph', name: 'Philippines' },
-              { code: 'gb', name: 'United Kingdom' },
-              { code: 'us', name: 'United States' },
-              { code: 'es', name: 'Spain' },
-            ].map((country, idx) => (
-              <div 
-                key={idx} 
-                className="bg-white/10 hover:bg-white/20 border border-white/15 hover:border-white/40 rounded-full px-4 py-2 flex items-center gap-2.5 text-white transition-all duration-200 shadow-sm hover:scale-105 cursor-default"
-              >
-                <img
-                  src={`https://flagcdn.com/w40/${country.code}.png`}
-                  alt={country.name}
-                  className="w-5 h-3.5 object-cover rounded-[2px] shadow-xs"
-                />
-                <span className="font-inter text-xs font-semibold tracking-wide text-white/90">{country.name}</span>
-              </div>
-            ))}
-          </div>
-          <p className="text-white/80 text-[15px] max-w-[520px] mx-auto leading-relaxed">
-            EduGlobal partners with organizers across <b className="text-white font-bold">16 countries</b> to deliver educational trips and Model United Nations conferences worldwide.
+          <h3 className="text-sky-light text-[12px] tracking-[0.2em] uppercase font-bold mb-3">
+            Designed for Students Across Asia
+          </h3>
+          <p className="text-white/90 text-base md:text-lg max-w-[700px] mx-auto font-normal leading-relaxed">
+            Based in Bangkok and serving students, families, and schools across Thailand, Indonesia, the Philippines, Cambodia, and beyond.
           </p>
         </div>
       </section>
 
-      {/* ================= ABOUT & PROGRAMS ================= */}
-      <section className="py-24 max-w-[1180px] mx-auto px-8">
-        <div className="text-center mb-14">
-          <span className="inline-block text-sky font-bold text-[13px] tracking-widest uppercase mb-3.5">Who we are</span>
-          <h2 className="text-3xl md:text-[38px] text-navy font-poppins font-extrabold">About EduGlobal</h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Card 1 */}
-          <div className="bg-sky-pale border border-[#e2edf8] rounded-[32px] p-8 md:p-10 flex flex-col gap-5 transition-all duration-300 hover:shadow-[0_16px_36px_rgba(11,16,80,0.08)] hover:-translate-y-1">
-            <div className="w-full h-[200px] rounded-2xl overflow-hidden relative mb-2 shadow-sm">
-              <Image 
-                src="https://picsum.photos/seed/eduglobal-team/600/400" 
-                alt="Students" 
-                fill 
-                className="object-cover transition-transform duration-500 hover:scale-105" 
-              />
+      {/* ================= ABOUT EDUGLOBAL ACADEMY ================= */}
+      <section className="py-20 md:py-28 max-w-[1180px] mx-auto px-8" id="about-section">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left Column: Delegation Photograph */}
+          <div className="relative rounded-3xl overflow-hidden shadow-[0_16px_40px_rgba(11,16,80,0.08)] border border-[#E7EEF7] aspect-[4/3] group">
+            <Image 
+              src="/china_hmun.jpg" 
+              alt="EduGlobal Academy HMUN China Delegation" 
+              fill 
+              className="object-cover transition-transform duration-700 group-hover:scale-105" 
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent"></div>
+            <div className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-white/40 shadow-xs">
+              <p className="text-[11px] font-bold text-navy uppercase tracking-wider">EduGlobal Delegation</p>
+              <p className="text-sm font-semibold text-slate-700">Harvard Model United Nations China</p>
             </div>
-            <div className="w-[52px] h-[52px] rounded-2xl bg-navy text-white flex items-center justify-center text-2xl shadow-md">🌐</div>
-            <h3 className="text-[22px] font-poppins font-bold text-navy">About EduGlobal</h3>
-            <p className="text-muted text-[15px] leading-relaxed">
-              EduGlobal Academy is an international education platform connecting students with global academic opportunities through educational trips and international Model United Nations conferences.
-            </p>
-            <Link href="#about" className="inline-flex items-center justify-center px-8 py-3.5 rounded-full font-bold text-[15px] font-poppins border-2 border-navy text-navy transition-all hover:bg-navy hover:text-white mt-auto self-start">
-              Learn More
-            </Link>
           </div>
-          {/* Card 2 */}
-          <div className="bg-navy rounded-[32px] p-8 md:p-10 flex flex-col gap-5 transition-all duration-300 hover:shadow-[0_16px_36px_rgba(11,16,80,0.25)] hover:-translate-y-1">
-            <div className="w-full h-[200px] rounded-2xl overflow-hidden relative mb-2 shadow-sm">
-              <Image 
-                src="https://picsum.photos/seed/eduglobal-programs/600/400" 
-                alt="Graduation" 
-                fill 
-                className="object-cover transition-transform duration-500 hover:scale-105" 
-              />
-            </div>
-            <div className="w-[52px] h-[52px] rounded-2xl bg-sky-light text-navy flex items-center justify-center text-2xl shadow-md">🎓</div>
-            <h3 className="text-[22px] font-poppins font-bold text-white">Other Global Programs</h3>
-            <p className="text-white/70 text-[15px] leading-relaxed">
-              Explore a range of international academic experiences tailored to broaden perspectives and enhance academic profiles.
+
+          {/* Right Column: Text Content */}
+          <div className="flex flex-col items-start gap-5">
+            <span className="inline-block text-[#12AAF0] font-bold text-[12px] tracking-widest uppercase bg-sky-pale px-3.5 py-1.5 rounded-full border border-sky/20">
+              Who We Are
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl text-navy font-poppins font-extrabold leading-tight">
+              Learning Without Borders
+            </h2>
+            <p className="text-slate-600 text-base leading-relaxed">
+              EduGlobal Academy designs meaningful international learning programs for young people. We combine Model United Nations, academic preparation, university and industry exposure, cultural discovery, and leadership development in one carefully supported journey.
             </p>
-            <Link href="#programs" className="inline-flex items-center justify-center px-8 py-3.5 rounded-full font-bold text-[15px] font-poppins bg-green text-white transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(32,201,114,0.4)] mt-auto self-start">
-              View Programs
+            <p className="text-slate-600 text-base leading-relaxed">
+              Our programs help students become more confident speakers, thoughtful leaders, and globally minded individuals—inside and beyond the conference room.
+            </p>
+            <Link 
+              href="/about" 
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-[14px] font-poppins bg-[#0A1628] hover:bg-[#12AAF0] text-white transition-all duration-200 hover:-translate-y-0.5 shadow-sm mt-2"
+            >
+              Discover Our Story →
             </Link>
           </div>
         </div>
       </section>
 
       {/* ================= SUMMIT FEATURE CARDS (2027 EVENTS) ================= */}
-      <section className="max-w-[1180px] mx-auto px-8 pb-24" id="summit">
+      <section className="max-w-[1180px] mx-auto px-8 pb-20 md:pb-28" id="summit">
         <div className="text-center mb-12">
-          <span className="inline-block text-sky font-bold text-[13px] tracking-widest uppercase mb-3">Featured Program</span>
-          <h2 className="text-3xl md:text-[40px] text-navy font-poppins font-extrabold mb-3">EduGlobal Summit Experience 2027</h2>
-          <p className="text-muted max-w-[580px] mx-auto text-[15px] leading-relaxed">
-            Join international academic conferences across North America and Asia designed to build leadership, public speaking, and global diplomacy skills.
+          <span className="inline-block text-[#12AAF0] font-bold text-[12px] tracking-widest uppercase mb-3">Featured Programs</span>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl text-navy font-poppins font-extrabold mb-3">Explore Our 2027 Global Programs</h2>
+          <p className="text-muted max-w-[660px] mx-auto text-base leading-relaxed font-normal">
+            From international Model United Nations conferences to university visits and cultural learning, every program is designed to help students grow with confidence.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {[
             {
               id: "hmun-boston-2027",
-              flag: "🇺🇸",
               flagCode: "us",
-              title: "Harvard Model UN Boston",
-              dates: "Jan 26 – Feb 2, 2027",
-              location: "Boston, USA",
+              title: "HMUN Boston 2027",
+              dates: "January 26–February 2, 2027",
+              location: "Boston, United States",
+              description: "Participate in Harvard Model United Nations and experience an inspiring academic journey featuring MUN preparation, university exposure, cultural learning, and guided group support.",
+              buttonText: "View Boston Program",
               image: "/boston_hmun.jpg",
               applyUrl: "/checkout?event=hmun-boston-2027",
             },
             {
               id: "thai-mun-2027",
-              flag: "🇹🇭",
               flagCode: "th",
-              title: "Thai National Model UN",
-              dates: "Jan 13 – 19, 2027",
+              title: "Thailand National MUN 2027",
+              dates: "January 13–19, 2027",
               location: "Bangkok, Thailand",
+              description: "Experience international diplomacy in Bangkok through structured MUN preparation, committee sessions, cultural exploration, and meaningful connections with students from different backgrounds.",
+              buttonText: "View Bangkok Program",
               image: "/thailand_mun.jpg",
               applyUrl: "/checkout?event=thai-mun-2027",
             },
             {
               id: "hmun-china-2027",
-              flag: "🇨🇳",
               flagCode: "cn",
-              title: "Harvard Model UN China",
-              dates: "Aug 12 – 18, 2027",
-              location: "Shenzhen, China",
+              title: "HMUN China 2027",
+              dates: "August 2027",
+              location: "China",
+              description: "Join Harvard Model United Nations China alongside a complete educational journey featuring academic preparation, university and industry exposure, cultural discovery, and international networking.",
+              buttonText: "View China Program",
               image: "/china_hmun.jpg",
               applyUrl: "/checkout?event=hmun-china-2027",
             },
           ].map((event, idx) => (
             <div 
               key={idx}
-              className="bg-white border border-[#E7EEF7] rounded-[28px] overflow-hidden shadow-[0_10px_30px_rgba(11,16,80,0.06)] hover:shadow-[0_18px_40px_rgba(11,16,80,0.12)] transition-all duration-300 flex flex-col group hover:-translate-y-1"
+              className="bg-white border border-[#E7EEF7] rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(11,16,80,0.05)] hover:shadow-[0_16px_40px_rgba(11,16,80,0.1)] transition-all duration-300 flex flex-col group hover:-translate-y-1"
             >
-              <div className="relative h-[210px] overflow-hidden">
+              <div className="relative h-[220px] overflow-hidden">
                 <Image
                   src={event.image}
                   alt={event.title}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent"></div>
-                <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-md text-navy text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-2 shadow-sm">
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/85 via-transparent to-transparent"></div>
+                <span className="absolute top-4 left-4 bg-white/95 backdrop-blur-md text-navy text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-2 shadow-xs">
                   <img
                     src={`https://flagcdn.com/w40/${event.flagCode}.png`}
                     alt={event.location}
@@ -211,32 +184,28 @@ export default function Home() {
                   />
                   {event.location}
                 </span>
-                <span className="absolute top-4 right-4 bg-navy text-white text-[11px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-wider">
-                  Tentative
+                <span className="absolute top-4 right-4 bg-sky-pale text-navy border border-sky/30 text-[11px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">
+                  Registration Opening Soon
                 </span>
                 <div className="absolute bottom-4 left-4 right-4 text-white">
-                  <div className="text-[12px] text-sky-light font-bold">📅 {event.dates}</div>
+                  <div className="text-[12px] text-sky-light font-semibold uppercase tracking-wider">{event.dates}</div>
                   <h3 className="text-lg font-bold font-poppins">{event.title}</h3>
                 </div>
               </div>
 
-              <div className="p-6 flex flex-col flex-grow justify-between gap-4">
+              <div className="p-7 flex flex-col flex-grow justify-between gap-5">
                 <div>
-                  <div className="text-xs text-sky font-bold uppercase tracking-wider mb-1">
-                    {event.flag} EduGlobal Summit 2027
-                  </div>
-                  <p className="text-muted text-[13.5px] leading-relaxed">
-                    Participating in {event.title}. Interactive diplomacy simulations & campus immersion.
+                  <p className="text-slate-600 text-sm leading-relaxed">
+                    {event.description}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-gray-100 flex items-center justify-between gap-3">
-                  <span className="text-xs text-muted font-bold">Price: <span className="text-navy font-extrabold bg-sky-pale px-2.5 py-1 rounded-md">Tentative</span></span>
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-end">
                   <Link
                     href={event.applyUrl}
-                    className="inline-flex items-center gap-1.5 bg-navy hover:bg-sky text-white px-5 py-2.5 rounded-full text-xs font-bold transition-all hover:-translate-y-0.5"
+                    className="w-full inline-flex items-center justify-center gap-1.5 bg-[#0A1628] hover:bg-[#12AAF0] text-white px-6 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 hover:-translate-y-0.5 shadow-xs"
                   >
-                    Apply Now →
+                    {event.buttonText} →
                   </Link>
                 </div>
               </div>
@@ -244,86 +213,151 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="mt-10 text-center">
+        {/* Clear Institutional Notice & Disclaimer Callout */}
+        <div className="mt-10 max-w-[860px] mx-auto text-center text-xs text-slate-500 bg-slate-50 border border-slate-200/80 rounded-2xl p-5 leading-relaxed">
+          <strong className="text-slate-700 font-semibold">Institutional Notice:</strong> EduGlobal Academy operates independently as a delegate preparatory academy and mentor. EduGlobal Academy organizes delegation training, travel, and on-site support for external conferences and is not an organizer, affiliate, or sponsor of Harvard University, Harvard Model United Nations, or other host university institutions.
+        </div>
+
+        <div className="mt-8 text-center">
           <Link 
             href="/experience-2027" 
-            className="inline-flex items-center gap-2 bg-sky-pale hover:bg-sky/20 border border-sky/30 text-navy font-bold px-8 py-3.5 rounded-full text-sm font-poppins transition-all hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 bg-white hover:bg-sky-pale border border-[#E7EEF7] text-navy font-semibold px-8 py-3.5 rounded-full text-sm font-poppins transition-all duration-200 hover:-translate-y-0.5 shadow-xs"
           >
-            Explore All 2027 Summit Events →
+            Explore All 2027 Programs →
           </Link>
         </div>
       </section>
 
-      {/* ================= WHY CHOOSE US 4-CARD ================= */}
-      <section className="py-24 max-w-[1180px] mx-auto px-8" id="partnership">
-        <div className="flex flex-wrap justify-between items-end gap-6 mb-12">
-          <div>
-            <span className="inline-block text-sky font-bold text-[13px] tracking-widest uppercase mb-3.5">Our Promise</span>
-            <h2 className="text-3xl md:text-[40px] text-navy font-poppins font-extrabold">Why Choose Us or Partnership</h2>
-          </div>
-          <div className="flex items-center gap-2.5 bg-navy text-white px-2 py-2 pl-4 rounded-full text-[13px] font-bold">
-            you get everything 
-            <span className="w-[38px] h-[20px] rounded-full bg-green relative">
-              <span className="absolute w-[14px] h-[14px] rounded-full bg-white top-[3px] right-[3px]"></span>
-            </span>
-          </div>
+      {/* ================= WHY FAMILIES AND SCHOOLS CHOOSE EDUGLOBAL ================= */}
+      <section className="py-20 md:py-28 max-w-[1180px] mx-auto px-8" id="why-us">
+        <div className="text-center max-w-[760px] mx-auto mb-14">
+          <span className="inline-block text-[#12AAF0] font-bold text-[12px] tracking-widest uppercase mb-3 bg-sky-pale px-3.5 py-1.5 rounded-full border border-sky/20">
+            Why EduGlobal Academy
+          </span>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl text-navy font-poppins font-extrabold tracking-tight">
+            Why Families and Schools Choose EduGlobal
+          </h2>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { icon: "🌍", title: "Global Academic Resources", desc: "Access to internationally recognized programs and academic platforms." },
-            { icon: "🧑🏫", title: "Expert Mentorship", desc: "Guidance from experienced mentors with strong international backgrounds." },
-            { icon: "📋", title: "Structured Preparation", desc: "Comprehensive training designed to maximize student performance and outcomes." },
-            { icon: "⭐", title: "Proven Outcomes", desc: "Supporting students in building competitive academic profiles for global opportunities." }
+            { 
+              svg: (
+                <svg className="w-6 h-6 text-[#12AAF0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              ),
+              title: "Carefully Guided Journeys", 
+              desc: "Support before departure, throughout the program, and until students return home." 
+            },
+            { 
+              svg: (
+                <svg className="w-6 h-6 text-[#12AAF0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l9-5-9-5-9 5 9 5z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                </svg>
+              ),
+              title: "Expert MUN Preparation", 
+              desc: "Structured coaching in research, diplomacy, public speaking, negotiation, and committee procedures." 
+            },
+            { 
+              svg: (
+                <svg className="w-6 h-6 text-[#12AAF0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              ),
+              title: "Meaningful Global Exposure", 
+              desc: "International conferences combined with university, cultural, and industry learning." 
+            },
+            { 
+              svg: (
+                <svg className="w-6 h-6 text-[#12AAF0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              ),
+              title: "Student-Centred Support", 
+              desc: "Programs designed around student wellbeing, confidence, inclusion, and personal growth." 
+            }
           ].map((item, idx) => (
-            <div key={idx} className="bg-white border border-[#E7EEF7] rounded-2xl p-7 shadow-[0_10px_30px_rgba(11,16,80,0.05)]">
-              <div className="w-14 h-14 rounded-2xl bg-sky-pale flex items-center justify-center text-[26px] mb-5 relative">
-                {item.icon}
-                <span className="absolute -bottom-1.5 -right-1.5 w-[22px] h-[22px] rounded-full bg-navy text-white flex items-center justify-center text-[11px] font-bold">✓</span>
+            <div key={idx} className="bg-white border border-[#E7EEF7] rounded-3xl p-7 shadow-[0_10px_30px_rgba(11,16,80,0.04)] hover:shadow-[0_16px_36px_rgba(11,16,80,0.08)] transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
+              <div>
+                <div className="w-13 h-13 rounded-2xl bg-sky-pale flex items-center justify-center mb-5 border border-sky/20">
+                  {item.svg}
+                </div>
+                <h4 className="text-[16.5px] text-navy font-poppins font-bold mb-2.5 leading-snug">{item.title}</h4>
+                <p className="text-[13.5px] text-slate-600 leading-relaxed font-normal">{item.desc}</p>
               </div>
-              <h4 className="text-[16.5px] text-navy font-poppins font-bold mb-2">{item.title}</h4>
-              <p className="text-[13.5px] text-muted leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ================= TESTIMONIALS ================= */}
-      <section className="py-24 bg-sky-pale">
+      {/* ================= THEIR JOURNEY, IN THEIR OWN WORDS ================= */}
+      <section className="py-20 md:py-28 bg-[#F8FAFC] border-t border-b border-slate-200/60" id="testimonials">
         <div className="max-w-[1180px] mx-auto px-8">
           <div className="text-center mb-14">
-            <span className="inline-block text-sky font-bold text-[13px] tracking-widest uppercase mb-3.5">Testimonials</span>
-            <h2 className="text-3xl md:text-[36px] text-navy font-poppins font-extrabold mb-3">Real stories. Real growth. Real global exposure.</h2>
-            <p className="text-muted max-w-[560px] mx-auto text-[15.5px] leading-relaxed">
-              Hear from the students who stepped out of their comfort zones and into the global arena. Discover how EduGlobal Academy has shaped their confidence, perspectives, and future ambitions.
+            <span className="inline-block text-[#12AAF0] font-bold text-[12px] tracking-widest uppercase mb-3 bg-white px-3.5 py-1.5 rounded-full border border-sky/20 shadow-xs">
+              Participant Reflections
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl text-navy font-poppins font-extrabold mb-3 tracking-tight">
+              Their Journey, In Their Own Words
+            </h2>
+            <p className="text-slate-600 max-w-[620px] mx-auto text-base leading-relaxed font-normal">
+              Real reflections from students, parents, and educators who have experienced EduGlobal Academy programs.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { 
-                text: "Joining the EduGlobal Summit Experience was such a meaningful experience for me. I improved my public speaking skills during the MUN sessions, met students from different countries, and learned so much from the university and company visits in China. It really helped me become more confident and open-minded.",
-                name: "Sarah Kirana", role: "EduGlobal Summit Experience 2025", img: "47"
+                text: "Participating in HMUN China with EduGlobal gave me the confidence to speak in front of international committees. Beyond diplomacy, visiting innovation hubs and learning alongside peers across Asia opened my mind to global possibilities.",
+                name: "Shenzhen Delegation Participant",
+                details: "Delegate · Thailand & Indonesia",
+                program: "Harvard Model UN China",
+                image: "/china_hmun.jpg"
               },
               { 
-                text: "The programme was not only about MUN, but also about leadership, teamwork, and global exposure. My favorite part was interacting with international students and experiencing the academic environment in Shenzhen.",
-                name: "Jason W.", role: "EduGlobal Summit Experience 2025", img: "12"
+                text: "Representing our delegation at Harvard MUN in Boston was an extraordinary milestone. The pre-conference coaching prepared us thoroughly for committee debates, and the campus visits to Harvard and MIT were deeply inspiring.",
+                name: "Boston Delegation Participant",
+                details: "Delegate · Southeast Asian Delegation",
+                program: "Harvard Model UN Boston",
+                image: "/boston_hmun.jpg"
               },
               { 
-                text: "My child became much more confident after joining the programme. The combination of Harvard MUN participation, cultural activities, and educational visits made it a very valuable learning experience.",
-                name: "Grace Widjaja", role: "Mother of Jason W.", img: "45"
+                text: "The structured preparation and welcoming mentorship made my first international MUN conference unforgettable. I built lifelong friendships and gained valuable leadership skills in Bangkok.",
+                name: "Bangkok Delegation Participant",
+                details: "Delegate · International School Community",
+                program: "Thai National Model UN",
+                image: "/thailand_mun.jpg"
               }
             ].map((testi, idx) => (
-              <div key={idx} className="bg-white rounded-2xl p-7 flex flex-col gap-5 shadow-sm">
-                <div className="font-poppins text-[40px] text-sky font-extrabold leading-none">“</div>
-                <p className="text-[14.5px] text-[#2b2f5c] leading-relaxed flex-grow">{testi.text}</p>
-                <div className="flex items-center gap-3 mt-auto pt-2">
-                  <div className="w-[42px] h-[42px] shrink-0 rounded-full bg-navy overflow-hidden relative">
-                    <Image src={`https://i.pravatar.cc/100?img=${testi.img}`} alt={testi.name} fill className="object-cover" />
+              <div key={idx} className="bg-white rounded-3xl p-7 flex flex-col justify-between border border-[#E7EEF7] shadow-[0_10px_30px_rgba(11,16,80,0.04)] hover:shadow-[0_16px_36px_rgba(11,16,80,0.08)] transition-all duration-300 group hover:-translate-y-1">
+                <div>
+                  <div className="relative w-full h-[190px] rounded-2xl overflow-hidden mb-6 shadow-xs">
+                    <Image 
+                      src={testi.image} 
+                      alt={testi.program} 
+                      fill 
+                      className="object-cover transition-transform duration-500 group-hover:scale-105" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-navy/70 via-transparent to-transparent"></div>
+                    <span className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-md text-navy text-[11px] font-bold px-3 py-1 rounded-full border border-white/50 shadow-xs">
+                      {testi.program}
+                    </span>
+                  </div>
+                  <div className="text-xs font-semibold text-[#12AAF0] uppercase tracking-wider mb-2">Student Reflection</div>
+                  <p className="text-[14px] text-slate-700 leading-relaxed mb-6 font-normal">
+                    "{testi.text}"
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-sky-pale border border-sky/25 flex items-center justify-center text-navy font-bold text-xs shrink-0">
+                    EG
                   </div>
                   <div>
-                    <div className="font-bold text-[14px] text-navy">{testi.name}</div>
-                    <div className="text-[12px] text-muted">{testi.role}</div>
+                    <div className="font-bold text-[13.5px] text-navy">{testi.name}</div>
+                    <div className="text-[12px] text-slate-500 font-normal">{testi.details}</div>
                   </div>
                 </div>
               </div>
@@ -332,30 +366,65 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= BEYOND CLASSROOM (navy 4-pill) ================= */}
-      <section className="relative bg-navy py-24 overflow-hidden" id="programs">
-        {/* Background Circle */}
-        <div className="absolute w-[520px] h-[520px] rounded-full border border-white/10 -top-[200px] -left-[160px]"></div>
+      {/* ================= MORE THAN A CONFERENCE ================= */}
+      <section className="relative bg-[#0A1628] py-20 md:py-28 overflow-hidden" id="experience">
+        {/* Subtle Background Accent */}
+        <div className="absolute w-[500px] h-[500px] rounded-full border border-white/5 -top-[200px] -left-[160px]"></div>
         
-        <div className="relative z-10 max-w-[1180px] mx-auto px-8 grid grid-cols-1 md:grid-cols-[0.9fr_1.1fr] gap-14 items-center">
+        <div className="relative z-10 max-w-[1180px] mx-auto px-8 grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-14 lg:gap-16 items-center">
           <div>
-            <span className="inline-block text-sky-light font-bold text-[13px] tracking-widest uppercase mb-3.5">The Journey</span>
-            <h2 className="text-3xl md:text-[36px] text-white font-poppins font-extrabold mb-4">Beyond the Classroom: The EduGlobal Journey</h2>
-            <p className="text-white/70 text-[15px] leading-relaxed max-w-[400px]">
-              Every program is meticulously designed to challenge your limits, expand your worldview, and prepare you for a global future. Here is a glimpse into what you will experience.
+            <span className="inline-block text-sky-light font-bold text-[12px] tracking-widest uppercase mb-3.5 bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15">
+              The EduGlobal Experience
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl text-white font-poppins font-extrabold mb-4 tracking-tight">
+              More Than a Conference
+            </h2>
+            <p className="text-white/90 text-base leading-relaxed mb-4 font-normal">
+              Every EduGlobal Academy program is designed to help students learn, connect, and grow through four essential experiences.
+            </p>
+            <p className="text-white/70 text-sm leading-relaxed">
+              Students do more than attend a conference. They develop practical skills, discover new perspectives, explore academic possibilities, and form meaningful international connections.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
-              { icon: "🤝", label: "Global Diplomacy in Action" },
-              { icon: "🏛️", label: "Exclusive Campus Immersion" },
-              { icon: "🎭", label: "Authentic Cultural Exploration" },
-              { icon: "🌐", label: "Lifelong Global Connections" }
+              { 
+                svg: (
+                  <svg className="w-6 h-6 text-[#12AAF0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                  </svg>
+                ),
+                label: "Diplomacy and Leadership" 
+              },
+              { 
+                svg: (
+                  <svg className="w-6 h-6 text-[#12AAF0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                ),
+                label: "University and Career Exposure" 
+              },
+              { 
+                svg: (
+                  <svg className="w-6 h-6 text-[#12AAF0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                ),
+                label: "Cultural Discovery" 
+              },
+              { 
+                svg: (
+                  <svg className="w-6 h-6 text-[#12AAF0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                ),
+                label: "International Friendships" 
+              }
             ].map((pill, idx) => (
-              <div key={idx} className="flex items-center gap-3.5 bg-white/5 border border-white/15 rounded-full px-5 py-4">
-                <div className="shrink-0 w-11 h-11 rounded-full bg-sky text-white flex items-center justify-center text-lg">{pill.icon}</div>
-                <span className="text-white font-bold text-sm leading-snug">{pill.label}</span>
+              <div key={idx} className="flex items-center gap-3.5 bg-white/5 border border-white/10 rounded-2xl p-4.5 hover:bg-white/10 transition-all duration-200">
+                <div className="shrink-0 w-11 h-11 rounded-xl bg-white/10 flex items-center justify-center shadow-xs">{pill.svg}</div>
+                <span className="text-white font-semibold text-sm leading-snug">{pill.label}</span>
               </div>
             ))}
           </div>
@@ -363,99 +432,47 @@ export default function Home() {
       </section>
 
       {/* ================= FINAL CTA ================= */}
-      <section className="py-24" id="apply">
+      <section className="py-20 md:py-28" id="apply">
         <div className="max-w-[1116px] mx-auto px-8">
-          <div className="relative bg-gradient-to-br from-sky to-sky-light rounded-[32px] p-12 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10 overflow-hidden">
-            {/* Background Accent */}
-            <div className="absolute w-[300px] h-[300px] rounded-full bg-white/10 -right-[100px] -bottom-[140px]"></div>
+          <div className="relative bg-gradient-to-br from-[#0A1628] via-[#0D213A] to-[#12AAF0] rounded-3xl p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden shadow-xl border border-white/10">
+            {/* Background Accents */}
+            <div className="absolute w-[350px] h-[350px] rounded-full bg-[#12AAF0]/20 blur-3xl -right-[80px] -bottom-[80px] pointer-events-none"></div>
+            <div className="absolute w-[250px] h-[250px] rounded-full bg-white/5 blur-2xl -left-[60px] -top-[60px] pointer-events-none"></div>
             
-            <div className="flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-8 relative z-10 w-full">
-              <div className="w-[110px] h-[110px] shrink-0 rounded-full border-[4px] border-white overflow-hidden shadow-[0_12px_26px_rgba(11,16,80,0.25)] relative">
-                <Image src="https://i.pravatar.cc/220?img=33" alt="Student" fill className="object-cover" />
-              </div>
-              <div>
-                <div className="inline-flex items-center gap-2 bg-navy text-white px-4 py-2 pl-3 rounded-full text-xs font-bold mb-4">
-                  <span className="w-[22px] h-[22px] rounded-full bg-white text-navy flex items-center justify-center text-[12px]">★</span> 
-                  Best Program
-                </div>
-                <h2 className="text-white text-3xl md:text-[38px] font-poppins font-extrabold leading-tight max-w-[460px]">
-                  Take the first step toward your global academic journey.
-                </h2>
-              </div>
+            <div className="flex flex-col text-center md:text-left relative z-10 max-w-[600px]">
+              <span className="inline-block text-sky-light font-bold text-[11px] tracking-widest uppercase mb-3 bg-white/10 px-3.5 py-1 rounded-full border border-white/15 self-center md:self-start">
+                Get Started Today
+              </span>
+              <h2 className="text-white text-2xl sm:text-3xl md:text-4xl font-poppins font-extrabold leading-tight mb-3.5 tracking-tight">
+                Your Global Journey Starts Here
+              </h2>
+              <p className="text-white/85 text-base font-normal leading-relaxed">
+                Explore international learning opportunities designed to build confidence, leadership, and a broader view of the world.
+              </p>
             </div>
             
-            <div className="flex gap-3.5 relative z-10 shrink-0 flex-wrap justify-center md:justify-start">
-              <Link href="/checkout" className="px-8 py-4 rounded-full font-bold text-[15px] font-poppins bg-navy text-white transition-all hover:shadow-[0_10px_24px_rgba(11,16,80,0.35)] hover:-translate-y-0.5">Apply Now</Link>
-              <Link href="#contact" className="px-8 py-4 rounded-full font-bold text-[15px] font-poppins bg-green text-white transition-all hover:shadow-[0_10px_24px_rgba(32,201,114,0.4)] hover:-translate-y-0.5">Contact Us</Link>
+            <div className="flex flex-col sm:flex-row gap-3.5 relative z-10 shrink-0 w-full sm:w-auto justify-center md:justify-start">
+              <Link 
+                href="/experience-2027" 
+                className="inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-[14px] font-poppins bg-[#12AAF0] hover:bg-[#0A6FD8] text-white transition-all duration-200 shadow-sm hover:-translate-y-0.5"
+              >
+                Explore Programs
+              </Link>
+              <Link 
+                href="https://wa.me/66992690860" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full font-semibold text-[14px] font-poppins border border-white/40 hover:border-white text-white transition-all duration-200 backdrop-blur-xs hover:bg-white/10 hover:-translate-y-0.5"
+              >
+                Talk to Our Team
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* ================= FOOTER ================= */}
-      <footer className="bg-navy-2 pt-16 pb-8 text-white/75" id="contact">
-        <div className="max-w-[1180px] mx-auto px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] gap-10 mb-14">
-            <div>
-              <div className="flex items-center gap-2.5 mb-4">
-                <img src="/logo.png" alt="EduGlobal Academy" className="h-10 w-auto object-contain brightness-0 invert" />
-              </div>
-              <p className="max-w-[280px] text-sm leading-relaxed">
-                Connecting students with global academic opportunities through educational trips and international Model United Nations conferences.
-              </p>
-            </div>
-            
-            <div className="flex flex-col gap-3">
-              <h5 className="text-white text-sm font-bold tracking-wide mb-1">Quick Links</h5>
-              <Link href="#home" className="text-sm hover:text-white transition-colors">Home</Link>
-              <Link href="#about" className="text-sm hover:text-white transition-colors">About</Link>
-              <Link href="#contact" className="text-sm hover:text-white transition-colors">Contact</Link>
-            </div>
-            
-            <div className="flex flex-col gap-3">
-              <h5 className="text-white text-sm font-bold tracking-wide mb-1">Connect</h5>
-              <a href="https://www.tiktok.com/@eduglobalmun" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-white transition-colors flex items-center gap-2">
-                <i className="fab fa-tiktok text-slate-300"></i> TikTok (@eduglobalmun)
-              </a>
-              <a href="https://www.facebook.com/eduglobalacademy" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-white transition-colors flex items-center gap-2">
-                <i className="fab fa-facebook text-slate-300"></i> FB (Eduglobal Academy)
-              </a>
-              <a href="https://www.instagram.com/eduglobalmun" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-white transition-colors flex items-center gap-2">
-                <i className="fab fa-instagram text-slate-300"></i> Instagram (@eduglobalmun)
-              </a>
-            </div>
-            
-            <div className="flex flex-col gap-3">
-              <h5 className="text-white text-sm font-bold tracking-wide mb-1">Contact</h5>
-              <a href="https://wa.me/66992690860" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-white transition-colors flex items-center gap-2">
-                <i className="fab fa-whatsapp text-emerald-400"></i> +66992690860
-              </a>
-              <a href="mailto:info@eduglobalacademy.com" className="text-sm hover:text-white transition-colors flex items-center gap-2">
-                <i className="fas fa-envelope text-sky"></i> info@eduglobalacademy.com
-              </a>
-            </div>
-          </div>
-          
-          <div className="flex flex-wrap justify-between items-center gap-4 pt-6 border-t border-white/10 text-[13px] text-white/50">
-            <span>© 2026 by EduGlobal Academy</span>
-            <div className="flex gap-3.5">
-              <a href="https://www.tiktok.com/@eduglobalmun" target="_blank" rel="noopener noreferrer" title="TikTok" className="w-[34px] h-[34px] rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">
-                <i className="fab fa-tiktok text-sm"></i>
-              </a>
-              <a href="https://www.facebook.com/eduglobalacademy" target="_blank" rel="noopener noreferrer" title="Facebook" className="w-[34px] h-[34px] rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">
-                <i className="fab fa-facebook-f text-sm"></i>
-              </a>
-              <a href="https://www.instagram.com/eduglobalmun" target="_blank" rel="noopener noreferrer" title="Instagram" className="w-[34px] h-[34px] rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">
-                <i className="fab fa-instagram text-sm"></i>
-              </a>
-              <a href="https://wa.me/66992690860" target="_blank" rel="noopener noreferrer" title="WhatsApp" className="w-[34px] h-[34px] rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">
-                <i className="fab fa-whatsapp text-sm"></i>
-              </a>
-            </div>
-            <span>Proudly designed by Edu Global</span>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }

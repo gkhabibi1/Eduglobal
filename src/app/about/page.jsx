@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default function AboutPage() {
   useEffect(() => {
@@ -172,20 +173,7 @@ export default function AboutPage() {
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-[#0a1628] py-12 px-6 md:px-10 text-center text-white/70 border-t border-white/5">
-        <div className="flex justify-center gap-6 text-sm flex-wrap mb-6 items-center">
-          <a href="https://wa.me/66992690860" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1.5"><i className="fab fa-whatsapp text-emerald-400"></i> WhatsApp +66992690860</a>
-          <span className="text-white/20">|</span>
-          <a href="mailto:info@eduglobalacademy.com" className="hover:text-white transition-colors flex items-center gap-1.5"><i className="fas fa-envelope text-sky-400"></i> info@eduglobalacademy.com</a>
-        </div>
-        <div className="flex justify-center gap-4 text-white/70 text-base mb-6">
-          <a href="https://www.tiktok.com/@eduglobalmun" target="_blank" rel="noopener noreferrer" title="TikTok" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 text-white transition-colors"><i className="fab fa-tiktok"></i></a>
-          <a href="https://www.facebook.com/eduglobalacademy" target="_blank" rel="noopener noreferrer" title="Facebook" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 text-white transition-colors"><i className="fab fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/eduglobalmun" target="_blank" rel="noopener noreferrer" title="Instagram" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 text-white transition-colors"><i className="fab fa-instagram"></i></a>
-          <a href="https://wa.me/66992690860" target="_blank" rel="noopener noreferrer" title="WhatsApp" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 text-white transition-colors"><i className="fab fa-whatsapp"></i></a>
-        </div>
-        <p className="text-xs text-white/40">© 2026 EduGlobal Academy International. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

@@ -10,10 +10,10 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Experience 2027", href: "/experience-2027" },
-    { name: "Online Coaching", href: "/coaching" },
-    { name: "Partnership", href: "/partnership" },
-    { name: "About Us", href: "/about" },
+    { name: "Programs 2027", href: "/experience-2027" },
+    { name: "MUN Coaching", href: "/coaching" },
+    { name: "For Schools", href: "/partnership" },
+    { name: "About", href: "/about" },
   ];
 
   const isActive = (href) => {
@@ -23,24 +23,24 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/98 backdrop-blur-md border-b border-slate-200 px-6 md:px-10 h-[72px] flex items-center justify-between shadow-sm">
-      {/* Left: Logo */}
-      <Link href="/" className="flex items-center gap-2.5 shrink-0 z-10">
-        <img src="/logo.png" alt="EduGlobal Academy" className="h-10 w-auto object-contain" />
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/98 backdrop-blur-md border-b border-slate-200 px-6 md:px-12 h-[82px] flex items-center justify-between shadow-xs">
+      {/* Left: Logo (Considerably Larger) */}
+      <Link href="/" className="flex items-center gap-2.5 shrink-0 z-10 py-1">
+        <img src="/logo.png" alt="EduGlobal Academy" className="h-12 md:h-14 w-auto object-contain" />
       </Link>
 
       {/* Center: Navigation Links */}
-      <ul className="hidden md:flex gap-8 list-none items-center justify-center absolute left-1/2 -translate-x-1/2 z-10">
+      <ul className="hidden md:flex gap-9 list-none items-center justify-center absolute left-1/2 -translate-x-1/2 z-10">
         {navLinks.map((link) => {
           const active = isActive(link.href);
           return (
             <li key={link.name}>
               <Link
                 href={link.href}
-                className={`text-sm font-semibold transition-colors ${
+                className={`text-[14px] font-semibold tracking-wide transition-colors ${
                   active
-                    ? "text-[#3b82f6] font-bold"
-                    : "text-slate-700 hover:text-[#3b82f6]"
+                    ? "text-[#12AAF0] font-bold"
+                    : "text-slate-700 hover:text-[#12AAF0]"
                 }`}
               >
                 {link.name}
@@ -50,13 +50,13 @@ export default function Navbar() {
         })}
       </ul>
 
-      {/* Right: Apply Now CTA */}
+      {/* Right: Explore Programs CTA */}
       <div className="hidden md:flex items-center gap-4 shrink-0 z-10">
         <Link
           href="/checkout"
-          className="bg-[#0a1628] text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-[#3b82f6] transition-all hover:-translate-y-0.5 shadow-sm"
+          className="bg-[#0A1628] hover:bg-[#12AAF0] text-white px-7 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 hover:-translate-y-0.5 shadow-xs"
         >
-          Apply Now
+          Explore Programs
         </Link>
       </div>
 
@@ -82,7 +82,7 @@ export default function Navbar() {
 
       {/* Mobile Dropdown Menu */}
       {mobileMenuOpen && (
-        <div className="absolute top-[72px] left-0 right-0 bg-white border-b border-slate-200 p-6 flex flex-col gap-4 shadow-lg md:hidden z-50">
+        <div className="absolute top-[82px] left-0 right-0 bg-white border-b border-slate-200 p-6 flex flex-col gap-4 shadow-lg md:hidden z-50">
           {navLinks.map((link) => {
             const active = isActive(link.href);
             return (
@@ -91,7 +91,7 @@ export default function Navbar() {
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={`text-base font-semibold py-1 transition-colors ${
-                  active ? "text-[#3b82f6] font-bold" : "text-slate-700 hover:text-[#3b82f6]"
+                  active ? "text-[#12AAF0] font-bold" : "text-slate-700 hover:text-[#12AAF0]"
                 }`}
               >
                 {link.name}
@@ -101,9 +101,9 @@ export default function Navbar() {
           <Link
             href="/checkout"
             onClick={() => setMobileMenuOpen(false)}
-            className="bg-[#0a1628] text-white text-center px-6 py-3 rounded-full text-sm font-semibold hover:bg-[#3b82f6] transition-all mt-2"
+            className="bg-[#0A1628] text-white text-center px-6 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#12AAF0] transition-all mt-2"
           >
-            Apply Now
+            Explore Programs
           </Link>
         </div>
       )}
