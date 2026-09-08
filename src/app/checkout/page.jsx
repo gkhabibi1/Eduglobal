@@ -8,6 +8,9 @@ import { useSearchParams, useRouter } from "next/navigation";
 const EVENT_MAP = {
   "hmun-boston-2027": {
     type: "boston",
+    shortTitle: "HMUN Boston 2027",
+    flagEmoji: "🇺🇸",
+    cityCountry: "Boston, USA",
     name: "EduGlobal Summit Experience Participating in Harvard Model United Nations Boston 2027",
     subtitle: "74th Session of Harvard Model United Nations (Boston)",
     dates: "January 28–31, 2027",
@@ -18,6 +21,9 @@ const EVENT_MAP = {
   },
   "thai-mun-2027": {
     type: "thai",
+    shortTitle: "Thai National MUN 2027",
+    flagEmoji: "🇹🇭",
+    cityCountry: "Bangkok, Thailand",
     name: "EduGlobal Summit Experience Participating in Thai National Model United Nations 2027",
     subtitle: "Thai National Model United Nations 2027 (Bangkok)",
     dates: "January 13–19, 2027",
@@ -28,6 +34,9 @@ const EVENT_MAP = {
   },
   "hmun-china-2027": {
     type: "china",
+    shortTitle: "HMUN China 2027",
+    flagEmoji: "🇨🇳",
+    cityCountry: "Shenzhen, China",
     name: "EduGlobal Summit Experience Participating in Harvard Model United Nations China 2027",
     subtitle: "Harvard Model United Nations China 2027 (Shenzhen)",
     dates: "August 12–18, 2027",
@@ -139,8 +148,27 @@ const REQUIRED_DOCUMENTS_CHINA = [
 function CheckoutContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const eventParam = searchParams.get("event") || "hmun-china-2027";
-  const eventInfo = EVENT_MAP[eventParam] || EVENT_MAP["hmun-china-2027"];
+  const urlEvent = searchParams.get("event");
+  const [selectedEventKey, setSelectedEventKey] = useState(
+    urlEvent && EVENT_MAP[urlEvent] ? urlEvent : "hmun-boston-2027"
+  );
+
+  useEffect(() => {
+    if (urlEvent && EVENT_MAP[urlEvent]) {
+      setSelectedEventKey(urlEvent);
+    }
+  }, [urlEvent]);
+
+  const handleSelectEvent = (key) => {
+    setSelectedEventKey(key);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("event", key);
+      window.history.replaceState({}, "", url.toString());
+    }
+  };
+
+  const eventInfo = EVENT_MAP[selectedEventKey] || EVENT_MAP["hmun-boston-2027"];
   
   const isThaiEvent = eventInfo.type === "thai";
   const isChinaEvent = eventInfo.type === "china";
@@ -375,16 +403,14 @@ function CheckoutContent() {
         newErrors.skillsToDevelop = "Select at least one skill to develop.";
       }
 
-      checkRequired("committeePref1", "Committee preference 1");
-      checkRequired("committeePref2", "Committee preference 2");
-      checkRequired("committeePref3", "Committee preference 3");
+      checkRequired("committeePref1", "Committee preference 1 including Country Preference");
+      checkRequired("committeePref2", "Committee preference 2 including Country Preference");
+      checkRequired("committeePref3", "Committee preference 3 including Country Preference");
 
       // Section 3: Parent Info for Students
       if (isThaiEvent || isChinaEvent) {
         checkRequired("parentNameRelationship", "Parent/guardian name and relationship");
         checkRequired("parentEmailWhatsapp", "Email and WhatsApp");
-        checkRequired("parentAddress", "Residential address");
-        checkRequired("parentApproval", "Parent approval");
       } else {
         checkRequired("parentFullName", "Parent/guardian full name");
         checkRequired("parentRelationship", "Parent relationship");
@@ -394,8 +420,6 @@ function CheckoutContent() {
           newErrors.parentEmail = "Invalid email format.";
         }
         checkRequired("parentWhatsapp", "Parent WhatsApp number");
-        checkRequired("parentAddress", "Residential address");
-        checkRequired("parentApproval", "Registration approval");
       }
     }
 
@@ -405,12 +429,9 @@ function CheckoutContent() {
       checkRequired("studentFullName", "Student's full name");
 
       if (isThaiEvent || isChinaEvent) {
-        checkRequired("nationalityResidence", "Date of birth, nationality, and residence");
         checkRequired("officialEmailWhatsapp", "Email and WhatsApp");
         checkRequired("passportStatus", "Passport status");
       } else {
-        checkRequired("dob", "Date of birth");
-        checkRequired("nationalityResidence", "Nationality & country of residence");
         if (!formData.email.trim()) {
           newErrors.email = "Email is required.";
         } else if (!emailRegex.test(formData.email)) {
@@ -422,7 +443,7 @@ function CheckoutContent() {
 
     // Section 2C: Teacher or School Group
     if (category === "Teacher or school-group representative") {
-      checkRequired("schoolOrgAddress", "School name and address");
+      checkRequired("schoolOrgAddress", "School name");
       checkRequired("primaryContactPosition", "Primary contact and position");
       checkRequired("officialEmailWhatsapp", "Official email and WhatsApp");
       checkRequired("estDelegates", "Estimated delegates");
@@ -489,15 +510,17 @@ function CheckoutContent() {
       if (!formData.chinaArrivalDetails) newErrors.chinaArrivalDetails = "You must agree to provide arrival details by deadline.";
     }
 
-    // Section 6 or 7: Declarations (All 7 checkboxes required)
+    // Section 6 or 7: Declarations
     if (!formData.declAccurate) newErrors.declAccurate = "You must confirm information accuracy.";
-    if (!formData.declNoGuarantee) newErrors.declNoGuarantee = "You must acknowledge placement terms.";
     if (!formData.declPrefNotGuaranteed) newErrors.declPrefNotGuaranteed = "You must acknowledge preference terms.";
     if (!formData.declConductRules) newErrors.declConductRules = "You must agree to conduct rules.";
     if (!formData.declPaymentTerms) newErrors.declPaymentTerms = "You must accept payment terms.";
     if (!formData.declDataSharing) newErrors.declDataSharing = "You must consent to data sharing.";
     if (!formData.declParentApproval) newErrors.declParentApproval = "Parent/guardian approval confirmation is required.";
-    checkRequired("completedBy", "Name and relationship of person completing form");
+    
+    if (category !== "Accompanying parent or guardian") {
+      checkRequired("completedBy", "Name and relationship of person completing form");
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -544,7 +567,7 @@ function CheckoutContent() {
 
         if (response.ok && result.success) {
           router.push(
-            `/thank-you?event=${encodeURIComponent(eventParam)}&name=${encodeURIComponent(primaryName || "Delegate")}&email=${encodeURIComponent(primaryEmail || "")}`
+            `/thank-you?event=${encodeURIComponent(selectedEventKey)}&name=${encodeURIComponent(primaryName || "Delegate")}&email=${encodeURIComponent(primaryEmail || "")}`
           );
         } else {
           alert("Gagal mengirim pendaftaran: " + (result.message || "Unknown error"));
@@ -597,6 +620,72 @@ function CheckoutContent() {
 
       <main className="max-w-[1200px] mx-auto px-6 md:px-8">
         
+        {/* ================= PROGRAM SELECTOR ================= */}
+        <div className="bg-white rounded-3xl p-6 sm:p-8 mb-8 shadow-sm border border-[#E7EEF7]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-100">
+            <div>
+              <span className="inline-block text-[#12AAF0] font-bold text-[11px] tracking-widest uppercase mb-1">
+                Select Your Program • Pilih Event
+              </span>
+              <h2 className="text-xl sm:text-2xl font-bold text-navy">
+                Choose 2027 Program to Attend
+              </h2>
+            </div>
+            <p className="text-xs text-slate-500 max-w-sm leading-relaxed">
+              Formulir pendaftaran dan rincian persyaratan di bawah akan otomatis menyesuaikan dengan event yang Anda pilih.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {Object.entries(EVENT_MAP).map(([key, ev]) => {
+              const isSelected = selectedEventKey === key;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => handleSelectEvent(key)}
+                  className={`text-left p-5 rounded-2xl border-2 transition-all duration-200 cursor-pointer flex flex-col justify-between relative overflow-hidden group ${
+                    isSelected
+                      ? "border-[#12AAF0] bg-[#12AAF0]/5 shadow-md shadow-[#12AAF0]/10 ring-2 ring-[#12AAF0]/20"
+                      : "border-slate-200 bg-white hover:border-[#12AAF0]/50 hover:bg-slate-50"
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="inline-flex items-center gap-1.5 bg-white border border-slate-200/80 px-2.5 py-1 rounded-full text-xs font-bold text-navy shadow-2xs">
+                      <span>{ev.flagEmoji}</span>
+                      <span className="text-[11px]">{ev.cityCountry}</span>
+                    </span>
+
+                    {isSelected ? (
+                      <span className="inline-flex items-center gap-1 bg-[#12AAF0] text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-xs">
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Selected
+                      </span>
+                    ) : (
+                      <span className="text-[11px] font-semibold text-slate-400 group-hover:text-[#12AAF0] transition-colors">
+                        Select →
+                      </span>
+                    )}
+                  </div>
+
+                  <div>
+                    <h3 className={`text-sm sm:text-base font-bold mb-1.5 leading-snug transition-colors ${
+                      isSelected ? "text-navy" : "text-slate-800"
+                    }`}>
+                      {ev.shortTitle}
+                    </h3>
+                    <p className="text-xs text-[#12AAF0] font-semibold">
+                      📅 {ev.dates}
+                    </p>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Banner Section */}
         <div className="bg-white rounded-3xl p-8 md:p-10 mb-10 shadow-sm border border-[#E7EEF7] relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-sky/5 rounded-full blur-3xl pointer-events-none"></div>
@@ -704,19 +793,9 @@ function CheckoutContent() {
                       {errors.fullName && <span className="text-xs text-red-500">{errors.fullName}</span>}
                     </div>
 
-                    {/* 2. Preferred Name */}
+                    {/* 2. Date of Birth */}
                     <div className="flex flex-col gap-2">
-                      <label htmlFor="preferredName" className="text-xs font-bold text-navy">2. Preferred name (Optional)</label>
-                      <input 
-                        type="text" id="preferredName" name="preferredName" value={formData.preferredName} onChange={handleTextChange}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-sky outline-none text-sm"
-                        placeholder="Preferred Name"
-                      />
-                    </div>
-
-                    {/* 3. Date of Birth */}
-                    <div className="flex flex-col gap-2">
-                      <label htmlFor="dob" className="text-xs font-bold text-navy">3. Date of birth *</label>
+                      <label htmlFor="dob" className="text-xs font-bold text-navy">2. Date of birth *</label>
                       <input 
                         type="date" id="dob" name="dob" value={formData.dob} onChange={handleTextChange}
                         className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.dob ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
@@ -724,9 +803,9 @@ function CheckoutContent() {
                       {errors.dob && <span className="text-xs text-red-500">{errors.dob}</span>}
                     </div>
 
-                    {/* 4. Gender */}
+                    {/* 3. Gender */}
                     <div className="flex flex-col gap-2">
-                      <label htmlFor="gender" className="text-xs font-bold text-navy">4. Gender *</label>
+                      <label htmlFor="gender" className="text-xs font-bold text-navy">3. Gender *</label>
                       <select 
                         id="gender" name="gender" value={formData.gender} onChange={handleTextChange}
                         className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.gender ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
@@ -1001,60 +1080,39 @@ function CheckoutContent() {
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="flex flex-col gap-2">
                           <label htmlFor="committeePref1" className="text-xs font-bold text-navy">
-                            {isChinaEvent ? "16. Committee preference 1 *" : "15. Committee preference 1 *"}
+                            Committee Preference 1 including Country Preference *
                           </label>
                           <input 
                             type="text" id="committeePref1" name="committeePref1" value={formData.committeePref1} onChange={handleTextChange}
                             className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.committeePref1 ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
-                            placeholder="1st Preference"
+                            placeholder="e.g. DISEC - France"
                           />
                           {errors.committeePref1 && <span className="text-xs text-red-500">{errors.committeePref1}</span>}
                         </div>
                         <div className="flex flex-col gap-2">
                           <label htmlFor="committeePref2" className="text-xs font-bold text-navy">
-                            {isChinaEvent ? "17. Committee preference 2 *" : "16. Committee preference 2 *"}
+                            Committee Preference 2 including Country Preference *
                           </label>
                           <input 
                             type="text" id="committeePref2" name="committeePref2" value={formData.committeePref2} onChange={handleTextChange}
                             className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.committeePref2 ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
-                            placeholder="2nd Preference"
+                            placeholder="e.g. WHO - Japan"
                           />
                           {errors.committeePref2 && <span className="text-xs text-red-500">{errors.committeePref2}</span>}
                         </div>
                         <div className="flex flex-col gap-2">
                           <label htmlFor="committeePref3" className="text-xs font-bold text-navy">
-                            {isChinaEvent ? "18. Committee preference 3 *" : "17. Committee preference 3 *"}
+                            Committee Preference 3 including Country Preference *
                           </label>
                           <input 
                             type="text" id="committeePref3" name="committeePref3" value={formData.committeePref3} onChange={handleTextChange}
                             className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.committeePref3 ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
-                            placeholder="3rd Preference"
+                            placeholder="e.g. UNSC - United Kingdom"
                           />
                           {errors.committeePref3 && <span className="text-xs text-red-500">{errors.committeePref3}</span>}
                         </div>
                       </div>
                     </div>
-
-                    {(isChinaEvent || !isThaiEvent) && (
-                      <div className="flex flex-col gap-2 md:col-span-2">
-                        <label className="text-xs font-bold text-navy">
-                          {isChinaEvent ? "19. Committee style preferences" : "22. Acceptable committee styles"}
-                        </label>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mt-1">
-                          {getStyleOptions().map((style) => (
-                            <label key={style} className={`flex items-center gap-2 p-3 rounded-xl border text-xs font-semibold cursor-pointer transition-all ${formData.committeeStyles.includes(style) ? "border-sky bg-sky/5 text-navy" : "border-gray-200 hover:border-sky/30"}`}>
-                              <input 
-                                type="checkbox" 
-                                checked={formData.committeeStyles.includes(style)}
-                                onChange={() => handleCheckboxArrayToggle("committeeStyles", style)}
-                                className="accent-sky w-4 h-4"
-                              />
-                              <span>{style}</span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    )}
 
                   </div>
                 </div>
@@ -1096,43 +1154,20 @@ function CheckoutContent() {
                       {errors.studentFullName && <span className="text-xs text-red-500">{errors.studentFullName}</span>}
                     </div>
 
-                    {/* 3. DOB / Nationality & Residence */}
-                    {isThaiEvent || isChinaEvent ? (
+                    {!isThaiEvent && !isChinaEvent && (
                       <div className="flex flex-col gap-2">
-                        <label htmlFor="nationalityResidence" className="text-xs font-bold text-navy">
-                          {isChinaEvent ? "3. Date of birth, nationality, and residence *" : "4. Date of birth, nationality, and residence *"}
-                        </label>
-                        <input 
-                          type="text" id="nationalityResidence" name="nationalityResidence" value={formData.nationalityResidence} onChange={handleTextChange}
-                          className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.nationalityResidence ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
-                          placeholder="e.g. 15 Jan 1980, Indonesian, Jakarta"
-                        />
-                        {errors.nationalityResidence && <span className="text-xs text-red-500">{errors.nationalityResidence}</span>}
+                        <label htmlFor="relationshipToStudent" className="text-xs font-bold text-navy">3. Relationship to student *</label>
+                        <select 
+                          id="relationshipToStudent" name="relationshipToStudent" value={formData.relationshipToStudent} onChange={handleTextChange}
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-sky outline-none text-sm"
+                        >
+                          <option value="">Select relationship</option>
+                          <option value="Mother">Mother</option>
+                          <option value="Father">Father</option>
+                          <option value="Legal guardian">Legal guardian</option>
+                          <option value="Other authorized adult">Other authorized adult</option>
+                        </select>
                       </div>
-                    ) : (
-                      <>
-                        <div className="flex flex-col gap-2">
-                          <label htmlFor="relationshipToStudent" className="text-xs font-bold text-navy">3. Relationship to student *</label>
-                          <select 
-                            id="relationshipToStudent" name="relationshipToStudent" value={formData.relationshipToStudent} onChange={handleTextChange}
-                            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-sky outline-none text-sm"
-                          >
-                            <option value="">Select relationship</option>
-                            <option value="Mother">Mother</option>
-                            <option value="Father">Father</option>
-                            <option value="Legal guardian">Legal guardian</option>
-                            <option value="Other authorized adult">Other authorized adult</option>
-                          </select>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          <label htmlFor="dob" className="text-xs font-bold text-navy">4. Date of birth *</label>
-                          <input 
-                            type="date" id="dob" name="dob" value={formData.dob} onChange={handleTextChange}
-                            className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.dob ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
-                          />
-                          {errors.dob && <span className="text-xs text-red-500">{errors.dob}</span>}
-                        </div>
-                      </>
                     )}
 
                     {/* Email and WhatsApp */}
@@ -1238,21 +1273,7 @@ function CheckoutContent() {
                       </select>
                     </div>
 
-                    {/* Cultural Activities for China */}
-                    {isChinaEvent && (
-                      <div className="flex flex-col gap-2 md:col-span-2">
-                        <label htmlFor="culturalActivities" className="text-xs font-bold text-navy">9. Educational/cultural activities</label>
-                        <select 
-                          id="culturalActivities" name="culturalActivities" value={formData.culturalActivities} onChange={handleTextChange}
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-sky outline-none text-sm"
-                        >
-                          <option value="">Select option</option>
-                          <option value="Join">Join</option>
-                          <option value="Conference only if permitted">Conference only if permitted</option>
-                          <option value="Send details">Send details</option>
-                        </select>
-                      </div>
-                    )}
+
                   </div>
                 </div>
               )}
@@ -1269,13 +1290,13 @@ function CheckoutContent() {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* 1. School Name & Address */}
+                    {/* 1. School Name */}
                     <div className="flex flex-col gap-2 md:col-span-2">
-                      <label htmlFor="schoolOrgAddress" className="text-xs font-bold text-navy">1. School name and address *</label>
+                      <label htmlFor="schoolOrgAddress" className="text-xs font-bold text-navy">1. School name *</label>
                       <input 
                         type="text" id="schoolOrgAddress" name="schoolOrgAddress" value={formData.schoolOrgAddress} onChange={handleTextChange}
                         className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.schoolOrgAddress ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
-                        placeholder="School Name & Full Address"
+                        placeholder="School Name"
                       />
                       {errors.schoolOrgAddress && <span className="text-xs text-red-500">{errors.schoolOrgAddress}</span>}
                     </div>
@@ -1515,21 +1536,10 @@ function CheckoutContent() {
                       </>
                     )}
 
-                    {/* Residential Address */}
+                    {/* Accompanying */}
                     <div className="flex flex-col gap-2 md:col-span-2">
-                      <label htmlFor="parentAddress" className="text-xs font-bold text-navy">3. Residential address *</label>
-                      <textarea 
-                        id="parentAddress" name="parentAddress" rows="3" value={formData.parentAddress} onChange={handleTextChange}
-                        className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.parentAddress ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
-                        placeholder="Street Address, City, Postal Code, Country"
-                      />
-                      {errors.parentAddress && <span className="text-xs text-red-500">{errors.parentAddress}</span>}
-                    </div>
-
-                    {/* Accompanying & Approval */}
-                    <div className="flex flex-col gap-2">
                       <label htmlFor="parentAccompanying" className="text-xs font-bold text-navy">
-                        {isChinaEvent ? "4. Accompanying the student?" : "4. Will the parent accompany the student?"}
+                        {isChinaEvent ? "Accompanying the student?" : "Will the parent accompany the student?"}
                       </label>
                       <select 
                         id="parentAccompanying" name="parentAccompanying" value={formData.parentAccompanying} onChange={handleTextChange}
@@ -1540,19 +1550,6 @@ function CheckoutContent() {
                         <option value="No">No</option>
                         <option value="Not decided">Not decided</option>
                       </select>
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                      <label htmlFor="parentApproval" className="text-xs font-bold text-navy">5. Registration approval *</label>
-                      <select 
-                        id="parentApproval" name="parentApproval" value={formData.parentApproval} onChange={handleTextChange}
-                        className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.parentApproval ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
-                      >
-                        <option value="">Select approval status</option>
-                        <option value="I approve">I approve</option>
-                        <option value="Approval pending">Approval pending</option>
-                      </select>
-                      {errors.parentApproval && <span className="text-xs text-red-500">{errors.parentApproval}</span>}
                     </div>
                   </div>
                 </div>
@@ -2099,12 +2096,11 @@ function CheckoutContent() {
                 <div className="space-y-4">
                   {[
                     { field: "declAccurate", text: "1. Information submitted is accurate." },
-                    { field: "declNoGuarantee", text: "2. Submission does not guarantee acceptance or a place." },
-                    { field: "declPrefNotGuaranteed", text: isChinaEvent ? "3. Committee, country/character, room, flight, and activity preferences are not guaranteed." : isThaiEvent ? "3. Committee, country, accommodation, and travel preferences are not guaranteed." : "3. I understand that committee, country, hotel, room, and travel preferences are not guaranteed." },
-                    { field: "declConductRules", text: isChinaEvent ? "4. Participant agrees to EduGlobal Academy, HMUN China, hotel, and safeguarding rules." : isThaiEvent ? "4. Participant will follow EduGlobal Academy and Thai National MUN rules." : "4. I agree to follow EduGlobal Academy and HMUN conduct and safeguarding rules." },
-                    { field: "declPaymentTerms", text: isChinaEvent ? "5. Payment, cancellation, refund, and replacement terms follow the programme agreement/invoice." : isThaiEvent ? "5. Payment, cancellation, refund, and replacement terms will follow the programme agreement/invoice." : "5. I accept that payment, cancellation, refund, and replacement terms will be stated in the programme agreement/invoice." },
-                    { field: "declDataSharing", text: isChinaEvent ? "6. Necessary information may be shared with HMUN China, hotels, airlines, transport providers, insurers, visa-supporting organizations, and emergency providers." : isThaiEvent ? "6. Necessary information may be shared with the organizer, hotels, transport providers, insurers, and emergency providers." : "6. I consent to necessary data being shared with HMUN, hotels, airlines, transport providers, insurers, and visa-supporting organizations for programme administration and safety." },
-                    { field: "declParentApproval", text: isChinaEvent ? "7. Parent/legal guardian approval is confirmed for a minor." : isThaiEvent ? "7. Parent/legal guardian approves participation for a minor." : "7. For a participant under 18, I confirm parent/legal guardian approval." },
+                    { field: "declPrefNotGuaranteed", text: isChinaEvent ? "2. Committee, country/character, room, flight, and activity preferences are not guaranteed." : isThaiEvent ? "2. Committee, country, accommodation, and travel preferences are not guaranteed." : "2. I understand that committee, country, hotel, room, and travel preferences are not guaranteed." },
+                    { field: "declConductRules", text: isChinaEvent ? "3. Participant agrees to EduGlobal Academy, HMUN China, hotel, and safeguarding rules." : isThaiEvent ? "3. Participant will follow EduGlobal Academy and Thai National MUN rules." : "3. I agree to follow EduGlobal Academy and HMUN conduct and safeguarding rules." },
+                    { field: "declPaymentTerms", text: isChinaEvent ? "4. Payment, cancellation, refund, and replacement terms follow the programme agreement/invoice." : isThaiEvent ? "4. Payment, cancellation, refund, and replacement terms will follow the programme agreement/invoice." : "4. I accept that payment, cancellation, refund, and replacement terms will be stated in the programme agreement/invoice." },
+                    { field: "declDataSharing", text: isChinaEvent ? "5. Necessary information may be shared with HMUN China, hotels, airlines, transport providers, insurers, visa-supporting organizations, and emergency providers." : isThaiEvent ? "5. Necessary information may be shared with the organizer, hotels, transport providers, insurers, and emergency providers." : "5. I consent to necessary data being shared with HMUN, hotels, airlines, transport providers, insurers, and visa-supporting organizations for programme administration and safety." },
+                    { field: "declParentApproval", text: isChinaEvent ? "6. Parent/legal guardian approval is confirmed for a minor." : isThaiEvent ? "6. Parent/legal guardian approves participation for a minor." : "6. For a participant under 18, I confirm parent/legal guardian approval." },
                   ].map((item) => (
                     <div key={item.field} className="flex flex-col gap-1">
                       <label className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all ${formData[item.field] ? "border-sky bg-sky/5 text-navy" : "border-gray-200 hover:border-sky/30"}`}>
@@ -2120,16 +2116,18 @@ function CheckoutContent() {
                     </div>
                   ))}
 
-                  {/* 8. Person Completing Form */}
-                  <div className="flex flex-col gap-2 pt-4">
-                    <label htmlFor="completedBy" className="text-xs font-bold text-navy">8. Name and relationship of person completing the form *</label>
-                    <input 
-                      type="text" id="completedBy" name="completedBy" value={formData.completedBy} onChange={handleTextChange}
-                      className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.completedBy ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
-                      placeholder="e.g. Self / Parent / Advisor Name"
-                    />
-                    {errors.completedBy && <span className="text-xs text-red-500">{errors.completedBy}</span>}
-                  </div>
+                  {/* Person Completing Form (Hidden for Accompanying parent or guardian) */}
+                  {category !== "Accompanying parent or guardian" && (
+                    <div className="flex flex-col gap-2 pt-4">
+                      <label htmlFor="completedBy" className="text-xs font-bold text-navy">Name and relationship of person completing the form *</label>
+                      <input 
+                        type="text" id="completedBy" name="completedBy" value={formData.completedBy} onChange={handleTextChange}
+                        className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.completedBy ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
+                        placeholder="e.g. Self / Parent / Advisor Name"
+                      />
+                      {errors.completedBy && <span className="text-xs text-red-500">{errors.completedBy}</span>}
+                    </div>
+                  )}
 
                   {/* 9. Additional Questions */}
                   <div className="flex flex-col gap-2 pt-2">

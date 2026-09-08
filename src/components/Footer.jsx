@@ -25,8 +25,8 @@ export default function Footer() {
             <Link href="/experience-2027" className="text-sm text-white/70 hover:text-white transition-colors">Programs</Link>
             <Link href="/coaching" className="text-sm text-white/70 hover:text-white transition-colors">MUN Coaching</Link>
             <Link href="/partnership" className="text-sm text-white/70 hover:text-white transition-colors">For Schools</Link>
-            <Link href="/about" className="text-sm text-white/70 hover:text-white transition-colors">About</Link>
-            <a href="https://wa.me/66992690860" target="_blank" rel="noopener noreferrer" className="text-sm text-white/70 hover:text-white transition-colors">Contact</a>
+            <Link href="/contact" className="text-sm text-white/70 hover:text-white transition-colors">Contact Us</Link>
+            <a href="https://wa.me/66992690860" target="_blank" rel="noopener noreferrer" className="text-sm text-white/70 hover:text-white transition-colors">WhatsApp</a>
           </div>
           
           {/* Col 3: Social Accounts */}

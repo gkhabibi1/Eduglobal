@@ -233,10 +233,10 @@ export default function Home() {
               Our programs help students become more confident speakers, thoughtful leaders, and globally minded individuals—inside and beyond the conference room.
             </p>
             <Link 
-              href="/about" 
+              href="/contact" 
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-[14px] font-poppins bg-[#0A1628] hover:bg-[#12AAF0] text-white transition-all duration-200 hover:-translate-y-0.5 shadow-sm mt-2"
             >
-              Discover Our Story →
+              Contact Us →
             </Link>
           </div>
         </div>
@@ -257,7 +257,7 @@ export default function Home() {
             {
               id: "hmun-boston-2027",
               flagCode: "us",
-              title: "HMUN Boston 2027",
+              title: "EduGlobal Summit Experience Participating in Harvard Model United Nations Boston 2027",
               dates: "January 26–February 2, 2027",
               location: "Boston, United States",
               description: "Participate in Harvard Model United Nations and experience an inspiring academic journey featuring MUN preparation, university exposure, cultural learning, and guided group support.",
@@ -268,7 +268,7 @@ export default function Home() {
             {
               id: "thai-mun-2027",
               flagCode: "th",
-              title: "Thailand National MUN 2027",
+              title: "EduGlobal Summit Experience Participating in Thai National Model United Nations 2027",
               dates: "January 13–19, 2027",
               location: "Bangkok, Thailand",
               description: "Experience international diplomacy in Bangkok through structured MUN preparation, committee sessions, cultural exploration, and meaningful connections with students from different backgrounds.",
@@ -279,7 +279,7 @@ export default function Home() {
             {
               id: "hmun-china-2027",
               flagCode: "cn",
-              title: "HMUN China 2027",
+              title: "EduGlobal Summit Experience Participating in Harvard Model United Nations China 2027",
               dates: "August 2027",
               location: "China",
               description: "Join Harvard Model United Nations China alongside a complete educational journey featuring academic preparation, university and industry exposure, cultural discovery, and international networking.",
@@ -292,14 +292,14 @@ export default function Home() {
               key={idx}
               className="bg-white border border-[#E7EEF7] rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(11,16,80,0.05)] hover:shadow-[0_16px_40px_rgba(11,16,80,0.1)] transition-all duration-300 flex flex-col group hover:-translate-y-1"
             >
-              <div className="relative h-[220px] overflow-hidden">
+              <div className="relative h-[250px] overflow-hidden">
                 <Image
                   src={event.image}
                   alt={event.title}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy/85 via-transparent to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/95 via-navy/40 to-transparent"></div>
                 <span className="absolute top-4 left-4 bg-white/95 backdrop-blur-md text-navy text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-2 shadow-xs">
                   <img
                     src={`https://flagcdn.com/w40/${event.flagCode}.png`}
@@ -313,7 +313,7 @@ export default function Home() {
                 </span>
                 <div className="absolute bottom-4 left-4 right-4 text-white">
                   <div className="text-[12px] text-sky-light font-semibold uppercase tracking-wider">{event.dates}</div>
-                  <h3 className="text-lg font-bold font-poppins">{event.title}</h3>
+                  <h3 className="text-[15px] font-bold font-poppins leading-snug mt-1">{event.title}</h3>
                 </div>
               </div>
 

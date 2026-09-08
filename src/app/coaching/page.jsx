@@ -248,7 +248,7 @@ export default function OnlineCoachingPage() {
             <Link href="/checkout" className="bg-white text-[#0a1628] hover:bg-slate-100 px-8 py-4 rounded-full text-sm font-bold transition-all hover:-translate-y-1 shadow-xl inline-flex items-center gap-2">
               <i className="fas fa-paper-plane"></i> Apply Now & Secure Your Spot
             </Link>
-            <Link href="/about" className="border-2 border-white/50 hover:border-white hover:bg-white/10 text-[#0a1628] md:text-white px-8 py-4 rounded-full text-sm font-bold transition-all inline-flex items-center gap-2">
+            <Link href="/contact" className="border-2 border-white/50 hover:border-white hover:bg-white/10 text-[#0a1628] md:text-white px-8 py-4 rounded-full text-sm font-bold transition-all inline-flex items-center gap-2">
               <i className="fas fa-envelope"></i> Contact Us
             </Link>
           </div>

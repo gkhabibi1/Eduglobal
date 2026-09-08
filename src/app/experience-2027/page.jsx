@@ -10,7 +10,7 @@ export default function Experience2027Page() {
     {
       id: "hmun-boston-2027",
       flagCode: "us",
-      title: "HMUN Boston 2027",
+      title: "EduGlobal Summit Experience Participating in Harvard Model United Nations Boston 2027",
       dates: "January 26–February 2, 2027",
       location: "Boston, United States",
       image: "/boston_hmun.jpg",
@@ -28,7 +28,7 @@ export default function Experience2027Page() {
     {
       id: "thai-mun-2027",
       flagCode: "th",
-      title: "Thailand National MUN 2027",
+      title: "EduGlobal Summit Experience Participating in Thai National Model United Nations 2027",
       dates: "January 13–19, 2027",
       location: "Bangkok, Thailand",
       image: "/thailand_mun.jpg",
@@ -46,7 +46,7 @@ export default function Experience2027Page() {
     {
       id: "hmun-china-2027",
       flagCode: "cn",
-      title: "HMUN China 2027",
+      title: "EduGlobal Summit Experience Participating in Harvard Model United Nations China 2027",
       dates: "August 2027",
       location: "China",
       image: "/china_hmun.jpg",
@@ -136,7 +136,7 @@ export default function Experience2027Page() {
                   <span className="text-sky-light text-xs font-bold uppercase tracking-widest block mb-1">
                     {event.dates}
                   </span>
-                  <h3 className="text-xl sm:text-2xl font-bold leading-snug">
+                  <h3 className="text-lg sm:text-xl font-bold leading-snug">
                     {event.title}
                   </h3>
                 </div>
@@ -150,7 +150,7 @@ export default function Experience2027Page() {
                       <div className="text-[#12AAF0] font-bold text-xs uppercase tracking-wider mb-1">
                         {event.location}
                       </div>
-                      <h3 className="text-2xl font-bold text-navy">{event.title}</h3>
+                      <h3 className="text-xl sm:text-2xl font-bold text-navy leading-snug">{event.title}</h3>
                     </div>
                   </div>
 
