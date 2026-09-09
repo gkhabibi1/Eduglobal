@@ -5,16 +5,42 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export default function ContactPage() {
-  const [copied, setCopied] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedAddress, setCopiedAddress] = useState(false);
 
   const email = "info@eduglobalacademy.com";
+  const phoneNumber = "+66 99 269 0860";
   const whatsappNumber = "+66 99 269 0860";
   const whatsappUrl = "https://wa.me/66992690860";
 
+  const officeAddress = {
+    title: "EduGlobal Academy — Indonesia Office",
+    building: "Infiniti Office, Bellezza BSA",
+    floorUnit: "1st Floor, Unit 106",
+    street: "Jl. Letjen Soepeno, Permata Hijau",
+    districtCity: "Kebayoran Lama, Jakarta Selatan",
+    countryPostal: "Indonesia 12210",
+  };
+
+  const fullAddressText = `${officeAddress.title}
+${officeAddress.building}
+${officeAddress.floorUnit}
+${officeAddress.street}
+${officeAddress.districtCity}
+${officeAddress.countryPostal}`;
+
+  const mapsUrl = "https://www.google.com/maps/search/?api=1&query=Infiniti+Office+The+Bellezza+BSA+Jl+Letjen+Soepeno+Permata+Hijau+Jakarta+Selatan";
+
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2500);
+  };
+
+  const handleCopyAddress = () => {
+    navigator.clipboard.writeText(fullAddressText);
+    setCopiedAddress(true);
+    setTimeout(() => setCopiedAddress(false), 2500);
   };
 
   const socialLinks = [
@@ -78,7 +104,82 @@ export default function ContactPage() {
 
         {/* Contact Cards Container */}
         <div className="w-full max-w-xl flex flex-col gap-6">
-          {/* 1. WHATSAPP PRIMARY CONTACT */}
+
+          {/* 1. OFFICE ADDRESS CARD */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-xl border border-sky-100 transition-all duration-300 relative overflow-hidden group">
+            <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#12AAF0]/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
+            
+            <div className="flex items-start justify-between gap-4 mb-4 relative z-10">
+              <div className="flex items-start gap-3.5">
+                <div className="w-12 h-12 rounded-2xl bg-[#12AAF0] text-white flex items-center justify-center shadow-md shadow-[#12AAF0]/25 shrink-0 group-hover:scale-105 transition-transform mt-0.5">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h2 className="text-lg font-bold text-[#0A1628]">Office Address</h2>
+                    <span className="bg-sky-100 text-[#0983bd] text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                      Indonesia Office
+                    </span>
+                  </div>
+                  <h3 className="text-sm font-extrabold text-[#0A1628] mb-1">
+                    {officeAddress.title}
+                  </h3>
+                  <div className="text-sm text-slate-600 leading-relaxed font-normal">
+                    <p>{officeAddress.building}</p>
+                    <p>{officeAddress.floorUnit}</p>
+                    <p>{officeAddress.street}</p>
+                    <p>{officeAddress.districtCity}</p>
+                    <p className="font-semibold text-slate-700">{officeAddress.countryPostal}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-10 pt-2 border-t border-slate-100">
+              <a
+                href={mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#0A1628] hover:bg-[#12AAF0] text-white py-3 px-5 rounded-2xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 shadow-sm"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                Open in Maps
+              </a>
+
+              <button
+                onClick={handleCopyAddress}
+                type="button"
+                className={`py-3 px-5 rounded-2xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 border transition-all duration-200 ${
+                  copiedAddress
+                    ? "bg-sky-50 border-sky-400 text-sky-700"
+                    : "bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700"
+                }`}
+              >
+                {copiedAddress ? (
+                  <>
+                    <svg className="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Address Copied!
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                    Copy Address
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* 2. PHONE & WHATSAPP PRIMARY CONTACT */}
           <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-xl border border-emerald-100 transition-all duration-300 relative overflow-hidden group">
             <div className="absolute -top-12 -right-12 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
             
@@ -91,30 +192,42 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h2 className="text-lg font-bold text-[#0A1628]">WhatsApp Hotline</h2>
+                    <h2 className="text-lg font-bold text-[#0A1628]">Phone & WhatsApp Hotline</h2>
                     <span className="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
                       Fastest Reply
                     </span>
                   </div>
-                  <p className="text-sm text-slate-500 font-medium">{whatsappNumber}</p>
+                  <p className="text-sm text-slate-500 font-medium">{phoneNumber}</p>
                 </div>
               </div>
             </div>
 
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full bg-[#25D366] hover:bg-[#20ba59] text-white py-3.5 px-6 rounded-2xl font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-200 hover:-translate-y-0.5 shadow-md shadow-emerald-500/20 active:translate-y-0 relative z-10"
-            >
-              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />
-              </svg>
-              Chat via WhatsApp
-            </a>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-10">
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#25D366] hover:bg-[#20ba59] text-white py-3.5 px-6 rounded-2xl font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-200 hover:-translate-y-0.5 shadow-md shadow-emerald-500/20 active:translate-y-0"
+              >
+                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />
+                </svg>
+                Chat via WhatsApp
+              </a>
+
+              <a
+                href={`tel:${phoneNumber.replace(/\s+/g, "")}`}
+                className="bg-slate-100 hover:bg-slate-200 text-slate-800 py-3.5 px-6 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 border border-slate-200"
+              >
+                <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                Call Phone
+              </a>
+            </div>
           </div>
 
-          {/* 2. EMAIL CONTACT */}
+          {/* 3. EMAIL CONTACT */}
           <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-xl border border-slate-200/80 transition-all duration-300 relative overflow-hidden group">
             <div className="flex items-start justify-between gap-4 mb-5">
               <div className="flex items-center gap-3.5">
@@ -145,12 +258,12 @@ export default function ContactPage() {
                 onClick={handleCopyEmail}
                 type="button"
                 className={`py-3 px-5 rounded-2xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 border transition-all duration-200 ${
-                  copied
+                  copiedEmail
                     ? "bg-emerald-50 border-emerald-500 text-emerald-700"
                     : "bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700"
                 }`}
               >
-                {copied ? (
+                {copiedEmail ? (
                   <>
                     <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -162,14 +275,14 @@ export default function ContactPage() {
                     <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
-                    Copy Address
+                    Copy Email
                   </>
                 )}
               </button>
             </div>
           </div>
 
-          {/* 3. SOCIAL MEDIA ACCOUNTS */}
+          {/* 4. SOCIAL MEDIA ACCOUNTS */}
           <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-xl border border-slate-200/80 transition-all duration-300">
             <div className="mb-5">
               <h2 className="text-lg font-bold text-[#0A1628] mb-1">Social Media</h2>
@@ -198,6 +311,7 @@ export default function ContactPage() {
               ))}
             </div>
           </div>
+
         </div>
       </main>
 

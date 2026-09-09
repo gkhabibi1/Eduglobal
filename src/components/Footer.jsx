@@ -52,6 +52,13 @@ export default function Footer() {
             <a href="mailto:info@eduglobalacademy.com" className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-2.5">
               <i className="fas fa-envelope text-sky text-base"></i> info@eduglobalacademy.com
             </a>
+            <div className="text-xs text-white/60 leading-relaxed mt-1 flex items-start gap-2">
+              <i className="fas fa-map-marker-alt text-sky mt-1 shrink-0"></i>
+              <span>
+                <strong className="text-white/80 block mb-0.5">Indonesia Office:</strong>
+                Infiniti Office, Bellezza BSA, 1st Fl Unit 106, Jl. Letjen Soepeno, Permata Hijau, Jakarta Selatan 12210
+              </span>
+            </div>
           </div>
         </div>
         
