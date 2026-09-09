@@ -572,11 +572,11 @@ function CheckoutContent() {
             `/thank-you?event=${encodeURIComponent(selectedEventKey)}&name=${encodeURIComponent(primaryName || "Delegate")}&email=${encodeURIComponent(primaryEmail || "")}`
           );
         } else {
-          alert("Gagal mengirim pendaftaran: " + (result.message || "Unknown error"));
+          alert("Failed to submit registration: " + (result.message || "Unknown error"));
         }
       } catch (err) {
         console.error("Submit error:", err);
-        alert("Terjadi kesalahan koneksi saat mengirim pendaftaran.");
+        alert("A connection error occurred while submitting your registration. Please try again.");
       } finally {
         setSubmitting(false);
       }
@@ -627,14 +627,14 @@ function CheckoutContent() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-100">
             <div>
               <span className="inline-block text-[#12AAF0] font-bold text-[11px] tracking-widest uppercase mb-1">
-                Select Your Program • Pilih Event
+                Select Your Program • Choose Event
               </span>
               <h2 className="text-xl sm:text-2xl font-bold text-navy">
                 Choose 2027 Program to Attend
               </h2>
             </div>
             <p className="text-xs text-slate-500 max-w-sm leading-relaxed">
-              Formulir pendaftaran dan rincian persyaratan di bawah akan otomatis menyesuaikan dengan event yang Anda pilih.
+              The registration form and requirements below will automatically adapt to your selected event.
             </p>
           </div>
 
