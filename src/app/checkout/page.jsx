@@ -330,6 +330,13 @@ function CheckoutContent() {
     if (errors[fieldName]) setErrors((prev) => ({ ...prev, [fieldName]: "" }));
   };
 
+  const handleCategoryChange = (newCategory) => {
+    setCategory(newCategory);
+    if (newCategory !== "Student delegate" && formData.travelInsurance === "Already covered") {
+      setFormData((prev) => ({ ...prev, travelInsurance: "" }));
+    }
+  };
+
   // Validation
   const validateForm = () => {
     const newErrors = {};
@@ -488,7 +495,6 @@ function CheckoutContent() {
       checkRequired("flightArrangement", "Flight arrangement");
       checkRequired("accommodationPref", "Accommodation preference");
       checkRequired("winterReadiness", "Winter readiness declaration");
-      checkRequired("harvardExtension", "Harvard/MIT extension preference");
       checkRequired("visaAccommodationConfirm", "Accommodation confirmation status");
     }
 
@@ -517,10 +523,6 @@ function CheckoutContent() {
     if (!formData.declPaymentTerms) newErrors.declPaymentTerms = "You must accept payment terms.";
     if (!formData.declDataSharing) newErrors.declDataSharing = "You must consent to data sharing.";
     if (!formData.declParentApproval) newErrors.declParentApproval = "Parent/guardian approval confirmation is required.";
-    
-    if (category !== "Accompanying parent or guardian") {
-      checkRequired("completedBy", "Name and relationship of person completing form");
-    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -757,7 +759,7 @@ function CheckoutContent() {
                         name="registrationCategory" 
                         value={cat.id}
                         checked={category === cat.id}
-                        onChange={() => setCategory(cat.id)}
+                        onChange={() => handleCategoryChange(cat.id)}
                         className="mt-1 accent-sky w-4 h-4"
                       />
                       <div>
@@ -1231,11 +1233,9 @@ function CheckoutContent() {
                         id="requestedRole" name="requestedRole" value={formData.requestedRole} onChange={handleTextChange}
                         className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-sky outline-none text-sm"
                       >
-                        <option value="">Select role/participation</option>
-                        <option value={isChinaEvent ? "Travel/accommodation only" : isThaiEvent ? "Travel/accommodation only" : "Accommodation/travel only"}>{isChinaEvent || isThaiEvent ? "Travel/accommodation only" : "Accommodation/travel only"}</option>
-                        <option value="Advisor if permitted">Advisor if permitted</option>
-                        <option value="Observer/guest if permitted">Observer/guest if permitted</option>
-                        <option value="Please advise">Please advise</option>
+                        <option value="">Select role</option>
+                        <option value="Faculty Advisor">Faculty Advisor</option>
+                        <option value="Observer">Observer</option>
                       </select>
                     </div>
 
@@ -1910,22 +1910,8 @@ function CheckoutContent() {
                         {errors.winterReadiness && <span className="text-xs text-red-500">{errors.winterReadiness}</span>}
                       </div>
 
-                      <div className="flex flex-col gap-2">
-                        <label htmlFor="harvardExtension" className="text-xs font-bold text-navy">8. Harvard/MIT educational extension *</label>
-                        <select 
-                          id="harvardExtension" name="harvardExtension" value={formData.harvardExtension} onChange={handleTextChange}
-                          className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.harvardExtension ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
-                        >
-                          <option value="">Select option</option>
-                          <option value="Interested">Interested</option>
-                          <option value="Conference only">Conference only</option>
-                          <option value="Send details">Send details</option>
-                        </select>
-                        {errors.harvardExtension && <span className="text-xs text-red-500">{errors.harvardExtension}</span>}
-                      </div>
-
                       <div className="flex flex-col gap-2 md:col-span-2">
-                        <label htmlFor="visaAccommodationConfirm" className="text-xs font-bold text-navy">9. Do you require an accommodation confirmation for your visa? *</label>
+                        <label htmlFor="visaAccommodationConfirm" className="text-xs font-bold text-navy">8. Do you require an accommodation confirmation for your visa? *</label>
                         <select 
                           id="visaAccommodationConfirm" name="visaAccommodationConfirm" value={formData.visaAccommodationConfirm} onChange={handleTextChange}
                           className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.visaAccommodationConfirm ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
@@ -2022,7 +2008,9 @@ function CheckoutContent() {
                       className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.travelInsurance ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
                     >
                       <option value="">Select insurance option</option>
-                      <option value="Already covered">Already covered</option>
+                      {category === "Student delegate" && (
+                        <option value="Already covered">Already covered</option>
+                      )}
                       <option value="Will purchase">Will purchase</option>
                       <option value="Need information">Need information</option>
                     </select>
@@ -2116,22 +2104,9 @@ function CheckoutContent() {
                     </div>
                   ))}
 
-                  {/* Person Completing Form (Hidden for Accompanying parent or guardian) */}
-                  {category !== "Accompanying parent or guardian" && (
-                    <div className="flex flex-col gap-2 pt-4">
-                      <label htmlFor="completedBy" className="text-xs font-bold text-navy">Name and relationship of person completing the form *</label>
-                      <input 
-                        type="text" id="completedBy" name="completedBy" value={formData.completedBy} onChange={handleTextChange}
-                        className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.completedBy ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
-                        placeholder="e.g. Self / Parent / Advisor Name"
-                      />
-                      {errors.completedBy && <span className="text-xs text-red-500">{errors.completedBy}</span>}
-                    </div>
-                  )}
-
-                  {/* 9. Additional Questions */}
+                  {/* 7. Additional Questions */}
                   <div className="flex flex-col gap-2 pt-2">
-                    <label htmlFor="additionalQuestions" className="text-xs font-bold text-navy">9. Additional questions (Optional)</label>
+                    <label htmlFor="additionalQuestions" className="text-xs font-bold text-navy">7. Additional questions (Optional)</label>
                     <textarea 
                       id="additionalQuestions" name="additionalQuestions" rows="3" value={formData.additionalQuestions} onChange={handleTextChange}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-sky outline-none text-sm"
