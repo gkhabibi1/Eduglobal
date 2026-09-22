@@ -213,7 +213,7 @@ export default function Home() {
           <div className="bg-white border border-[#E7EEF7] rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(11,16,80,0.05)] hover:shadow-[0_18px_45px_rgba(11,16,80,0.1)] transition-all duration-300 flex flex-col group hover:-translate-y-1">
             <div className="relative h-[250px] overflow-hidden">
               <Image
-                src="/china_hmun.jpg"
+                src="https://ik.imagekit.io/e2yna5qg8/MUN%20CHINA/1.jpg"
                 alt="EduGlobal Summit Experience - HMUN China"
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -222,7 +222,7 @@ export default function Home() {
               
               {/* Date & Flag Tag */}
               <span className="absolute top-4 left-4 bg-white/95 backdrop-blur-md text-[#0A1628] text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-2 shadow-xs">
-                <span>🇨🇳</span> China · August 2027
+                <span>🇨🇳</span> Guangzhou, China · August 12–18, 2027 (to be confirmed)
               </span>
 
               {/* In-Card Title Header */}

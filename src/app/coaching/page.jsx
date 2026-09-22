@@ -148,7 +148,7 @@ export default function OnlineCoachingPage() {
               </div>
               <div>
                 <h4 className="text-sm font-bold text-[#0a1628]">Global Summits</h4>
-                <div className="text-sm font-extrabold text-[#1a6dd4]">Boston • Bangkok • Shenzhen</div>
+                <div className="text-sm font-extrabold text-[#1a6dd4]">Boston • Bangkok • Guangzhou</div>
               </div>
             </div>
           </div>

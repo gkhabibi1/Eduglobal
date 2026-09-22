@@ -46,8 +46,8 @@ const WHATSAPP_GROUPS = {
   },
   "hmun-china-2027": {
     eventName: "Harvard Model UN China 2027",
-    dates: "August 12–18, 2027",
-    location: "Shenzhen, China",
+    dates: "August 12–18, 2027 (to be confirmed)",
+    location: "Guangzhou, China",
     flag: "🇨🇳",
     whatsappLink: "https://chat.whatsapp.com/EduGlobal-HMUN-China-2027",
     groupName: "EduGlobal HMUN China 2027 Cohort",
@@ -65,8 +65,8 @@ const WHATSAPP_GROUPS = {
   },
   "default": {
     eventName: "Harvard Model UN China 2027",
-    dates: "August 12–18, 2027",
-    location: "Shenzhen, China",
+    dates: "August 12–18, 2027 (to be confirmed)",
+    location: "Guangzhou, China",
     flag: "🇨🇳",
     whatsappLink: "https://chat.whatsapp.com/EduGlobal-HMUN-China-2027",
     groupName: "EduGlobal HMUN China 2027 Cohort",

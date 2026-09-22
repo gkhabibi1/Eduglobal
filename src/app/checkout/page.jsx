@@ -36,12 +36,12 @@ const EVENT_MAP = {
     type: "china",
     shortTitle: "HMUN China 2027",
     flagEmoji: "🇨🇳",
-    cityCountry: "Shenzhen, China",
+    cityCountry: "Guangzhou, China",
     name: "EduGlobal Summit Experience Participating in Harvard Model United Nations China 2027",
-    subtitle: "Harvard Model United Nations China 2027 (Shenzhen)",
-    dates: "August 12–18, 2027",
-    location: "Shenzhen, China",
-    image: "/china_hmun.jpg",
+    subtitle: "Harvard Model United Nations China 2027 (Guangzhou)",
+    dates: "August 12–18, 2027 (to be confirmed)",
+    location: "Guangzhou, China",
+    image: "https://ik.imagekit.io/e2yna5qg8/MUN%20CHINA/1.jpg",
     descriptionText: `Register for the EduGlobal Academy delegation to Harvard Model United Nations China 2027. The experience combines the HMUN China conference with EduGlobal academic preparation, international travel support, cultural learning, and educational activities.`,
     minorText: `Submission does not confirm a place. Registration is confirmed after eligibility review, written confirmation, and payment. For students under 18, parent or legal-guardian approval is required. Enter legal names exactly as shown in the passport. Passport copies, visa records, and detailed medical documents will be collected securely after provisional acceptance.`,
   },
@@ -143,6 +143,22 @@ const REQUIRED_DOCUMENTS_CHINA = [
   "School invitation",
   "Individual invitations",
   "Visa support",
+];
+
+const CHINA_SLIDER_IMAGES = [
+  "https://ik.imagekit.io/e2yna5qg8/MUN%20CHINA/1.jpg",
+  "https://ik.imagekit.io/e2yna5qg8/MUN%20CHINA/2.jpg",
+  "https://ik.imagekit.io/e2yna5qg8/MUN%20CHINA/3.jpg",
+  "https://ik.imagekit.io/e2yna5qg8/MUN%20CHINA/4.jpg",
+  "https://ik.imagekit.io/e2yna5qg8/MUN%20CHINA/5.jpg",
+  "https://ik.imagekit.io/e2yna5qg8/MUN%20CHINA/6.jpg",
+  "https://ik.imagekit.io/e2yna5qg8/MUN%20CHINA/7.jpg",
+  "https://ik.imagekit.io/e2yna5qg8/MUN%20CHINA/8.jpg",
+  "https://ik.imagekit.io/e2yna5qg8/MUN%20CHINA/9.jpg",
+  "https://ik.imagekit.io/e2yna5qg8/MUN%20CHINA/10.jpg",
+  "https://ik.imagekit.io/e2yna5qg8/MUN%20CHINA/11.jpg",
+  "https://ik.imagekit.io/e2yna5qg8/MUN%20CHINA/12.jpg",
+  "https://ik.imagekit.io/e2yna5qg8/MUN%20CHINA/13.jpg",
 ];
 
 function CheckoutContent() {
@@ -290,21 +306,27 @@ function CheckoutContent() {
   const [submitting, setSubmitting] = useState(false);
 
   // --- Slider Images ---
-  const sliderImages = [
-    eventInfo.image,
-    "/hero_bg.jpg",
-    "/partnership_hero.jpg",
-  ];
+  const sliderImages = isChinaEvent
+    ? CHINA_SLIDER_IMAGES
+    : [
+        eventInfo.image,
+        "/hero_bg.jpg",
+        "/partnership_hero.jpg",
+      ];
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
+    setCurrentSlide(0);
+  }, [selectedEventKey]);
+
+  useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev === sliderImages.length - 1 ? 0 : prev + 1));
+      setCurrentSlide((prev) => (prev >= sliderImages.length - 1 ? 0 : prev + 1));
     }, 4000);
     return () => clearInterval(timer);
   }, [sliderImages.length]);
 
-  const nextSlide = () => setCurrentSlide((prev) => (prev === sliderImages.length - 1 ? 0 : prev + 1));
+  const nextSlide = () => setCurrentSlide((prev) => (prev >= sliderImages.length - 1 ? 0 : prev + 1));
   const prevSlide = () => setCurrentSlide((prev) => (prev === 0 ? sliderImages.length - 1 : prev - 1));
 
   // --- Handlers ---
@@ -725,8 +747,15 @@ function CheckoutContent() {
                 <h3 className="font-bold text-xl mb-1">{eventInfo.subtitle}</h3>
                 <p className="text-xs text-white/80">{eventInfo.location}</p>
               </div>
-              <button onClick={prevSlide} type="button" className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/20 hover:bg-white text-white hover:text-navy flex items-center justify-center backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all">&#8592;</button>
-              <button onClick={nextSlide} type="button" className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/20 hover:bg-white text-white hover:text-navy flex items-center justify-center backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all">&#8594;</button>
+
+              {/* Slide Counter */}
+              <div className="absolute top-4 right-4 z-20 bg-black/60 backdrop-blur-md text-white text-[11px] font-semibold px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm border border-white/10">
+                <span>📷</span>
+                <span>{currentSlide + 1} / {sliderImages.length}</span>
+              </div>
+
+              <button onClick={prevSlide} type="button" aria-label="Previous slide" className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/20 hover:bg-white text-white hover:text-navy flex items-center justify-center backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all">&#8592;</button>
+              <button onClick={nextSlide} type="button" aria-label="Next slide" className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/20 hover:bg-white text-white hover:text-navy flex items-center justify-center backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all">&#8594;</button>
             </div>
 
             <form id="registration-form" onSubmit={handleSubmit} noValidate className="space-y-8">
