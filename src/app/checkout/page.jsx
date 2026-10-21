@@ -10,19 +10,21 @@ const EVENT_MAP = {
     type: "boston",
     shortTitle: "HMUN Boston 2027",
     flagEmoji: "🇺🇸",
+    flag: "🇺🇸",
     cityCountry: "Boston, USA",
     name: "EduGlobal Summit Experience Participating in Harvard Model United Nations Boston 2027",
     subtitle: "74th Session of Harvard Model United Nations (Boston)",
-    dates: "January 28–31, 2027",
+    dates: "January 26–February 2, 2027",
     location: "Boston, Massachusetts, USA",
     image: "/boston_hmun.jpg",
-    descriptionText: `Register for the EduGlobal Academy delegation to the 74th Session of Harvard Model United Nations in Boston, held January 28–31, 2027. EduGlobal Academy has a limited allocation of 20 delegate places. Submission does not confirm a place; registration is confirmed only after eligibility review, written confirmation, and payment.`,
+    descriptionText: `Register for the EduGlobal Academy delegation to the 74th Session of Harvard Model United Nations in Boston, held January 26–February 2, 2027. EduGlobal Academy has a limited allocation of 20 delegate places. Submission does not confirm a place; registration is confirmed only after eligibility review, written confirmation, and payment.`,
     minorText: `For students under 18, a parent or legal guardian must approve the registration. Enter all legal names exactly as shown in the passport. Passport copies, visa records, and detailed medical documents will be collected securely after provisional acceptance.`,
   },
   "thai-mun-2027": {
     type: "thai",
     shortTitle: "Thai National MUN 2027",
     flagEmoji: "🇹🇭",
+    flag: "🇹🇭",
     cityCountry: "Bangkok, Thailand",
     name: "EduGlobal Summit Experience Participating in Thai National Model United Nations 2027",
     subtitle: "Thai National Model United Nations 2027 (Bangkok)",
@@ -36,6 +38,7 @@ const EVENT_MAP = {
     type: "china",
     shortTitle: "HMUN China 2027",
     flagEmoji: "🇨🇳",
+    flag: "🇨🇳",
     cityCountry: "Guangzhou, China",
     name: "EduGlobal Summit Experience Participating in Harvard Model United Nations China 2027",
     subtitle: "Harvard Model United Nations China 2027 (Guangzhou)",
@@ -44,6 +47,20 @@ const EVENT_MAP = {
     image: "https://ik.imagekit.io/e2yna5qg8/MUN%20CHINA/1.jpg",
     descriptionText: `Register for the EduGlobal Academy delegation to Harvard Model United Nations China 2027. The experience combines the HMUN China conference with EduGlobal academic preparation, international travel support, cultural learning, and educational activities.`,
     minorText: `Submission does not confirm a place. Registration is confirmed after eligibility review, written confirmation, and payment. For students under 18, parent or legal-guardian approval is required. Enter legal names exactly as shown in the passport. Passport copies, visa records, and detailed medical documents will be collected securely after provisional acceptance.`,
+  },
+  "hmun-australia-2027": {
+    type: "australia",
+    shortTitle: "HMUN Australia 2027 – Sydney",
+    flagEmoji: "🇦🇺",
+    flag: "🇦🇺",
+    cityCountry: "Sydney, Australia",
+    name: "EduGlobal Summit Experience Participating in Harvard Model United Nations Australia 2027 – Sydney",
+    subtitle: "Harvard Model United Nations Australia + Sydney University Experience + Sydney City & Cultural Tour",
+    dates: "May 20–26, 2027",
+    location: "Sydney, Australia",
+    image: "/australia_hmun.jpg",
+    descriptionText: `Register for the EduGlobal Academy delegation to Harvard Model United Nations Australia in Sydney, held May 20–26, 2027 (7 Days 6 Nights). The experience features Harvard Model United Nations Australia, Sydney University Experience, and Sydney City & Cultural Tour with structured preparation and guided delegation mentorship. Submission does not confirm a place; registration is confirmed only after eligibility review, written confirmation, and payment.`,
+    minorText: `For students under 18, a parent or legal guardian must approve the registration. Enter all legal names exactly as shown in the passport. Passport copies, visa records, and detailed medical documents will be collected securely after provisional acceptance.`,
   },
 };
 
@@ -188,6 +205,7 @@ function CheckoutContent() {
   
   const isThaiEvent = eventInfo.type === "thai";
   const isChinaEvent = eventInfo.type === "china";
+  const isAustraliaEvent = eventInfo.type === "australia";
 
   // --- Main Category State (Section 1) ---
   const [category, setCategory] = useState("Student delegate");
@@ -505,7 +523,7 @@ function CheckoutContent() {
       checkRequired("preferredPackage", "Preferred package");
       checkRequired("localTransportRequired", "Local transportation requirement");
     } else {
-      checkRequired("visaStatus", "U.S. visa status");
+      checkRequired("visaStatus", isAustraliaEvent ? "Australian visa status" : "U.S. visa status");
       checkRequired("visaLetterRequired", "Visa-support letter request");
       if (
         formData.visaStatus === "Need to apply" ||
@@ -516,7 +534,7 @@ function CheckoutContent() {
       checkRequired("departureCity", "Preferred departure city");
       checkRequired("flightArrangement", "Flight arrangement");
       checkRequired("accommodationPref", "Accommodation preference");
-      checkRequired("winterReadiness", "Winter readiness declaration");
+      checkRequired("winterReadiness", isAustraliaEvent ? "Climate readiness declaration" : "Winter readiness declaration");
       checkRequired("visaAccommodationConfirm", "Accommodation confirmation status");
     }
 
@@ -660,7 +678,7 @@ function CheckoutContent() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {Object.entries(EVENT_MAP).map(([key, ev]) => {
               const isSelected = selectedEventKey === key;
               return (
@@ -1071,7 +1089,7 @@ function CheckoutContent() {
                     {/* Why Join (Full width) */}
                     <div className="flex flex-col gap-2 md:col-span-2">
                       <label htmlFor="whyJoin" className="text-xs font-bold text-navy">
-                        {isChinaEvent ? "14. Why do you want to join HMUN China? *" : isThaiEvent ? "13. Why do you want to join Thai National MUN? *" : "17. Why would you like to join HMUN Boston? *"}
+                        {isChinaEvent ? "14. Why do you want to join HMUN China? *" : isThaiEvent ? "13. Why do you want to join Thai National MUN? *" : isAustraliaEvent ? "17. Why would you like to join Harvard MUN Sydney, Australia? *" : "17. Why would you like to join HMUN Boston? *"}
                       </label>
                       <textarea 
                         id="whyJoin" name="whyJoin" rows="4" value={formData.whyJoin} onChange={handleTextChange}
@@ -1589,7 +1607,7 @@ function CheckoutContent() {
                 <div className="flex items-center gap-3 mb-4 pb-3 border-b border-gray-100">
                   <span className="w-8 h-8 rounded-xl bg-sky/10 text-sky font-bold flex items-center justify-center text-sm">4</span>
                   <h2 className="text-xl font-bold text-navy">
-                    {isChinaEvent ? "Section 4 — China visa, flights, and accommodation" : isThaiEvent ? "Section 4 — Travel, accommodation, and package" : "Section 4 — U.S. visa and travel"}
+                    {isChinaEvent ? "Section 4 — China visa, flights, and accommodation" : isThaiEvent ? "Section 4 — Travel, accommodation, and package" : isAustraliaEvent ? "Section 4 — Australian visa and travel" : "Section 4 — U.S. visa and travel"}
                   </h2>
                 </div>
 
@@ -1843,25 +1861,33 @@ function CheckoutContent() {
                     </>
                   ) : (
                     <>
-                      {/* Boston fields */}
+                      {/* Boston & Australia fields */}
                       <div className="flex flex-col gap-2">
-                        <label htmlFor="visaStatus" className="text-xs font-bold text-navy">1. U.S. visa status *</label>
+                        <label htmlFor="visaStatus" className="text-xs font-bold text-navy">
+                          {isAustraliaEvent ? "1. Australian visa status *" : "1. U.S. visa status *"}
+                        </label>
                         <select 
                           id="visaStatus" name="visaStatus" value={formData.visaStatus} onChange={handleTextChange}
                           className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.visaStatus ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
                         >
                           <option value="">Select visa status</option>
-                          <option value="Valid U.S. visa">Valid U.S. visa</option>
+                          <option value={isAustraliaEvent ? "Valid Australian visa" : "Valid U.S. visa"}>
+                            {isAustraliaEvent ? "Valid Australian visa" : "Valid U.S. visa"}
+                          </option>
                           <option value="Need to apply">Need to apply</option>
                           <option value="Application in progress">Application in progress</option>
-                          <option value="Eligible for ESTA/Visa Waiver Program">Eligible for ESTA/Visa Waiver Program</option>
+                          <option value={isAustraliaEvent ? "Eligible for eVisitor / ETA (subclass 651/601)" : "Eligible for ESTA/Visa Waiver Program"}>
+                            {isAustraliaEvent ? "Eligible for eVisitor / ETA (subclass 651/601)" : "Eligible for ESTA/Visa Waiver Program"}
+                          </option>
                           <option value="Not sure">Not sure</option>
                         </select>
                         {errors.visaStatus && <span className="text-xs text-red-500">{errors.visaStatus}</span>}
                       </div>
 
                       <div className="flex flex-col gap-2">
-                        <label htmlFor="visaLetterRequired" className="text-xs font-bold text-navy">2. Customized HMUN visa-support letter required? *</label>
+                        <label htmlFor="visaLetterRequired" className="text-xs font-bold text-navy">
+                          {isAustraliaEvent ? "2. Customized HMUN Australia visa-support letter required? *" : "2. Customized HMUN visa-support letter required? *"}
+                        </label>
                         <select 
                           id="visaLetterRequired" name="visaLetterRequired" value={formData.visaLetterRequired} onChange={handleTextChange}
                           className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.visaLetterRequired ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
@@ -1891,7 +1917,7 @@ function CheckoutContent() {
                         <input 
                           type="text" id="departureCity" name="departureCity" value={formData.departureCity} onChange={handleTextChange}
                           className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.departureCity ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
-                          placeholder="e.g. Jakarta (CGK) / Surabaya (SUB)"
+                          placeholder="e.g. Jakarta (CGK) / Denpasar (DPS) / Surabaya (SUB)"
                         />
                         {errors.departureCity && <span className="text-xs text-red-500">{errors.departureCity}</span>}
                       </div>
@@ -1927,7 +1953,11 @@ function CheckoutContent() {
                       </div>
 
                       <div className="flex flex-col gap-2">
-                        <label htmlFor="winterReadiness" className="text-xs font-bold text-navy">7. Winter readiness (Boston in January is sub-zero) *</label>
+                        <label htmlFor="winterReadiness" className="text-xs font-bold text-navy">
+                          {isAustraliaEvent
+                            ? "7. Climate readiness (Sydney in May: mild late autumn, 11–20°C) *"
+                            : "7. Winter readiness (Boston in January is sub-zero) *"}
+                        </label>
                         <select 
                           id="winterReadiness" name="winterReadiness" value={formData.winterReadiness} onChange={handleTextChange}
                           className={`w-full px-4 py-3 rounded-xl border outline-none text-sm ${errors.winterReadiness ? "border-red-500" : "border-gray-200 focus:border-sky"}`}
@@ -2114,7 +2144,7 @@ function CheckoutContent() {
                   {[
                     { field: "declAccurate", text: "1. Information submitted is accurate." },
                     { field: "declPrefNotGuaranteed", text: isChinaEvent ? "2. Committee, country/character, room, flight, and activity preferences are not guaranteed." : isThaiEvent ? "2. Committee, country, accommodation, and travel preferences are not guaranteed." : "2. I understand that committee, country, hotel, room, and travel preferences are not guaranteed." },
-                    { field: "declConductRules", text: isChinaEvent ? "3. Participant agrees to EduGlobal Academy, HMUN China, hotel, and safeguarding rules." : isThaiEvent ? "3. Participant will follow EduGlobal Academy and Thai National MUN rules." : "3. I agree to follow EduGlobal Academy and HMUN conduct and safeguarding rules." },
+                    { field: "declConductRules", text: isChinaEvent ? "3. Participant agrees to EduGlobal Academy, HMUN China, hotel, and safeguarding rules." : isThaiEvent ? "3. Participant will follow EduGlobal Academy and Thai National MUN rules." : isAustraliaEvent ? "3. I agree to follow EduGlobal Academy and Harvard MUN Sydney, Australia conduct and safeguarding rules." : "3. I agree to follow EduGlobal Academy and HMUN conduct and safeguarding rules." },
                     { field: "declPaymentTerms", text: isChinaEvent ? "4. Payment, cancellation, refund, and replacement terms follow the programme agreement/invoice." : isThaiEvent ? "4. Payment, cancellation, refund, and replacement terms will follow the programme agreement/invoice." : "4. I accept that payment, cancellation, refund, and replacement terms will be stated in the programme agreement/invoice." },
                     { field: "declDataSharing", text: isChinaEvent ? "5. Necessary information may be shared with HMUN China, hotels, airlines, transport providers, insurers, visa-supporting organizations, and emergency providers." : isThaiEvent ? "5. Necessary information may be shared with the organizer, hotels, transport providers, insurers, and emergency providers." : "5. I consent to necessary data being shared with HMUN, hotels, airlines, transport providers, insurers, and visa-supporting organizations for programme administration and safety." },
                     { field: "declParentApproval", text: isChinaEvent ? "6. Parent/legal guardian approval is confirmed for a minor." : isThaiEvent ? "6. Parent/legal guardian approves participation for a minor." : "6. For a participant under 18, I confirm parent/legal guardian approval." },

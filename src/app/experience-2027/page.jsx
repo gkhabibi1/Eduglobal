@@ -61,6 +61,24 @@ export default function Experience2027Page() {
       ],
       applyUrl: "/checkout?event=hmun-china-2027",
     },
+    {
+      id: "hmun-australia-2027",
+      flagCode: "au",
+      title: "EduGlobal Summit Experience Participating in Harvard Model United Nations Australia 2027 – Sydney",
+      dates: "May 20–26, 2027 | 7 Days 6 Nights",
+      location: "Sydney, Australia",
+      image: "/australia_hmun.jpg",
+      status: "Registration Opening Soon",
+      description: "Participate in Harvard Model United Nations Australia in Sydney and experience an enriching academic journey featuring MUN preparation, the Sydney University Experience, and a guided Sydney city and cultural tour.",
+      buttonText: "View Sydney Program",
+      highlights: [
+        "Harvard Model United Nations Australia participation",
+        "Sydney University Experience & campus immersion",
+        "Sydney City & Cultural Tour (Opera House, Harbour, landmarks)",
+        "Diplomacy, resolution drafting & global networking",
+      ],
+      applyUrl: "/checkout?event=hmun-australia-2027",
+    },
   ];
 
   return (

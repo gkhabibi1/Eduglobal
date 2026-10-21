@@ -97,7 +97,7 @@ export default function Home() {
       {/* ========================================================================= */}
       {/* HIGHLIGHT 2 — EDUGLOBAL 2027 PROGRAMS                                    */}
       {/* ========================================================================= */}
-      <section className="py-20 md:py-28 max-w-[1240px] mx-auto px-6 sm:px-8" id="programs">
+      <section className="py-20 md:py-28 max-w-[1360px] mx-auto px-6 sm:px-8" id="programs">
         {/* Section Header */}
         <div className="text-center mb-16 max-w-[780px] mx-auto">
           <span className="inline-block text-[#12AAF0] font-bold text-xs tracking-[3px] uppercase mb-3 bg-[#12AAF0]/10 px-4 py-1.5 rounded-full border border-[#12AAF0]/20">
@@ -111,8 +111,8 @@ export default function Home() {
           </p>
         </div>
 
-        {/* 3 Program Cards with Brand Priority */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+        {/* 4 Program Cards with Brand Priority */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
           {/* Card 1: Bangkok */}
           <div className="bg-white border border-[#E7EEF7] rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(11,16,80,0.05)] hover:shadow-[0_18px_45px_rgba(11,16,80,0.1)] transition-all duration-300 flex flex-col group hover:-translate-y-1">
             <div className="relative h-[250px] overflow-hidden">
@@ -249,6 +249,54 @@ export default function Home() {
               <div className="pt-4 border-t border-slate-100">
                 <Link
                   href="/checkout?event=hmun-china-2027"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#0A1628] hover:bg-[#12AAF0] text-white px-6 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 hover:-translate-y-0.5 shadow-sm"
+                >
+                  View Program →
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 4: Australia */}
+          <div className="bg-white border border-[#E7EEF7] rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(11,16,80,0.05)] hover:shadow-[0_18px_45px_rgba(11,16,80,0.1)] transition-all duration-300 flex flex-col group hover:-translate-y-1">
+            <div className="relative h-[250px] overflow-hidden">
+              <Image
+                src="/australia_hmun.jpg"
+                alt="EduGlobal Summit Experience - HMUN Australia 2027 – Sydney"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/95 via-[#0A1628]/40 to-transparent"></div>
+              
+              {/* Date & Flag Tag */}
+              <span className="absolute top-4 left-4 bg-white/95 backdrop-blur-md text-[#0A1628] text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-2 shadow-xs">
+                <span>🇦🇺</span> Sydney · May 20–26, 2027
+              </span>
+
+              {/* In-Card Title Header */}
+              <div className="absolute bottom-4 left-4 right-4 text-white">
+                <span className="text-[10px] uppercase font-extrabold tracking-[2px] text-[#7fd8ff] block mb-1">
+                  EDUGLOBAL SUMMIT EXPERIENCE
+                </span>
+                <h3 className="text-lg font-bold font-poppins leading-snug">
+                  HMUN Australia 2027 – Sydney
+                </h3>
+              </div>
+            </div>
+
+            <div className="p-7 flex flex-col flex-grow justify-between gap-6">
+              <div>
+                <p className="text-[#12AAF0] font-semibold text-xs mb-3">
+                  May 20–26, 2027 | 7 Days 6 Nights
+                </p>
+                <p className="text-slate-600 text-sm leading-relaxed font-normal">
+                  Harvard Model United Nations Australia + Sydney University Experience + Sydney City & Cultural Tour with structured preparation and guided delegation mentorship.
+                </p>
+              </div>
+
+              <div className="pt-4 border-t border-slate-100">
+                <Link
+                  href="/checkout?event=hmun-australia-2027"
                   className="w-full inline-flex items-center justify-center gap-2 bg-[#0A1628] hover:bg-[#12AAF0] text-white px-6 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 hover:-translate-y-0.5 shadow-sm"
                 >
                   View Program →

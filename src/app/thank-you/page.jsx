@@ -8,7 +8,7 @@ import Navbar from "@/components/Navbar";
 const WHATSAPP_GROUPS = {
   "hmun-boston-2027": {
     eventName: "EduGlobal Academy — HMUN Boston 2027",
-    dates: "January 28–31, 2027",
+    dates: "January 26–February 2, 2027",
     location: "Boston, Massachusetts, USA",
     flag: "🇺🇸",
     whatsappLink: "https://chat.whatsapp.com/EduGlobal-HMUN-Boston-2027",
@@ -17,6 +17,24 @@ const WHATSAPP_GROUPS = {
     followUpItems: [
       "Registration ID & Passport copy",
       "Passport-size Photo & Visa evidence",
+      "School enrolment letter",
+      "Signed parental consent",
+      "Medical authorization & details",
+      "Signed Code of Conduct & Insurance",
+      "Flight itinerary & Visa support details",
+    ],
+  },
+  "hmun-australia-2027": {
+    eventName: "EduGlobal Academy — HMUN Australia 2027 – Sydney",
+    dates: "May 20–26, 2027",
+    location: "Sydney, Australia",
+    flag: "🇦🇺",
+    whatsappLink: "https://chat.whatsapp.com/EduGlobal-HMUN-Australia-2027",
+    groupName: "EduGlobal HMUN Australia 2027 Cohort",
+    completionMessage: "Thank you for registering for the EduGlobal Academy Harvard Model United Nations Australia 2027 delegation. Our team will review your submission and contact you regarding availability, fees, payment, visa-support documents, and next steps. Your place is confirmed only after written confirmation and payment.",
+    followUpItems: [
+      "Registration ID & Passport copy",
+      "Passport-size Photo & Australian visa evidence",
       "School enrolment letter",
       "Signed parental consent",
       "Medical authorization & details",

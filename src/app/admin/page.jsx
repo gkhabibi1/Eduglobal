@@ -268,6 +268,7 @@ Special Requests / Questions: ${getVal(app, "additionalQuestions", "additional_q
       if (eventFilter === "boston") matchesEvent = pkg.includes("boston");
       else if (eventFilter === "thai") matchesEvent = pkg.includes("thai");
       else if (eventFilter === "china") matchesEvent = pkg.includes("china");
+      else if (eventFilter === "australia") matchesEvent = pkg.includes("australia") || pkg.includes("sydney");
 
       const st = (app.status || "pending").toLowerCase();
       let matchesStatus = true;
@@ -340,7 +341,7 @@ Special Requests / Questions: ${getVal(app, "additionalQuestions", "additional_q
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
             <h1 className="text-3xl text-navy font-extrabold tracking-tight">Participant Registrations</h1>
-            <p className="text-muted text-sm mt-1">Manage and view 1-to-1 submissions for HMUN Boston, Thai National MUN, and HMUN China 2027.</p>
+            <p className="text-muted text-sm mt-1">Manage and view 1-to-1 submissions for HMUN Boston, Thai National MUN, HMUN China, and HMUN Australia 2027.</p>
           </div>
           <div className="flex items-center gap-3">
             <button 
@@ -423,6 +424,7 @@ Special Requests / Questions: ${getVal(app, "additionalQuestions", "additional_q
               { id: "boston", label: "🇺🇸 Boston" },
               { id: "thai", label: "🇹🇭 Thailand" },
               { id: "china", label: "🇨🇳 China" },
+              { id: "australia", label: "🇦🇺 Australia" },
             ].map((ev) => (
               <button
                 key={ev.id}
@@ -572,7 +574,8 @@ Special Requests / Questions: ${getVal(app, "additionalQuestions", "additional_q
         {selectedApp && (() => {
           const isChina = (selectedApp.package_type || "").toLowerCase().includes("china");
           const isThai = (selectedApp.package_type || "").toLowerCase().includes("thai");
-          const isBoston = !isChina && !isThai;
+          const isAustralia = (selectedApp.package_type || "").toLowerCase().includes("australia") || (selectedApp.package_type || "").toLowerCase().includes("sydney");
+          const isBoston = !isChina && !isThai && !isAustralia;
 
           return (
             <div className="fixed inset-0 z-50 bg-navy/70 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-fadeIn">
@@ -1070,7 +1073,7 @@ Special Requests / Questions: ${getVal(app, "additionalQuestions", "additional_q
                       ) : (
                         <>
                           <div>
-                            <span className="text-muted block font-semibold mb-0.5">U.S. Visa Status</span>
+                            <span className="text-muted block font-semibold mb-0.5">{isAustralia ? "Australian Visa Status" : "U.S. Visa Status"}</span>
                             <span className="inline-block bg-blue-100 text-blue-900 font-bold px-2.5 py-0.5 rounded-full">
                               {getVal(selectedApp, "visaStatus", "visa_status")}
                             </span>
@@ -1080,13 +1083,13 @@ Special Requests / Questions: ${getVal(app, "additionalQuestions", "additional_q
                             <strong className="text-navy">{getVal(selectedApp, "visaCity", "visa_city")}</strong>
                           </div>
                           <div>
-                            <span className="text-muted block font-semibold mb-0.5">Boston Winter Readiness</span>
+                            <span className="text-muted block font-semibold mb-0.5">{isAustralia ? "Sydney Climate Readiness" : "Boston Winter Readiness"}</span>
                             <span className="inline-block bg-sky/10 text-sky font-bold px-2 py-0.5 rounded-full">
                               ✓ {getVal(selectedApp, "winterReadiness", "winter_readiness")}
                             </span>
                           </div>
                           <div>
-                            <span className="text-muted block font-semibold mb-0.5">Harvard Campus Extension</span>
+                            <span className="text-muted block font-semibold mb-0.5">{isAustralia ? "University Campus Tour" : "Harvard Campus Extension"}</span>
                             <strong className="text-navy">{getVal(selectedApp, "harvardExtension", "harvard_extension")}</strong>
                           </div>
                         </>
